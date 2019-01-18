@@ -33,10 +33,13 @@ class BlogPostTemplate extends React.Component {
             content={post.frontmatter.description}
           />
           <meta property="og:url" content={`${siteUrl}${post.fields.path}`} />
+          <meta
+            property="og:image"
+            content={`${siteUrl}${
+              this.props.data.avatar.childImageSharp.fixed.src
+            }`}
+          />
           <meta property="og:site_name" content={siteTitle} />
-          {post.frontmatter.image && (
-            <meta property="og:image" content={post.frontmatter.image} />
-          )}
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@EbiEbiEvidence" />
         </Helmet>
@@ -134,6 +137,13 @@ export const pageQuery = graphql`
         siteUrl
       }
     }
+    avatar: file(absolutePath: { regex: "/profile-pic.png/" }) {
+      childImageSharp {
+        fixed(width: 50, height: 50) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
@@ -145,7 +155,6 @@ export const pageQuery = graphql`
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")
-        image
       }
     }
   }
