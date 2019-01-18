@@ -20,6 +20,7 @@ class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
+    const siteUrl = this.props.data.site.siteMetadata.siteUrl
     const { previous, next } = this.props.pageContext
 
     return (
@@ -31,7 +32,7 @@ class BlogPostTemplate extends React.Component {
             property="og:description"
             content={post.frontmatter.description}
           />
-          <meta property="og:url" content={window.location.href} />
+          <meta property="og:url" content={`${siteUrl}${post.fields.path}`} />
           <meta property="og:site_name" content={siteTitle} />
           {post.frontmatter.image && (
             <meta property="og:image" content={post.frontmatter.image} />
@@ -57,13 +58,13 @@ class BlogPostTemplate extends React.Component {
             {post.frontmatter.date}
           </p>
           <div style={{ display: 'flex' }}>
-            <FacebookShareButton url={window.location.href}>
+            <FacebookShareButton url={`${siteUrl}${post.fields.path}`}>
               <FacebookIcon size={32} round />
             </FacebookShareButton>
             <TwitterShareButton
               title={post.frontmatter.title}
               via="@EbiEbiEvidence2"
-              url={window.location.href}
+              url={`${siteUrl}${post.fields.path}`}
             >
               <TwitterIcon size={32} round />
             </TwitterShareButton>
@@ -76,13 +77,13 @@ class BlogPostTemplate extends React.Component {
             padding: '16px 0',
           }}
         >
-          <FacebookShareButton url={window.location.href}>
+          <FacebookShareButton url={`${siteUrl}${post.fields.path}`}>
             <FacebookIcon size={32} round />
           </FacebookShareButton>
           <TwitterShareButton
             title={post.frontmatter.title}
             via="@EbiEbiEvidence2"
-            url={window.location.href}
+            url={`${siteUrl}${post.fields.path}`}
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
@@ -130,12 +131,17 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
       html
+      fields {
+        slug
+        path
+      }
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")

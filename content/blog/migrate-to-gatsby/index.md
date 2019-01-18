@@ -201,6 +201,8 @@ class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
+    // highlight-range{1}
+    const siteUrl = this.props.data.site.siteMetadata.siteUrl
     const { previous, next } = this.props.pageContext
 
     // highlight-range{3-13}
@@ -212,7 +214,7 @@ class BlogPostTemplate extends React.Component {
             property="og:description"
             content={post.frontmatter.description}
           />
-          <meta property="og:url" content={window.location.href} />
+          <meta property="og:url" content={`${siteUrl}${post.fields.slug}`} />
           <meta property="og:site_name" content={siteTitle} />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@EbiEbiEvidence" />
@@ -224,6 +226,34 @@ class BlogPostTemplate extends React.Component {
     )
   }
 }
+
+/*
+  中略
+*/
+// highlight-range{7,18-20}
+export const pageQuery = graphql`
+  query BlogPostBySlug($slug: String!) {
+    site {
+      siteMetadata {
+        title
+        author
+        siteUrl
+      }
+    }
+    markdownRemark(fields: { slug: { eq: $slug } }) {
+      id
+      excerpt(pruneLength: 160)
+      html
+      frontmatter {
+        title
+        date(formatString: "MMMM DD, YYYY")
+      }
+      fields {
+        slug
+      }
+    }
+  }
+`
 ```
 
 ## RSS 対応
