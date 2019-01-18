@@ -1,5 +1,5 @@
 ---
-title: ブログをGatsbyJS v2にお引っ越しする
+title: ブログをGatsbyJS v2にお引っ越しして、OGP対応とRSS対応とシンタックスハイライトで楽になる
 date: '2019-01-18T00:00:00.000Z'
 image: ''
 ---
