@@ -21,6 +21,11 @@ class BlogPostTemplate extends React.Component {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteUrl = this.props.data.site.siteMetadata.siteUrl
+    const postUrl = `${siteUrl}${post.fields.path.replace('/', '')}`
+    const avatarUrl = `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src.replace(
+      '/',
+      ''
+    )}`
     const { previous, next } = this.props.pageContext
 
     return (
@@ -32,13 +37,8 @@ class BlogPostTemplate extends React.Component {
             property="og:description"
             content={post.frontmatter.description}
           />
-          <meta property="og:url" content={`${siteUrl}${post.fields.path}`} />
-          <meta
-            property="og:image"
-            content={`${siteUrl}${
-              this.props.data.avatar.childImageSharp.fixed.src
-            }`}
-          />
+          <meta property="og:url" content={postUrl} />
+          <meta property="og:image" content={avatarUrl} />
           <meta property="og:site_name" content={siteTitle} />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@EbiEbiEvidence" />
@@ -61,13 +61,13 @@ class BlogPostTemplate extends React.Component {
             {post.frontmatter.date}
           </p>
           <div style={{ display: 'flex' }}>
-            <FacebookShareButton url={`${siteUrl}${post.fields.path}`}>
+            <FacebookShareButton url={postUrl}>
               <FacebookIcon size={32} round />
             </FacebookShareButton>
             <TwitterShareButton
               title={post.frontmatter.title}
               via="@EbiEbiEvidence2"
-              url={`${siteUrl}${post.fields.path}`}
+              url={postUrl}
             >
               <TwitterIcon size={32} round />
             </TwitterShareButton>
@@ -80,13 +80,13 @@ class BlogPostTemplate extends React.Component {
             padding: '16px 0',
           }}
         >
-          <FacebookShareButton url={`${siteUrl}${post.fields.path}`}>
+          <FacebookShareButton url={postUrl}>
             <FacebookIcon size={32} round />
           </FacebookShareButton>
           <TwitterShareButton
             title={post.frontmatter.title}
             via="@EbiEbiEvidence2"
-            url={`${siteUrl}${post.fields.path}`}
+            url={postUrl}
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
