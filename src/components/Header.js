@@ -1,5 +1,5 @@
 import React from 'react'
-import { StaticQuery, graphql } from 'gatsby'
+import { StaticQuery, graphql, Link } from 'gatsby'
 import Image from 'gatsby-image'
 import styled from 'styled-components'
 import { FaTwitter, FaRss, FaGithub } from 'react-icons/fa'
@@ -10,6 +10,7 @@ const H1 = styled.h1`
   margin: 0;
   margin-bottom: 8px;
   font-size: 1.5rem;
+  color: hsla(0, 0%, 0%, 0.9);
   @media (max-width: 768px) {
     font-size: 7vw;
   }
@@ -24,7 +25,9 @@ class Header extends React.Component {
           marginBottom: '1.75rem',
         }}
       >
-        <H1>ebiebievidence.com</H1>
+        <Link to="/">
+          <H1>ebiebievidence.com</H1>
+        </Link>
         <div
           style={{
             display: 'flex',
