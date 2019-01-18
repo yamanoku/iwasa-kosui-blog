@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, graphql } from 'gatsby'
 import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+import './post.css'
 
 import Bio from '../components/Bio'
 import Layout from '../components/Layout'
@@ -68,7 +69,7 @@ class BlogPostTemplate extends React.Component {
             </TwitterShareButton>
           </div>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
         <div
           style={{
             display: 'flex',

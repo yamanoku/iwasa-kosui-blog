@@ -1,0 +1,84 @@
+.post h2 {
+  margin-left: -18px;
+  display: flex;
+}
+
+.post h2:before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 1em;
+  background: black;
+  margin-right: 12px;
+}
+
+.post h3 {
+  margin-left: -18px;
+  display: flex;
+}
+
+.post h3:before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 1em;
+  background: black;
+  margin-right: 16px;
+}
+
+.gatsby-highlight-code-line {
+  display: block;
+}
+
+.line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%, 0.08);
+  background: linear-gradient(
+    to right,
+    hsla(24, 20%, 50%, 0.1) 70%,
+    hsla(24, 20%, 50%, 0)
+  );
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+.gatsby-highlight {
+  background-color: #2d2d2d;
+  border-radius: 0.3em;
+  margin: 0.5em 0;
+  padding: 1em;
+  overflow: auto;
+}
+
+.gatsby-highlight pre[class*='language-'] {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  overflow: initial;
+  float: left; /* 1 */
+  min-width: 100%; /* 2 */
+}
+
+.gatsby-highlight-code-line {
+  background-color: #131313;
+  display: block;
+  margin-right: -1em;
+  margin-left: -1em;
+  padding-right: 1em;
+  padding-left: 0.75em;
+  border-left: 0.25em solid #f99;
+}
+
+.post h1 a,
+.post h2 a,
+.post h3 a,
+.post h4 a,
+.post h5 a,
+.post h6 a {
+  box-shadow: none;
+}

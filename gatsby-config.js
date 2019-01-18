@@ -9,40 +9,6 @@ module.exports = {
     },
   },
   plugins: [
-    `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-images-contentful`,
-            options: {
-              // It's important to specify the maxWidth (in pixels) of
-              // the content container as this plugin uses this as the
-              // base for generating different widths of each image.
-              maxWidth: 590,
-              showCaptions: true,
-            },
-          },
-          {
-            resolve: 'gatsby-remark-embed-snippet',
-            options: {
-              classPrefix: 'language-',
-              directory: `${__dirname}/content/code/`,
-            },
-          },
-          {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              classPrefix: 'language-',
-              inlineCodeMarker: null,
-              aliases: {},
-              showLineNumbers: true,
-            },
-          },
-        ],
-      },
-    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -65,6 +31,7 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 590,
+              showCaptions: true,
             },
           },
           {
@@ -73,6 +40,19 @@ module.exports = {
               wrapperStyle: `margin-bottom: 1.0725rem`,
             },
           },
+          {
+            resolve: 'gatsby-remark-toc',
+            options: {
+              header: '目次', // the custom header text
+              include: [
+                'content/blog/**/*.md', // an include glob to match against
+              ],
+              mdastUtilTocOptions: {
+                maxDepth: 3,
+              },
+            },
+          },
+          `gatsby-remark-autolink-headers`,
           `gatsby-remark-prismjs`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
