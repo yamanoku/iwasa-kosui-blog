@@ -30,7 +30,11 @@ class BlogPostTemplate extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title={post.frontmatter.title} description={post.excerpt} />
+        <SEO
+          title={post.frontmatter.title}
+          keywords={post.frontmatter.keywords.split(',')}
+          description={post.frontmatter.desc}
+        />
         <Helmet>
           <meta property="og:title" content={post.frontmatter.title} />
           <meta
@@ -154,6 +158,8 @@ export const pageQuery = graphql`
       }
       frontmatter {
         title
+        keywords
+        desc
         date(formatString: "MMMM DD, YYYY")
       }
     }
