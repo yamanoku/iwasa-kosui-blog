@@ -1,6 +1,8 @@
 ---
-title: ブログをGatsbyJS v2にお引っ越しして、OGP対応とRSS対応とシンタックスハイライトで楽になる
+title: ブログをGatsbyJS v2で実装したらめちゃくちゃ楽だった
 date: '2019-01-18T00:00:00.000Z'
+desc: 'GatsbyJS v2では、ServiceWorker・Markdown・OGP・RSSなどの対応を数行で済ませられる'
+keywords: 'Gatsby,GatsbyJS,ブログ,OGP,RSS'
 ---
 
 ## 目的
@@ -190,77 +192,17 @@ yo
 
 ## OGP を設定する
 
-`src/templates/blog-post.js`に`react-helmet`の Helmet コンポーネントを追加する。
-なお、`react-helmet`は既にこのスターターに含まれている。
+実は、既に`src/components/seo.js`にて OGP/SEO 対策の為の Component が実装されている。
+また、その Component は`src/templates/blogPost.js`から読み込まれている。
 
-```jsx
-import Helmet from 'react-helmet'
-
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
-    const siteTitle = this.props.data.site.siteMetadata.title
-    // highlight-range{1}
-    const siteUrl = this.props.data.site.siteMetadata.siteUrl
-    const { previous, next } = this.props.pageContext
-
-    // highlight-range{3-13}
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
-        <Helmet>
-          <meta property="og:title" content={post.frontmatter.title} />
-          <meta
-            property="og:description"
-            content={post.frontmatter.description}
-          />
-          <meta property="og:url" content={`${siteUrl}${post.fields.slug}`} />
-          <meta property="og:site_name" content={siteTitle} />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@EbiEbiEvidence" />
-        </Helmet>
-        {/*
-            中略
-        */}
-      </Layout>
-    )
-  }
-}
-
-/*
-  中略
-*/
-// highlight-range{7,18-20}
-export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
-    site {
-      siteMetadata {
-        title
-        author
-        siteUrl
-      }
-    }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-      }
-      fields {
-        slug
-      }
-    }
-  }
-`
-```
+そう、最初から全てこのスターターが既にやってくれている。ありがたい。
 
 ## RSS 対応
 
 やっぱり RSS には対応したい。[gatsby-plugin-feed](https://www.gatsbyjs.org/packages/gatsby-plugin-feed/)は、Gatsby Nodes API を経由して、`allMarkdownRemark`の Node を取得した上で、RSS フィードを生成してくれる。
 なお、`gatsby-plugin-feed`プラグインは既にこのスターターに含まれている。
 また、本来であれば`gatsby-config.js`にこのプラグインを読み込む設定を書く必要があるが、
-それもこのスターターが既にやってくれている。えらい。
+それもこのスターターが既にやってくれている。ありがたい。
 
 ただし、以下の項目に注意したい。
 
@@ -276,7 +218,7 @@ Markdown ファイルにコードスニペットを書いたら、やっぱり�
 は、[prismjs](https://prismjs.com/)を利用してシンタックスハイライトする。
 なお、`gatsby-remark-prismjs`プラグインは既にこのスターターに含まれている。
 また、本来であれば`gatsby-config.js`にこのプラグインを読み込む設定を書く必要があるが、
-それもこのスターターが既にやってくれている。えらい。
+それもこのスターターが既にやってくれている。ありがたい。
 
 `src/templates/blog-post.js`にシンタックスハイライトのテーマ CSS を読み込ませる。
 
