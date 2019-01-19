@@ -20,10 +20,10 @@
 .post h3:before {
   content: '';
   display: block;
-  width: 2px;
+  width: 3px;
   height: 1em;
   background: black;
-  margin-right: 16px;
+  margin-right: 13px;
 }
 
 .gatsby-highlight-code-line {
