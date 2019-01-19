@@ -73,12 +73,3 @@
   padding-left: 0.75em;
   border-left: 0.25em solid #4fe374;
 }
-
-.post h1 a,
-.post h2 a,
-.post h3 a,
-.post h4 a,
-.post h5 a,
-.post h6 a {
-  box-shadow: none;
-}
