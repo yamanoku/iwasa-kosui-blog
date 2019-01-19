@@ -70,7 +70,8 @@ const typography = new Typography({
       },
     },
     'h1,h2,h3,h4,h5,h6': {
-      marginTop: rhythm(2),
+      marginTop: rhythm(1),
+      marginBottom: rhythm(3 / 4),
     },
     h1: {
       ...scale(6 / 5),
