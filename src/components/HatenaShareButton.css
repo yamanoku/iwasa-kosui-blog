@@ -1,13 +1,18 @@
-.HatenaShareButton:before {
+.HatenaShareButton {
   content: 'B!';
-  font-family: Verdana;
   font-weight: bold;
+  font-family: Verdana;
+  text-align: center;
   font-size: 16px;
   border-radius: 50%;
   color: white;
-  background: linear-gradient(#00a5e0, #008de1);
+  background: linear-gradient(
+    #00a5e0 0%,
+    #00a5e0 50%,
+    #008de1 50%,
+    #008de1 100%
+  );
   width: 32px;
   height: 32px;
   line-height: 32px;
-  padding: 6px;
 }

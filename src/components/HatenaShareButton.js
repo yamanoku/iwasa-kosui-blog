@@ -9,7 +9,9 @@ const HatenaShareButton = ({ url, title }) => (
     }
     target="_blank"
     rel="nofollow"
-  />
+  >
+    B!
+  </a>
 )
 
 export default HatenaShareButton
