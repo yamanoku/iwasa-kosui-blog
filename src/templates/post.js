@@ -15,6 +15,7 @@ import {
   TwitterIcon,
 } from 'react-share'
 import Helmet from 'react-helmet'
+import HatenaShareButton from '../components/HatenaShareButton'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -75,6 +76,7 @@ class BlogPostTemplate extends React.Component {
             >
               <TwitterIcon size={32} round />
             </TwitterShareButton>
+            <HatenaShareButton url={postUrl} title={post.frontmatter.title} />
           </div>
         </div>
         <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
