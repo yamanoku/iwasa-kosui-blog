@@ -96,6 +96,7 @@ class BlogPostTemplate extends React.Component {
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
+          <HatenaShareButton url={postUrl} title={post.frontmatter.title} />
         </div>
         <hr
           style={{
