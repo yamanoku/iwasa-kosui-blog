@@ -64,7 +64,7 @@ export default HatenaShareButton
 
 ### #1 CSS
 
-SVG で真面目にはてなブックマークのロゴを書くのはだるいので、[この記事](https://hayashikejinan.com/webwork/css/913/)を参考に、:before 属性に色々足していくことで実現させる。
+SVG で真面目にはてなブックマークのロゴを書くのはだるいので、[この記事](https://hayashikejinan.com/webwork/css/913/)を参考に、CSS に色々足していくことで無理矢理実現させる。
 
 まずは、普通に 32px × 32px で「B!」を表示する。
 注意すべきは、line-height もきちんと 32px に揃える点。
