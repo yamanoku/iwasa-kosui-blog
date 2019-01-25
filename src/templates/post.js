@@ -80,7 +80,7 @@ class BlogPostTemplate extends React.Component {
           </div>
         </div>
         {post.fields.slug.indexOf('/private/') !== -1 && (
-          <>
+          <div style={{ margin: '1rem 0' }}>
             <span
               style={{
                 background: 'red',
@@ -98,7 +98,7 @@ class BlogPostTemplate extends React.Component {
             >
               このページはURLを共有されている方のみ閲覧可能です。
             </span>
-          </>
+          </div>
         )}
         <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
         <div
