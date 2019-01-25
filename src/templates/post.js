@@ -80,7 +80,7 @@ class BlogPostTemplate extends React.Component {
           </div>
         </div>
         {post.fields.slug.indexOf('/private/') !== -1 && (
-          <div style={{ margin: '1rem 0' }}>
+          <div style={{ margin: '1rem 0', fontWeight: 'bold' }}>
             <span
               style={{
                 background: 'red',
