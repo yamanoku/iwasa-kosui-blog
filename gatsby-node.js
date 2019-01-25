@@ -37,9 +37,33 @@ exports.createPages = ({ graphql, actions }) => {
     // Create blog posts pages.
     const posts = result.data.allMarkdownRemark.edges
 
-    posts.map((post, index) => {
-      const previous = index === posts.length - 1 ? null : posts[index + 1].node
-      const next = index === 0 ? null : posts[index - 1].node
+    const publicPosts = posts.filter(
+      p => p.node.fields.slug.indexOf('/private/') === -1
+    )
+
+    publicPosts.map((post, index) => {
+      const previous =
+        index === publicPosts.length - 1 ? null : publicPosts[index + 1].node
+      const next = index === 0 ? null : publicPosts[index - 1].node
+
+      createPage({
+        path: post.node.fields.path,
+        component: blogPost,
+        context: {
+          slug: post.node.fields.slug,
+          previous,
+          next,
+        },
+      })
+    })
+
+    const privatePosts = posts.filter(
+      p => p.node.fields.slug.indexOf('/private/') !== -1
+    )
+
+    privatePosts.map((post, index) => {
+      const previous = null
+      const next = null
 
       createPage({
         path: post.node.fields.path,

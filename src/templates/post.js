@@ -79,6 +79,27 @@ class BlogPostTemplate extends React.Component {
             <HatenaShareButton url={postUrl} title={post.frontmatter.title} />
           </div>
         </div>
+        {post.fields.slug.indexOf('/private/') !== -1 && (
+          <>
+            <span
+              style={{
+                background: 'red',
+                color: 'white',
+                padding: '4px 8px',
+                borderRadius: 4,
+              }}
+            >
+              PRIVATE
+            </span>
+            <span
+              style={{
+                marginLeft: 8,
+              }}
+            >
+              このページはURLを共有されている方のみ閲覧可能です。
+            </span>
+          </>
+        )}
         <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
         <div
           style={{

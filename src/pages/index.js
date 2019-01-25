@@ -28,20 +28,22 @@ class BlogIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
-        {posts.map(({ node }) => {
-          const title = node.frontmatter.title || node.fields.slug
-          return (
-            <PostRow key={node.fields.slug}>
-              <PostTitle>
-                <Link style={{ boxShadow: `none` }} to={node.fields.path}>
-                  {title}
-                </Link>
-              </PostTitle>
-              <PostDesc>{node.frontmatter.desc}</PostDesc>
-              <small>{node.frontmatter.date}</small>
-            </PostRow>
-          )
-        })}
+        {posts
+          .filter(({ node }) => node.fields.slug.indexOf('/private/') === -1)
+          .map(({ node }) => {
+            const title = node.frontmatter.title || node.fields.slug
+            return (
+              <PostRow key={node.fields.slug}>
+                <PostTitle>
+                  <Link style={{ boxShadow: `none` }} to={node.fields.path}>
+                    {title}
+                  </Link>
+                </PostTitle>
+                <PostDesc>{node.frontmatter.desc}</PostDesc>
+                <small>{node.frontmatter.date}</small>
+              </PostRow>
+            )
+          })}
         <Bio />
       </Layout>
     )
