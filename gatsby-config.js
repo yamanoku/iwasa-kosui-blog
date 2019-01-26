@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `ebiebievidence.com`,
-    author: `EbiEbiEvidence`,
+    author: `Kosui Iwasa / EbiEbiEvidence`,
     description: `EbiEbiEvidence`,
     siteUrl: `https://www.ebiebievidence.com/`,
     social: {
