@@ -22,11 +22,9 @@ class BlogPostTemplate extends React.Component {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteUrl = this.props.data.site.siteMetadata.siteUrl
-    const postUrl = `${siteUrl}${post.fields.path.replace('/', '')}`
-    const avatarUrl = `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src.replace(
-      '/',
-      ''
-    )}`
+    const postUrl = `${siteUrl}${post.fields.path}`
+    const avatarUrl = `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src}`
+    console.log(avatarUrl);
     const { previous, next } = this.props.pageContext
 
     return (

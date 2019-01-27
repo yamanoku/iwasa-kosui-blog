@@ -3,7 +3,7 @@ module.exports = {
     title: `ebiebievidence.com`,
     author: `Kosui Iwasa / EbiEbiEvidence`,
     description: `EbiEbiEvidence`,
-    siteUrl: `https://www.ebiebievidence.com/`,
+    siteUrl: `https://www.ebiebievidence.com`,
     social: {
       twitter: `EbiEbiEvidence`,
     },
@@ -157,5 +157,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-styled-components`,
+    `gatsby-plugin-sitemap`,
   ],
 }
