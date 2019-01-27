@@ -23,7 +23,8 @@ class Layout extends React.Component {
         {header}
         {children}
         <footer>
-          © {new Date().getFullYear()} Kosui Iwasa a.k.a. EbiEbiEvidence
+          © {new Date().getFullYear()} Kosui Iwasa a.k.a. EbiEbiEvidence<br />
+          <a href="/sitemap.xml">サイトマップ</a>
         </footer>
       </div>
     )
