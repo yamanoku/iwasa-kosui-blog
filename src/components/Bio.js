@@ -26,20 +26,17 @@ function Bio() {
                 marginRight: rhythm(1 / 2),
                 marginBottom: 0,
                 minWidth: 50,
-                boder: '1px solid #eee',
-                borderRadius: `100%`,
-              }}
-              imgStyle={{
-                borderRadius: `50%`,
               }}
             />
-            <p style={{ margin: 0 }}>
-              この記事は、
+            <div>
               <a href={`https://twitter.com/${social.twitter}`} target="_blank">
                 {author}
-              </a>{' '}
-              が頑張って書いています。
-            </p>
+              </a>
+              <p style={{ margin: 0 }}>
+                東京農工大学大学院 M2。最近はReact, golang,
+                Kotlinのアルバイトしている。
+              </p>
+            </div>
           </div>
         )
       }}

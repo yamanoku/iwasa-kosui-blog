@@ -27,7 +27,8 @@ class BlogIndex extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All posts" />
+        <Bio />
+        <SEO title="投稿一覧" />
         {posts
           .filter(({ node }) => node.fields.slug.indexOf('/private/') === -1)
           .map(({ node }) => {

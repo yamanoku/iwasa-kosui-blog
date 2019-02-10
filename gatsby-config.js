@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
     title: `ebiebievidence.com`,
-    author: `Kosui Iwasa / EbiEbiEvidence`,
+    author: `Kosui Iwasa`,
     description: `EbiEbiEvidence`,
     siteUrl: `https://www.ebiebievidence.com`,
     social: {
-      twitter: `EbiEbiEvidence`,
+      twitter: `EbiEbiEvidence2`,
     },
   },
   plugins: [
