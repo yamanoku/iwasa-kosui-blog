@@ -1,11 +1,11 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "ebiebievidence-blog",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "EbiEbiEvidence's blog",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Kosui Iwasa <contact@ebiebievidence.com>",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/ebiebievidence/blog/issues"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.0",
@@ -49,9 +49,11 @@
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.11.1",
-    "prettier": "^1.14.2"
+    "prettier": "^1.14.2",
+    "textlint": "^11.2.3",
+    "textlint-rule-preset-jtf-style": "^2.3.3"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
+  "homepage": "https://github.com/ebiebievidence/blog",
   "keywords": [
     "gatsby"
   ],
@@ -59,7 +61,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/ebiebievidence/blog.git"
   },
   "scripts": {
     "dev": "gatsby develop",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StaticQuery, graphql } from 'gatsby'
+import { StaticQuery, graphql, Link } from 'gatsby'
 import Image from 'gatsby-image'
 
 import { rhythm } from '../utils/typography'
@@ -36,6 +36,14 @@ function Bio() {
                 東京農工大学大学院 M2。最近はReact, golang,
                 Kotlinのアルバイトしている。
               </p>
+              <Link
+                to="/aboutme"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                もっと詳しく
+              </Link>
             </div>
           </div>
         )
