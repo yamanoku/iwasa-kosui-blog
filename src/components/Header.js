@@ -46,6 +46,7 @@ class Header extends React.Component {
           >
             <b>私について</b>
           </Link>
+          &nbsp; / &nbsp;
           <Link
             to="/rss.xml"
             style={{
