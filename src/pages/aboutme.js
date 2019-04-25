@@ -12,17 +12,8 @@ class NotFoundPage extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="About me" />
-        <h1>岩佐幸翠 / Kosui Iwasa</h1>
-        <h2>職歴</h2>
-        <ul>
-          <li>
-            2019/04 -
-            <br />
-            株式会社ディー・エヌ・エー
-            <br />
-            DeNA Co., Ltd.
-          </li>
-        </ul>
+        <h2>名前</h2>
+        岩佐幸翠 / Kosui Iwasa
         <h2>やったこと</h2>
         <ul>
           <li>
@@ -67,6 +58,16 @@ class NotFoundPage extends React.Component {
             <br />
             To appear in Companion Proceedings of the The Web Conference 2019,
             WWW ’19, demonstration track, San Francisco.
+          </li>
+        </ul>
+        <h2>職歴</h2>
+        <ul>
+          <li>
+            2019/04 -
+            <br />
+            株式会社ディー・エヌ・エー
+            <br />
+            DeNA Co., Ltd.
           </li>
         </ul>
         <h2>学歴</h2>
