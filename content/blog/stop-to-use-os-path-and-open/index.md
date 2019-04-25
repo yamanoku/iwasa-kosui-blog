@@ -103,8 +103,6 @@ pathlib を使用すれば、ファイルの一覧の取得も `datasets_dir.glo
 他にも、詳しいことはすべて https://docs.python.jp/3/library/pathlib.html に記されています。本当に便利です。こちらもぜひ一度ご覧になってください。
 
 ご意見・ご指摘お待ちしております！
-研究関連: https://twitter.com/EbiEbiEvidence
-実装関連: https://twitter.com/EbiEbiEvidence2
 
 ## 追記
 

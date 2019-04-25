@@ -5,7 +5,7 @@ module.exports = {
     description: `EbiEbiEvidence`,
     siteUrl: `https://www.ebiebievidence.com`,
     social: {
-      twitter: `EbiEbiEvidence2`,
+      twitter: `EbiEbiEvidence`,
     },
   },
   plugins: [
