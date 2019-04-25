@@ -4,6 +4,7 @@ import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import './post.css'
 
+import { FaTwitter } from 'react-icons/fa'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
@@ -102,7 +103,11 @@ class BlogPostTemplate extends React.Component {
         <div className="post">
           <h2>私について</h2>
           <p>
-            <a href="https://twitter.com/EbiEbiEvidence">EbiEbiEvidence</a><br />
+            <a href="https://twitter.com/EbiEbiEvidence">
+              <FaTwitter />
+              EbiEbiEvidence
+            </a>
+            <br />
             株式会社ディー・エヌ・エーでエンジニアをしています。
             <b>
               <Link to="/aboutme">
