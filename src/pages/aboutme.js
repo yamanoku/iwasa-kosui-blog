@@ -31,7 +31,7 @@ class NotFoundPage extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="About me" />
+        <SEO title="私について" />
         <h2>概略</h2>
         岩佐幸翠 / Kosui Iwasa
         <br />
