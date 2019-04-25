@@ -43,7 +43,7 @@ class Header extends React.Component {
           }}
         >
           <a
-            href="https://twitter.com/ebiebievidence2"
+            href="https://twitter.com/ebiebievidence"
             target="_blank"
             style={{
               boxShadow: 'none',
