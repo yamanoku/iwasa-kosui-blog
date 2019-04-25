@@ -59,7 +59,6 @@ class NotFoundPage extends React.Component {
             </div>
           </div>
         </OGPCard>
-        <hr />
         <OGPCard>
           <OGPCardImage style={{ backgroundImage: "url(https://forest.watch.impress.co.jp/img/wf/list/1088/039/image1.jpg)" }} />
           <div style={{ padding: "8px 16px", background: "#f2f3f5" }}>
@@ -69,6 +68,7 @@ class NotFoundPage extends React.Component {
             </div>
           </div>
         </OGPCard>
+        <hr />
         <h3>
           <a href="https://ebiebievidence-shukatsu.netlify.com">
             就活生神経衰弱
@@ -77,7 +77,7 @@ class NotFoundPage extends React.Component {
         <p>
           就活で病んだ時に作りました。
         </p>
-        <img src="https://pbs.twimg.com/media/D3KXT_RUEAAD-dZ?format=jpg&name=small" />
+        <img src="https://pbs.twimg.com/media/D3KXT_RUEAAD-dZ?format=jpg&name=small" style={{ maxWidth: 300 }} />
         <br />
         <h2>論文</h2>
         <ul>
