@@ -98,6 +98,18 @@ class BlogPostTemplate extends React.Component {
           </div>
         )}
         <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
+        <div className="post">
+          <h2>私について</h2>
+          <p>
+            <a href="https://twitter.com/EbiEbiEvidence">EbiEbiEvidence</a><br />
+            株式会社ディー・エヌ・エーでエンジニアをしています。
+            <b>
+              <Link to="/aboutme">
+                もっと詳しく
+              </Link>
+            </b>
+          </p>
+        </div>
         <div
           style={{
             display: 'flex',
