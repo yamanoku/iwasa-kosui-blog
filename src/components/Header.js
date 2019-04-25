@@ -9,7 +9,7 @@ import { rhythm } from '../utils/typography'
 const H1 = styled.h1`
   margin: 0;
   margin-bottom: 8px;
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: hsla(0, 0%, 0%, 0.9);
   @media (max-width: 768px) {
     font-size: 7vw;
