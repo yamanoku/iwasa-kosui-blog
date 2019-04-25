@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
+import { FaTwitter, FaGithub } from 'react-icons/fa'
 
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
@@ -33,12 +34,11 @@ class NotFoundPage extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="私について" />
         <h2>概略</h2>
+        <a href="https://twitter.com/ebiebievidence"><FaTwitter /></a>
+        &nbsp;
+        <a href="https://github.com/ebiebievidence"><FaGithub /></a>
+        &nbsp;
         岩佐幸翠 / Kosui Iwasa
-        <br />
-        <a href="https://twitter.com/ebiebievidence">Twitter</a>
-        <br />
-        <a href="https://github.com/ebiebievidence">GitHub</a>
-        <br />
         <h2>やったこと</h2>
         <h3>
           <a href="https://chrome.google.com/webstore/detail/twitter-icon-rotator/khkdnpcopeccjcnpmlfmnjmfnfhfnpgh">
