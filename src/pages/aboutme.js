@@ -32,8 +32,13 @@ class NotFoundPage extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="About me" />
-        <h2>名前</h2>
+        <h2>概略</h2>
         岩佐幸翠 / Kosui Iwasa
+        <br />
+        <a href="https://twitter.com/ebiebievidence">Twitter</a>
+        <br />
+        <a href="https://github.com/ebiebievidence">GitHub</a>
+        <br />
         <h2>やったこと</h2>
         <h3>
           <a href="https://chrome.google.com/webstore/detail/twitter-icon-rotator/khkdnpcopeccjcnpmlfmnjmfnfhfnpgh">
