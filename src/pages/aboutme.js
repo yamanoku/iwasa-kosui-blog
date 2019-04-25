@@ -54,6 +54,7 @@ class NotFoundPage extends React.Component {
             </div>
           </div>
         </OGPCard>
+        <hr />
         <OGPCard>
           <OGPCardImage style={{ backgroundImage: "url(https://forest.watch.impress.co.jp/img/wf/list/1088/039/image1.jpg)" }} />
           <div style={{ padding: "8px 16px", background: "#f2f3f5" }}>
