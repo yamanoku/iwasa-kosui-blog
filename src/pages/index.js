@@ -2,7 +2,6 @@ import React from 'react'
 import { Link, graphql } from 'gatsby'
 import styled from 'styled-components'
 
-import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
@@ -27,7 +26,6 @@ class BlogIndex extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <Bio />
         <SEO title="投稿一覧" />
         {posts
           .filter(({ node }) => node.fields.slug.indexOf('/private/') === -1)
@@ -45,7 +43,6 @@ class BlogIndex extends React.Component {
               </PostRow>
             )
           })}
-        <Bio />
       </Layout>
     )
   }
