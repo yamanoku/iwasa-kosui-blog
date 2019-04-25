@@ -71,7 +71,7 @@ class NotFoundPage extends React.Component {
         </h3>
         <p>
           就活で病んだ時に作りました。
-          </p>
+        </p>
         <img src="https://pbs.twimg.com/media/D3KXT_RUEAAD-dZ?format=jpg&name=small" />
         <br />
         <h2>論文</h2>
