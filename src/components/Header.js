@@ -1,10 +1,6 @@
 import React from 'react'
-import { StaticQuery, graphql, Link } from 'gatsby'
-import Image from 'gatsby-image'
+import { Link } from 'gatsby'
 import styled from 'styled-components'
-import { FaTwitter, FaRss, FaGithub } from 'react-icons/fa'
-
-import { rhythm } from '../utils/typography'
 
 const H1 = styled.h1`
   margin: 0;
