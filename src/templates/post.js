@@ -4,7 +4,6 @@ import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import './post.css'
 
-import Bio from '../components/Bio'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
@@ -146,7 +145,6 @@ class BlogPostTemplate extends React.Component {
             )}
           </li>
         </ul>
-        <Bio />
       </Layout>
     )
   }
