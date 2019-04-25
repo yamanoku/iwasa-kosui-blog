@@ -15,6 +15,7 @@ import {
 } from 'react-share'
 import Helmet from 'react-helmet'
 import HatenaShareButton from '../components/HatenaShareButton'
+import Bio from '../components/Bio';
 
 class BlogPostTemplate extends React.Component {
   render() {
