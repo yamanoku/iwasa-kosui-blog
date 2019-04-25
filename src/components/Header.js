@@ -42,33 +42,14 @@ class Header extends React.Component {
             justifyContent: 'center',
           }}
         >
-          <a
-            href="https://twitter.com/ebiebievidence"
-            target="_blank"
+          <Link
+            to="/aboutme"
             style={{
               boxShadow: 'none',
             }}
           >
-            <FaTwitter style={{ marginRight: '16px', fontSize: '1.5rem' }} />
-          </a>
-          <a
-            href="/rss.xml"
-            target="_blank"
-            style={{
-              boxShadow: 'none',
-            }}
-          >
-            <FaRss style={{ marginRight: '16px', fontSize: '1.5rem' }} />
-          </a>
-          <a
-            href="https://github.com/EbiEbiEvidence"
-            target="_blank"
-            style={{
-              boxShadow: 'none',
-            }}
-          >
-            <FaGithub style={{ marginRight: '16px', fontSize: '1.5rem' }} />
-          </a>
+            <b>私について</b>
+          </Link>
         </div>
       </div>
     )
