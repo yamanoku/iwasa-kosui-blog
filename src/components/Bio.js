@@ -33,8 +33,7 @@ function Bio() {
                 {author}
               </a>
               <p style={{ margin: 0 }}>
-                東京農工大学大学院 M2。最近はReact, golang,
-                Kotlinのアルバイトしている。
+                エンジニア at 株式会社ディー・エヌ・エー
               </p>
               <Link
                 to="/aboutme"
