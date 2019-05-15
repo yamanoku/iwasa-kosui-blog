@@ -70,7 +70,7 @@ class BlogPostTemplate extends React.Component {
             </FacebookShareButton>
             <TwitterShareButton
               title={post.frontmatter.title}
-              via="EbiEbiEvidence2"
+              via="EbiEbiEvidence"
               url={postUrl}
             >
               <TwitterIcon size={32} round />
@@ -128,7 +128,7 @@ class BlogPostTemplate extends React.Component {
           </FacebookShareButton>
           <TwitterShareButton
             title={post.frontmatter.title}
-            via="EbiEbiEvidence2"
+            via="EbiEbiEvidence"
             url={postUrl}
           >
             <TwitterIcon size={32} round />
