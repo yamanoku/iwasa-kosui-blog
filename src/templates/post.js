@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import 'prismjs/themes/prism-tomorrow.css'
+import 'prismjs/themes/prism-solarizedlight.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import './post.css'
 
@@ -116,6 +116,7 @@ class BlogPostTemplate extends React.Component {
             </b>
           </p>
         </div>
+        <div>よかったらこの記事をシェアしてください:</div>
         <div
           style={{
             display: 'flex',
