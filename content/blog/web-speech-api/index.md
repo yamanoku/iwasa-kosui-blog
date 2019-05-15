@@ -1,5 +1,5 @@
 ---
-title: Web Speech APIなら、数行で、Google Chrome上で、無料で音声認識・音声合成ができる
+title: Web Speech APIなら、数行で、ブラウザ上で、無料で音声認識・音声合成ができる
 date: '2019-05-15T00:00:00.121Z'
 desc: 'Web Speech APIはブラウザが提供する音声認識・音声合成API。無料で使えるし簡単に利用できる。'
 keywords: 'Web Speech API,音声認識,音声合成'
