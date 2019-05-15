@@ -20,10 +20,13 @@ keywords: 'Web Speech API,音声認識,音声合成'
 
 
 ## 音声合成機能
-テキストを音声として読み上げ、スピーカーなどへ出力します。Edge、 Firefox、 Chrome、 Safari、 Operaなどが対応しています。 IE、Android Browser、Firefox Androidなどについては2019年05月15日現在対応していません。
+テキストを音声として読み上げ、スピーカーなどへ出力します。Edge、 Firefox、 Chrome、 Safari、 Opera、Firefox Androidなどが対応しています。 IE、Android 版 Operaなどについては2019年05月15日現在対応していません。
 <a href="https://caniuse.com/#feat=speech-synthesis" target="_blank">
 <img src="https://i.imgur.com/97Eleuj.png">
 </a>
+
+追記(2019-05-16): Firefox Androidでは対応していないと書きましたが、誤りです。
+caniuse.comと[MDN web docs](https://developer.mozilla.org/ja/docs/Web/API/SpeechSynthesis#Browser_compatibility)で対応状況に関する記述に大きな差異が見られます。情報を提供して下さった@makoto_katoさん、ありがとうございました。
 
 # とりあえず始める
 ## 音声認識機能
