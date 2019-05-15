@@ -17,9 +17,10 @@ class Layout extends React.Component {
       >
         <Header />
         {children}
-        <footer style={{textAlign: "center"}}>
+        <footer style={{ textAlign: "center" }}>
           © {new Date().getFullYear()} Kosui Iwasa a.k.a. EbiEbiEvidence<br />
           <a href="/sitemap.xml">サイトマップ</a>
+          <span>このページでは、Google Analyticsを利用しています。</span>
         </footer>
       </div>
     )
