@@ -13,7 +13,7 @@ keywords: 'Web Speech API,音声認識,音声合成'
 各Webブラウザが提供する、音声認識機能・音声合成機能です。W3Cドラフト
 
 ## 音声認識機能
-マイクからの音声をテキスト化します。Google Chrome(v25~)、Edge(v75~)、Opera(v27~)、Chrome for Android(v4~)などが対応しています。Firefox、Safari、Android Browserなどについては2019年05月15日現在対応していません。
+マイクからの音声をテキスト化します。Google Chrome(v25~)、Edge(v75~)、Chrome for Android(v4~)などが対応しています。Firefox、Safari、Android Browserなどについては2019年05月15日現在対応していません。
 <a href="https://caniuse.com/#feat=speech-recognition" target="_blank">
 <img src="https://i.imgur.com/0yL2rI8.png">
 </a>
