@@ -36,28 +36,21 @@
   right: 0;
   padding: inherit 0;
   margin-top: 1em;
-  background: hsla(24, 20%, 50%, 0.08);
-  background: linear-gradient(
-    to right,
-    hsla(24, 20%, 50%, 0.1) 70%,
-    hsla(24, 20%, 50%, 0)
-  );
   pointer-events: none;
   line-height: inherit;
   white-space: pre;
 }
 
 .gatsby-highlight {
-  background-color: #2d2d2d;
   border-radius: 0.3em;
   margin-bottom: 1rem;
   margin-top: -0.958rem;
   padding: 1em;
   overflow: auto;
+  background: #2a2a2a;
 }
 
 .gatsby-highlight pre[class*='language-'] {
-  background-color: transparent;
   margin: 0;
   padding: 0;
   overflow: initial;
@@ -66,7 +59,6 @@
 }
 
 .gatsby-highlight-code-line {
-  background-color: #113300;
   display: block;
   margin-right: -1em;
   margin-left: -1em;
