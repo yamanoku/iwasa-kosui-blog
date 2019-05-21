@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import 'prismjs/themes/prism-solarizedlight.css'
+import './prism-theme.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import './post.css'
 
