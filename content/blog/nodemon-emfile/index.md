@@ -49,7 +49,9 @@ npm WARN optional SKIPPING OPTIONAL DEPENDENCY: Exit status 1
 1. プロセス全部殺す
 
 https://github.com/remy/nodemon/issues/731#issuecomment-284385507
-> killall -9 node resolve this problem
+```
+$ killall -9 node resolve this problem
+```
 
 ロックだ...
 
@@ -59,12 +61,15 @@ https://github.com/remy/nodemon/issues/731#issuecomment-284385507
 
 https://github.com/facebook/create-react-app/issues/4540#issuecomment-393268543
 > The easiest thing would be to install Watchman:
-> $ brew update
-> $ brew install watchman
+```
+$ brew update
+$ brew install watchman
+```
 
 3. ulimitを上げる
 
 https://stackoverflow.com/questions/32953838/react-native-error-error-watch-emfile
-> ulimit 4096 # for instance
-
+```
+$ ulimit 4096 # for instance
+```
 ゴリ押しではあるが、どうしてもダメだったらこの手もありかもしれない。
