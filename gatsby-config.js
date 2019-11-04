@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `ebiebievidence.com`,
+    title: `uniuniunicode.com`,
     author: `Kosui Iwasa`,
-    description: `EbiEbiEvidence`,
-    siteUrl: `https://www.ebiebievidence.com`,
+    description: `UniUniUnicode`,
+    siteUrl: `https://www.uniuniunicode.com`,
     social: {
-      twitter: `EbiEbiEvidence`,
+      twitter: `UniUniUnicode`,
     },
   },
   plugins: [
@@ -78,8 +78,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `ebiebievidence.com`,
-        short_name: `ebiebievidence.com`,
+        name: `uniuniunicode.com`,
+        short_name: `uniuniunicode.com`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#2358ce`,
@@ -144,7 +144,7 @@ module.exports = {
             }
           `,
             output: '/rss.xml',
-            title: 'ebiebievidence.com',
+            title: 'uniuniunicode.com',
           },
         ],
       },

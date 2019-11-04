@@ -28,7 +28,7 @@ const AboutPage = () => (
   <div>
     <h1>こんにちは</h1>
     <HatenaShareButton
-      url="https://www.ebiebievidence.com"
+      url="https://www.uniuniunicode.com"
       title="エビエビエビデンスのホームページ"
     />
   </div>
@@ -71,7 +71,7 @@ SVG で真面目にはてなブックマークのロゴを書くのはだるい�
 また、text-decoration も必ず none にする。
 
 <iframe height="265" style="width: 100%;" scrolling="no" title="HatenaShareButton #1" src="//codepen.io/KAWASEMI_SEVEN/embed/LMwjpV/?height=265&theme-id=0&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/LMwjpV/'>HatenaShareButton #1</a> by EbiEbiEvidence
+  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/LMwjpV/'>HatenaShareButton #1</a> by UniUniUnicode
   (<a href='https://codepen.io/KAWASEMI_SEVEN'>@KAWASEMI_SEVEN</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -79,7 +79,7 @@ SVG で真面目にはてなブックマークのロゴを書くのはだるい�
 ツートーンの背景は、linear-gradient を使えば表現できる。
 
 <iframe height="265" style="width: 100%;" scrolling="no" title="HatenaShareButton #2" src="//codepen.io/KAWASEMI_SEVEN/embed/NeQvgz/?height=265&theme-id=0&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/NeQvgz/'>HatenaShareButton #2</a> by EbiEbiEvidence
+  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/NeQvgz/'>HatenaShareButton #2</a> by UniUniUnicode
   (<a href='https://codepen.io/KAWASEMI_SEVEN'>@KAWASEMI_SEVEN</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 
@@ -91,6 +91,6 @@ font-family に Verdana を指定すると更にあのロゴに近づくが、[A
 最後に、実際に React コンポーネントとして動作しているものを示して終わりとする。
 
 <iframe height="265" style="width: 100%;" scrolling="no" title="HatenaShareButton" src="//codepen.io/KAWASEMI_SEVEN/embed/wRVqyj/?height=265&theme-id=0&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/wRVqyj/'>HatenaShareButton</a> by EbiEbiEvidence
+  See the Pen <a href='https://codepen.io/KAWASEMI_SEVEN/pen/wRVqyj/'>HatenaShareButton</a> by UniUniUnicode
   (<a href='https://codepen.io/KAWASEMI_SEVEN'>@KAWASEMI_SEVEN</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>

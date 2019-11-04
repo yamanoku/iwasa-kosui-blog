@@ -1,11 +1,11 @@
 {
-  "name": "ebiebievidence-blog",
+  "name": "UniUniUnicode-blog",
   "private": true,
-  "description": "EbiEbiEvidence's blog",
+  "description": "UniUniUnicode's blog",
   "version": "0.1.0",
-  "author": "Kosui Iwasa <contact@ebiebievidence.com>",
+  "author": "Kosui Iwasa <contact@uniuniunicode.com>",
   "bugs": {
-    "url": "https://github.com/ebiebievidence/blog/issues"
+    "url": "https://github.com/UniUniUnicode/blog/issues"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.0",
@@ -54,7 +54,7 @@
     "textlint": "^11.2.3",
     "textlint-rule-preset-jtf-style": "^2.3.3"
   },
-  "homepage": "https://github.com/ebiebievidence/blog",
+  "homepage": "https://github.com/UniUniUnicode/blog",
   "keywords": [
     "gatsby"
   ],
@@ -62,7 +62,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ebiebievidence/blog.git"
+    "url": "git+https://github.com/UniUniUnicode/blog.git"
   },
   "scripts": {
     "dev": "gatsby develop",
