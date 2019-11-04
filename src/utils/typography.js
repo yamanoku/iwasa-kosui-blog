@@ -5,39 +5,28 @@ import {
 } from 'typography-breakpoint-constants'
 import gray from 'gray-percentage'
 
+const fontFamily = [
+  '-apple-system',
+  'Roboto',
+  'Helvetica Neue',
+  'Droid Sans',
+  'ヒラギノ角ゴ Pro W3',
+  'Hiragino Kaku Gothic Pro',
+  'メイリオ',
+  'Meiryo',
+  'Osaka',
+  'ＭＳ Ｐゴシック',
+  'MS PGothic',
+  'sans-serif',
+]
+
 const typography = new Typography({
   title: 'Sutro',
   baseFontSize: '16px',
   baseLineHeight: 1.78 * 1.1,
-  headerFontFamily: [
-    '-apple-system',
-    'Roboto',
-    'Helvetica Neue',
-    'Droid Sans',
-    'ヒラギノ角ゴ ProN W3',
-    'Hiragino Kaku Gothic ProN',
-    'Meiryo',
-    'メイリオ',
-    'Osaka',
-    'MS PGothic',
-    'arial',
-    'sans-serif',
-  ],
-  bodyFontFamily: [
-    '-apple-system',
-    'Roboto',
-    'Helvetica Neue',
-    'Droid Sans',
-    'ヒラギノ角ゴ ProN W3',
-    'Hiragino Kaku Gothic ProN',
-    'Meiryo',
-    'メイリオ',
-    'Osaka',
-    'MS PGothic',
-    'arial',
-    'sans-serif',
-  ],
-  bodyColor: 'hsla(0,0%,0%,0.9)',
+  headerFontFamily: fontFamily,
+  bodyFontFamily: fontFamily,
+  bodyColor: '#333',
   headerWeight: 700,
   bodyWeight: 400,
   boldWeight: 700,
@@ -98,6 +87,9 @@ const typography = new Typography({
     },
     h6: {
       fontStyle: 'italic',
+    },
+    small: {
+      fontSize: '.9rem',
     },
   }),
 })

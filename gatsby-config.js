@@ -81,7 +81,7 @@ module.exports = {
         name: `uniuniunicode.com`,
         short_name: `uniuniunicode.com`,
         start_url: `/`,
-        background_color: `#ffffff`,
+        background_color: `#f8f8f8`,
         theme_color: `#2358ce`,
         display: `minimal-ui`,
         icon: `content/assets/profile-pic.png`,

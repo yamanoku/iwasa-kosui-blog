@@ -24,8 +24,9 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteUrl = this.props.data.site.siteMetadata.siteUrl
     const postUrl = `${siteUrl}${post.fields.path}`
-    const avatarUrl = `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src}`
-    console.log(avatarUrl);
+    const avatarUrl = `${siteUrl}${
+      this.props.data.avatar.childImageSharp.fixed.src
+    }`
     const { previous, next } = this.props.pageContext
 
     return (
@@ -110,9 +111,7 @@ class BlogPostTemplate extends React.Component {
             <br />
             株式会社ディー・エヌ・エーでエンジニアをしています。
             <b>
-              <Link to="/aboutme">
-                もっと詳しく
-              </Link>
+              <Link to="/aboutme">もっと詳しく</Link>
             </b>
           </p>
         </div>

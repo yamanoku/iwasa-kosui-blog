@@ -6,12 +6,26 @@ import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
 
-const PostRow = styled.div`
-  margin: 24px 0;
+import './index.css'
+
+const PostRow = styled(Link)`
+  display: block;
+  margin: 48px 0;
+  color: #333;
+
+  :hover {
+    text-decoration: none;
+  }
+
+  :first-child {
+    margin-top: 0;
+  }
 `
 
 const PostTitle = styled.h3`
+  margin-top: 0;
   margin-bottom: ${rhythm(1 / 4)};
+  line-height: 1.5em;
 `
 
 const PostDesc = styled.p`
@@ -32,12 +46,8 @@ class BlogIndex extends React.Component {
           .map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug
             return (
-              <PostRow key={node.fields.slug}>
-                <PostTitle>
-                  <Link style={{ boxShadow: `none` }} to={node.fields.path}>
-                    {title}
-                  </Link>
-                </PostTitle>
+              <PostRow key={node.fields.slug} to={node.fields.path}>
+                <PostTitle>{title}</PostTitle>
                 <PostDesc>{node.frontmatter.desc}</PostDesc>
                 <small>{node.frontmatter.date}</small>
               </PostRow>
