@@ -38,6 +38,8 @@ class Header extends React.Component {
             borderRadius: '50%',
             background: `url(${icon})`,
             backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
           }}
         />
         <div>
@@ -57,7 +59,7 @@ class Header extends React.Component {
                 boxShadow: 'none',
               }}
             >
-              <b>記事一覧</b>
+              <b>記事</b>
             </Link>
             &nbsp; / &nbsp;
             <Link
@@ -66,7 +68,7 @@ class Header extends React.Component {
                 boxShadow: 'none',
               }}
             >
-              <b>プロフィール</b>
+              <b>自己紹介</b>
             </Link>
             &nbsp; / &nbsp;
             <a
