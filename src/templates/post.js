@@ -24,9 +24,9 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteUrl = this.props.data.site.siteMetadata.siteUrl
     const postUrl = `${siteUrl}${post.fields.path}`
-    const avatarUrl = `${siteUrl}${
-      this.props.data.avatar.childImageSharp.fixed.src
-    }`
+    const avatarUrl = post.frontmatter.image
+      ? post.frontmatter.image
+      : `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src}`
     const { previous, next } = this.props.pageContext
 
     return (
@@ -198,6 +198,7 @@ export const pageQuery = graphql`
         title
         keywords
         desc
+        image
         date(formatString: "MMMM DD, YYYY")
       }
     }

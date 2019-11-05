@@ -8,9 +8,7 @@ exports.createPages = ({ graphql, actions }) => {
   return graphql(
     `
       {
-        allMarkdownRemark(
-          sort: { fields: [frontmatter___date], order: DESC }
-        ) {
+        allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
           edges {
             node {
               fields {
@@ -21,6 +19,7 @@ exports.createPages = ({ graphql, actions }) => {
                 title
                 date
                 desc
+                image
                 keywords
               }
             }
