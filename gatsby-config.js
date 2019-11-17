@@ -2,13 +2,19 @@ module.exports = {
   siteMetadata: {
     title: `uniuniunicode.com`,
     author: `Kosui Iwasa`,
-    description: `UniUniUnicode`,
+    description: `uniuniunicode`,
     siteUrl: `https://www.uniuniunicode.com`,
     social: {
-      twitter: `UniUniUnicode`,
+      twitter: `uniuniunicode`,
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: `https://www.uniuniunicode.com`,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

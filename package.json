@@ -1,16 +1,17 @@
 {
   "name": "uniuniunicode-blog",
   "private": true,
-  "description": "UniUniUnicode's blog",
+  "description": "uniuniunicode's blog",
   "version": "0.1.0",
   "author": "Kosui Iwasa <contact@uniuniunicode.com>",
   "bugs": {
-    "url": "https://github.com/UniUniUnicode/blog/issues"
+    "url": "https://github.com/uniuniunicode/blog/issues"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.6",
     "gatsby": "^2.17.7",
     "gatsby-image": "^2.2.30",
+    "gatsby-plugin-canonical-urls": "^2.1.15",
     "gatsby-plugin-feed": "^2.3.19",
     "gatsby-plugin-google-analytics": "^2.1.24",
     "gatsby-plugin-manifest": "^2.2.26",
@@ -54,7 +55,7 @@
     "textlint-rule-preset-jtf-style": "^2.3.4",
     "typescript": "^3.6.4"
   },
-  "homepage": "https://github.com/UniUniUnicode/blog",
+  "homepage": "https://github.com/uniuniunicode/blog",
   "keywords": [
     "gatsby"
   ],
@@ -62,7 +63,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UniUniUnicode/blog.git"
+    "url": "git+https://github.com/uniuniunicode/blog.git"
   },
   "scripts": {
     "dev": "gatsby develop",
