@@ -133,4 +133,4 @@ OGP を設定したい Web ページは、ブログ記事などに限られて�
 ## 終わりに
 
 正直、あまりベストプラクティスという感じではありません。  
-[よりよい方法を募集](https://twitter.com/UniUniUnicode)しています！
+[よりよい方法を募集](https://twitter.com/uniuniunicode)しています！

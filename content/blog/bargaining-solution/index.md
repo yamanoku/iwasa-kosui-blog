@@ -121,4 +121,4 @@ keywords: '交渉解,ナッシュ交渉解,均等解,カライ・スモルデ
 
 なお、より詳しい分析・比較は、本記事では扱わない。本記事の位置付けは、あくまでそれらへの足がかりとする。分配的正義(配分的正義ではない)の話とかも出てきてややこしいので...
 
-ご不明な点・気になる点・誤っている点があれば[Twitter/@UniUniUnicode](https://twitter.com/UniUniUnicode)までご一報ください。
+ご不明な点・気になる点・誤っている点があれば[Twitter/@uniuniunicode](https://twitter.com/uniuniunicode)までご一報ください。

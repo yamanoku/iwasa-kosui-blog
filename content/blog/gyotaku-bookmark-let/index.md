@@ -76,4 +76,4 @@ javascript: window.location.href =
 
 ## おわりに
 
-不具合のご報告・修正依頼は、[twitter.com/UniUniUnicode](https://twitter.com/UniUniUnicode) か[GitHub Issue](https://github.com/UniUniUnicode/blog)までお気軽にどうぞ。
+不具合のご報告・修正依頼は、[twitter.com/uniuniunicode](https://twitter.com/uniuniunicode) か[GitHub Issue](https://github.com/uniuniunicode/blog)までお気軽にどうぞ。

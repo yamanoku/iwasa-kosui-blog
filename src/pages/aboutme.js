@@ -34,9 +34,9 @@ class NotFoundPage extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="私について" />
         <h2>概略</h2>
-        <a href="https://twitter.com/UniUniUnicode"><FaTwitter /></a>
+        <a href="https://twitter.com/uniuniunicode"><FaTwitter /></a>
         &nbsp;
-        <a href="https://github.com/UniUniUnicode"><FaGithub /></a>
+        <a href="https://github.com/uniuniunicode"><FaGithub /></a>
         &nbsp;
         岩佐幸翠 / Kosui Iwasa
         <h2>やったこと</h2>
@@ -70,7 +70,7 @@ class NotFoundPage extends React.Component {
         </OGPCard>
         <hr />
         <h3>
-          <a href="https://UniUniUnicode-shukatsu.netlify.com">
+          <a href="https://uniuniunicode-shukatsu.netlify.com">
             就活生神経衰弱
           </a>
         </h3>

@@ -46,7 +46,7 @@ class BlogPostTemplate extends React.Component {
           <meta property="og:image" content={avatarUrl} />
           <meta property="og:site_name" content={siteTitle} />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@UniUniUnicode" />
+          <meta name="twitter:site" content="@uniuniunicode" />
         </Helmet>
         <h1 style={{ marginBottom: 0 }}>{post.frontmatter.title}</h1>
         <div
@@ -71,7 +71,7 @@ class BlogPostTemplate extends React.Component {
             </FacebookShareButton>
             <TwitterShareButton
               title={post.frontmatter.title}
-              via="UniUniUnicode"
+              via="uniuniunicode"
               url={postUrl}
             >
               <TwitterIcon size={32} round />
@@ -104,9 +104,9 @@ class BlogPostTemplate extends React.Component {
         <div className="post">
           <h2>私について</h2>
           <p>
-            <a href="https://twitter.com/UniUniUnicode">
+            <a href="https://twitter.com/uniuniunicode">
               <FaTwitter />
-              UniUniUnicode
+              uniuniunicode
             </a>
             <br />
             株式会社ディー・エヌ・エーでエンジニアをしています。
@@ -127,7 +127,7 @@ class BlogPostTemplate extends React.Component {
           </FacebookShareButton>
           <TwitterShareButton
             title={post.frontmatter.title}
-            via="UniUniUnicode"
+            via="uniuniunicode"
             url={postUrl}
           >
             <TwitterIcon size={32} round />

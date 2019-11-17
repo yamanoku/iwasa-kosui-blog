@@ -59,7 +59,7 @@ class Layout extends React.Component {
         </HeaderWrapper>
         <Content>{children}</Content>
         <footer style={{ textAlign: 'center' }}>
-          © {new Date().getFullYear()} Kosui Iwasa a.k.a. UniUniUnicode
+          © {new Date().getFullYear()} Kosui Iwasa a.k.a. uniuniunicode
           <br />
           <a href="/sitemap.xml">サイトマップ</a>
           <p>このページでは、Google Analyticsを利用しています。</p>
