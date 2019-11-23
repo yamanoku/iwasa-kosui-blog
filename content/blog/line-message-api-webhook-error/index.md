@@ -1,5 +1,5 @@
 ---
-title: LINE Messaging API の「Webhook との通信でエラーが発生しました。」エラーについて
+title: LINE Messaging API の「Webhook との通信でエラーが発生しました。」を解決する
 date: '2018-10-30T00:00:00.121Z'
 desc: 'nginxにおける証明書の設定のミスについて'
 keywords: 'LINE Messaging API,nginx,Webhook,エラー'

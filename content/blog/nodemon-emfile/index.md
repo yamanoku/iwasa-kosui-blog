@@ -1,5 +1,5 @@
 ---
-title: '[nodemon] Internal watch failed: EMFILE: too many open files, watch'
+title: 'nodemon Internal watch failed: EMFILE: too many open files, watchを解決する'
 date: '2019-05-21T00:00:00.000Z'
 desc: 'タイトルにあるエラーを解決する方法について'
 keywords: 'nodemon,EMFILE,FSEventStreamStart,ERROR'
