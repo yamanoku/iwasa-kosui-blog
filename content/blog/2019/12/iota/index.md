@@ -8,6 +8,8 @@ keywords: 'Golang, golang, go, iota'
 
 ## はじめに
 
+この記事は、[Go3 Advent Calendar 2019](https://qiita.com/advent-calendar/2019/go3)の9日目の記事です。
+
 普段、私たちは何気なく`iota`を利用しています。
 しかし、私は`iota`を使っていくうちに、「誰が1ずつインクリメントしてくれているんだろう...そもそもiotaってなんなんだろう...」と不思議に思うようになりました。
 
