@@ -68,12 +68,30 @@
   border-left: 0.25em solid #4fe374;
 }
 
+.post .token.comment,
+.post .token.prolog,
+.post .token.doctype,
+.post .token.cdata {
+    font-style: normal;
+}
+
+.post .gatsby-highlight {
+  background: #f9f9f9;
+}
+
+.post .gatsby-highlight pre {
+  background: #f9f9f9;
+}
+
 .post img {
   border: 1px solid #ddd;
-  padding: 8px;
   margin-bottom: 1rem;
 }
 
 .post blockquote {
   margin-left: -18px;
+}
+
+.post ul, .post ol {
+  margin-left: 20px;
 }
