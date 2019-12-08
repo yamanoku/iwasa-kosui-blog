@@ -342,3 +342,4 @@ func (p *parser) constDecl(group *Group) Decl {
 
 - [Go compiler internals: adding a new statement to Go - Part 1](https://eli.thegreenplace.net/2019/go-compiler-internals-adding-a-new-statement-to-go-part-1/)
 - [Goを読むその2：compileコマンド（構文解析まで）](https://qiita.com/junjis0203/items/616c00086eb336153f4f)
+- [Golangのconst識別子iotaの紹介](https://qiita.com/curepine/items/2ae2f6504f0d28016411)
