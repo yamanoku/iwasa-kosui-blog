@@ -1,5 +1,5 @@
 ---
-title: 'iotaについて'
+title: 'dive into iota: iotaはいつ誰が管理しているのか？'
 date: '2019-12-09T00:00:00+09:00'
 desc: ''
 image: 'https://www.uniuniunicode.com/icon.png'
@@ -9,7 +9,16 @@ keywords: 'Golang, golang, go, iota'
 ## はじめに
 
 普段、私たちは何気なく`iota`を利用しています。
-しかし、私は`iota`を使っていくうちに、「どうやって勝手に1ずつインクリメントしてくれるんだろう...そもそもiotaってなんなんだろう...」と不思議に思うようになりました。
+しかし、私は`iota`を使っていくうちに、「誰が1ずつインクリメントしてくれているんだろう...そもそもiotaってなんなんだろう...」と不思議に思うようになりました。
+
+```go
+const (
+  A = iota + 1 // 1
+  B            // 2..
+  C            // 3... どうやってインクリメントとされていくんだ?
+)
+```
+
 そのことが気になった私は、[github.com/golang/go](https://github.com/golang/go)を読みながら、調べてみることにしました。
 
 本記事は、以下を知ることを目的とします。
@@ -286,7 +295,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
 
         nn = append(nn, p.nod(decl, ODCLCONST, n, nil))
     }
-    cs.iota++ // iotaの値をインクリメントする
+    cs.iota++ // iotaのカウンタをインクリメントする
 
     return nn
 }
@@ -325,7 +334,7 @@ func (p *parser) constDecl(group *Group) Decl {
 
 ### まとめ
 
-以上より、`iota` の値は ASTが生成される時に決定されるものかと思われます。  
+以上より、`iota` の値は 構文解析の結果からASTが生成される時に、`noder.constDecl`関数によって決定されるものかと思われます。  
 本記事に間違いがございましたら、[Twitter](https://twitter.com/uniuniunicode)のリプライにてお知らせ下さると幸いです。
 拙い記事ですが、ここまでお付き合い頂きありがとうございました。
 
