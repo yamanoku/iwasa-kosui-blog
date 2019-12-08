@@ -4,7 +4,7 @@ import './prism-theme.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import './post.css'
 
-import { FaTwitter } from 'react-icons/fa'
+import { FaTwitter, FaGithub } from 'react-icons/fa'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
@@ -104,12 +104,23 @@ class BlogPostTemplate extends React.Component {
         <div className="post">
           <h2>私について</h2>
           <p>
-            <a href="https://twitter.com/uniuniunicode">
+            岩佐 幸翠
+            <a
+              href="https://twitter.com/uniuniunicode"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter />
-              uniuniunicode
+            </a>
+            <a
+              href="https://github.com/uniuniunicode"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub />
             </a>
             <br />
-            株式会社ディー・エヌ・エーでエンジニアをしています。
+            2019年4月に株式会社ディー・エヌ・エーへ新卒として入社し、GoとVue.jsを書いています。
             <b>
               <Link to="/aboutme">もっと詳しく</Link>
             </b>
