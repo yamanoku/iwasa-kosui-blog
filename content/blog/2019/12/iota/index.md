@@ -214,7 +214,7 @@ ExpressionList = Expression { "," Expression } . // 式のリスト
 ">ConstSpec</rt></ruby>
 <span class="token punctuation">)</span></code></pre></div>
 
-### `ConstDecl`のASTを構築する時の`iota`
+### `iota`のインクリメントはASTの構築時に行われる
 
 この章では、gcが`ConstDecl`のASTを構築する時の挙動を見ていきます。  
 gcパッケージでは、ASTのノードを表現するための構造体`Node`が宣言されています。
