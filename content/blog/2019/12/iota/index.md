@@ -149,7 +149,7 @@ gcは、1つの.goファイルごとに1つの`noder`構造体を作成し、`sy
 [src/cmd/compile/internal/gc/typecheck.go](https://github.com/golang/go/blob/b7d097a4cf6b8a9125e4770b54d33826fa803023/src/cmd/compile/internal/gc/typecheck.go)
 1. ASTを解析し再構築  
 [src/cmd/compile/internal/gc/main.go](https://github.com/golang/go/blob/bf3ee57d27f7542808f8a153c7b547efaba355b0/src/cmd/compile/internal/gc/main.go)
-1. SSA形式へ変換する 
+1. SSA形式へ変換する  
 [src/cmd/compile/internal/gc/ssa.go](https://github.com/golang/go/blob/a037582efff56082631508b15b287494df6e9b69/src/cmd/compile/internal/gc/ssa.go)
 1. SSAを最適化する
 [src/cmd/compile/internal/ssa](https://github.com/golang/go/tree/a037582efff56082631508b15b287494df6e9b69/src/cmd/compile/internal/ssa)
