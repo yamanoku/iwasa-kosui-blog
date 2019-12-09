@@ -21,143 +21,69 @@ const (
 )
 ```
 
-そのことが気になった私は、[github.com/golang/go](https://github.com/golang/go)を読みながら、調べてみることにしました。
+そのことが気になった私は、`iota`がどのようにコンパイラによって扱われるかを調べてみることにしました。
 
-本記事は、以下を知ることを目的とします。
+## `iota` とは
 
-- iotaは字句として何に該当するのか
-- iotaが渡されたそれぞれの定数の値はいつどのように計算されるのか
-
-## 字句としての`iota`
-
-まず、 `iota` は字句として何に該当するのかについて考えます。
-
-### iotaは識別子である
-
-[golang.org/ref/spec](https://golang.org/ref/spec)によれば、Goにおける字句は以下の通りです。  
-この中で、`iota`は **識別子** に該当します。
-
-- **コメント (Comments)**  
-  ドキュメントを提供する
-- **セミコロン (Semicolons)**  
-  文の終端を表す
-- **トークン (Tokens)**  
-  - **識別子 (Identifiers)**  
-    変数・型・定数・関数などのプログラムの実体に対する名前
-    ```go
-    fuga := "hoge" // fugaは識別子
-    ```
-  - **キーワード (Keywords)**  
-    `break` や `func` など、予約済みのトークン
-  - **演算子と区切り文字 (Operators and punctuation)**  
-    `+` や `-` など
-  - **リテラル (Literals)**  
-    `100` や `"hoge"` など
-
-### iotaは事前宣言済み識別子であり、定数である
-
-また、`iota`は **事前宣言済み識別子** と呼ばれる特別な識別子であり、 **定数** です。
-
-事前宣言済み識別子の一覧:
-
-```plain
-型 (Types):
-  bool byte complex64 complex128 error float32 float64
-  int int8 int16 int32 int64 rune string
-  uint uint8 uint16 uint32 uint64 uintptr
-
-定数 (Constants):
-  true false iota
-
-ゼロ値 (Zero value):
-  nil
-
-関数 (Functions):
-  append cap close complex copy delete imag len
-  make new panic print println real recover
-```
-
-事前宣言済み識別子とは、すべてのGoのソースコードを含んでいる最上位のブロック **ユニバースブロック (universe block)** において宣言されている識別子です。
-
-事前宣言済み識別子は、事前に宣言されているだけであって、予約されているわけではありません。よって、`iota` を何か他の値を持つ定数として宣言することもできます。
+念の為、`iota`とは何か、おさらいしておきましょう。
+`iota` は、定数に整数の連番を割り振るために用意された仕組みです。
 
 ```go
+type Weekday int
+
 const (
-    a = iota // 10
-    b        // 10
-    c        // 10
+    Sunday Weekday = iota // 0
+    Monday                // 1
+    Tuesday               // 2
+    Wednesday             // 3
+    Thursday              // 4
+    Friday                // 5
+    Saturday              // 6
 )
 
 const (
-    iota = 10   // 10
-    d    = iota // 10
-    e           // 10
-    f           // 10
+    Shinjuku int = iota // 0    (iota=0)
+    Yoyogi              // 1    (iota=1)
+    Shibuya      = 999  // 999  (iota=2)
+    Harajuku            // 3    (iota=3)
 )
 
 const (
-    g float32 = iota // 10
-    h                // 10
-)
-```
-
-### `iota` は型なしの数値定数である
-
-`iota` は整数の連番を生成しますが、型を持ちません。Goでは、型を持たない定数の値は、以下の時に型が確定します。
-
-- 明示的に決定される
-  - 他の型あり定数の宣言に用いられる
-  - 型変換される
-  - など...
-- 暗黙的に決定される
-  - 変数の宣言に用いられる
-  - 演算に用いられる
-  - など...
-
-ただし、以下のように、正しくない型変換を行うことはできません。
-
-```go
-const (
-    a string = iota // cannot convert 0 (type untyped number) to type string
+    A, B = iota  // 0, 0
+    C, D, E      // 1, 1, 1
+    F, G, H, I   // 2, 2, 2, 2
+    J            // 3
 )
 ```
 
-## `iota` の値はいつどのように決定されるのか
+そして、`iota`は[事前宣言済み識別子であり、型なしの数値定数です](/posts/2019/12/iota-as-a-token)。
+なぜ`iota`は定数であるにも関わらず、0から始まる整数の連番を返し、別の`const`ではまた0から始まるのでしょうか。
 
-本章では、`iota`の値がいつどのように決定されるかを説明します。
+## 本題の前に、2つの前提
 
-また、そのために以下を前提知識として共有します。
+本章では、`iota`の値がいつどのように決定されるかを説明するために、以下を前提知識として共有します。
 
 * Goコンパイラ `gc` によるコンパイルの流れ
 * 「定数の宣言」の文法と各名称
 
-### Goコンパイラ `gc` によるコンパイルの流れ
+### 前提1: Goコンパイラ `gc` によるコンパイルの流れ
 
 どのタイミングで `iota` の値が計算されるかを知るためには、コンパイルの流れを知る必要があります。
 
-著名なGoのコンパイラの1つである`gc`は、大まかにいえば以下の手順に従ってコンパイルを行います。
+Goコンパイラ`gc`は、大まかにいえば以下の手順に従ってコンパイルを行います。
 
-1. Scan: ソースを字句リストへ分割  
-[src/cmd/compile/internal/syntax/scanner.go](https://github.com/golang/go/blob/cdd2c265cc132a15e20298fbb083a70d7f3b495d/src/cmd/compile/internal/syntax/scanner.go)  
-1. Parse: 字句リストを構文ツリーへ変換  
-[src/cmd/compile/internal/syntax/parser.go](https://github.com/golang/go/blob/cdd2c265cc132a15e20298fbb083a70d7f3b495d/src/cmd/compile/internal/syntax/parser.go)  
-gcは、1つの.goファイルごとに1つの`noder`構造体を作成し、`syntax`パッケージの構文解析関数`Parse`の結果を食わせる。この時、`syntax.Parse`関数の内部で呼び出された
-`fileOrNil`関数がファイル単位の構文解析を行い、必要に応じて`constDecl`、`importDecl`、`typeDecl`、`varDecl`、`funcDeclOrNil`を呼び出す。
-1. 構文ツリーからASTを構築  
-[src/cmd/compile/internal/gc/syntax.go](https://github.com/golang/go/blob/117400ec095335f24e5363f61d60f8baad6be3ce/src/cmd/compile/internal/gc/syntax.go)
-1. 型チェック  
-[src/cmd/compile/internal/gc/typecheck.go](https://github.com/golang/go/blob/b7d097a4cf6b8a9125e4770b54d33826fa803023/src/cmd/compile/internal/gc/typecheck.go)
-1. ASTを解析し再構築  
-[src/cmd/compile/internal/gc/main.go](https://github.com/golang/go/blob/bf3ee57d27f7542808f8a153c7b547efaba355b0/src/cmd/compile/internal/gc/main.go)
-1. SSA形式へ変換する  
-[src/cmd/compile/internal/gc/ssa.go](https://github.com/golang/go/blob/a037582efff56082631508b15b287494df6e9b69/src/cmd/compile/internal/gc/ssa.go)
-1. SSAを最適化する
-[src/cmd/compile/internal/ssa](https://github.com/golang/go/tree/a037582efff56082631508b15b287494df6e9b69/src/cmd/compile/internal/ssa)
-1. 機械語を生成
+1. `syntax`パッケージ  
+    1.1 ソースコードを字句リストへ分割  
+    1.2 字句リストを構文ツリーへ変換  
+1. `gc`パッケージ  
+    2.1 構文ツリーからAST  
+    2.2 型チェック  
+    2.3 SSA(中間表現)へ変換  
+1. `ssa`パッケージ  
+    3.1 SSAを最適化する  
+    3.2 機械語を生成  
 
-ソースコードを構文ツリーへと変換する部分は`syntax`パッケージが、構文ツリーからASTを構築し、SSAへ変換する部分は`gc`パッケージが、SSAを最適化する部分は`ssa`パッケージが担当しています。
-
-### 「定数の宣言」の文法と各名称
+### 前提2: 「定数の宣言」の文法と各名称
 
 本章では、以後の説明のために、「定数の宣言」の文法と各名称を示します。
 
@@ -214,10 +140,69 @@ ExpressionList = Expression { "," Expression } . // 式のリスト
 ">ConstSpec</rt></ruby>
 <span class="token punctuation">)</span></code></pre></div>
 
-### `iota`のインクリメントはASTの構築時に行われる
+## 「定数の宣言」がASTになるまで
 
-この章では、gcが`ConstDecl`のASTを構築する時の挙動を見ていきます。  
-gcパッケージでは、ASTのノードを表現するための構造体`Node`が宣言されています。
+### ソースコードが構文ツリーになるまで
+
+ここから、本題である「`iota`がどのようにコンパイラによって扱われるか」を解説します。
+
+結論からいえば、定数の宣言、つまりConstDeclおよびConstSpecが字句解析され、構文解析され、ASTへ変換される過程で、`iota`のカウンタがいつ0へリセットされるか、各定数に対してどんな値を返すかが決定されます。
+
+まず、`syntax`パッケージによって、ソースコードが構文ツリーへ変換されるようすを見てみましょう。
+
+<ol style="font-size: 14px;">
+<li style="margin: 0;"><code class="language-text">syntax</code>パッケージ<br>
+1.1 ソースコードを字句リストへ分割<br>
+1.2 字句リストを構文ツリーへ変換  </li>
+<li style="margin: 0; opacity: 0.3;"><code class="language-text">gc</code>パッケージ<br>
+2.1 構文ツリーからAST<br>
+2.2 型チェック<br>
+2.3 SSA(中間表現)へ変換  </li>
+<li style="margin: 0; opacity: 0.3"><code class="language-text">ssa</code>パッケージ<br>
+3.1 SSAを最適化する<br>
+3.2 機械語を生成  </li>
+</ol>
+
+まず、gcは、.goファイルごとに`syntax`パッケージの`Parse`関数を呼びます。
+呼び出された`Parse`関数は、字句解析をした後、これを構文ツリーへ変換するために`fileOrNil`関数を呼びます。
+`fileOrNil`関数は、以下の流れに従って処理を行います。
+
+1. File構造体を初期化する  
+   File構造体は、そのファイルで定義されているimport、const、var、typeそしてfuncの一覧を保持する`DeclList`フィールドを持つ
+1. パッケージ名を取得する
+1. import文にて指定されているパッケージの一覧を`importDecl`関数によって取得し、`DeclList`へ加える
+1. ファイルのトップレベルにある定数、変数、型そして関数の宣言を、それぞれ`constDecl`、`varDecl`、`typeDecl`、`funcDeclOrNil`によって、`Decl`インタフェースを持つ構造体`ConstDecl`、`VarDecl`、`TypeDecl`、`FuncDecl`へ変換されます。
+
+![syntaxパッケージにおける関数の呼び出し](./fileOrNil.png)
+
+`ConstDecl`構造体は「ConstDecl」という名前ではありますが、実際には先程の文法でいうConstSpecを表しています（不思議ですね）。
+また、`ConstDecl`構造体はGroupフィールドを持っていて、このGroupフィールドはそれぞれのConstSpecがどのConstDeclに属するかを保持します。たとえば、同じConstDeclの中で宣言されたConstSpecが`ConstDecl`構造体に変換された時、Groupフィールドの値が同じになります。そして、他のConstDeclの中で宣言されたConstSpecが変換された`ConstDecl`構造体とは、Groupフィールドの値が異なります。
+
+### 構文ツリーがASTになるまで
+
+次に、`gc`パッケージによって、構文ツリーがASTへ変換されるようすを見てみましょう。
+
+<ol style="font-size: 14px;">
+<li style="margin: 0; opacity: 0.3;"><code class="language-text">syntax</code>パッケージ<br>
+1.1 ソースコードを字句リストへ分割<br>
+1.2 字句リストを構文ツリーへ変換  </li>
+<li style="margin: 0;"><code class="language-text">gc</code>パッケージ<br>
+2.1 構文ツリーからAST<br>
+<span style="opacity: 0.3">2.2 型チェック</span><br>
+<span style="opacity: 0.3">2.3 SSA(中間表現)へ変換</span></li>
+<li style="margin: 0; opacity: 0.3"><code class="language-text">ssa</code>パッケージ<br>
+3.1 SSAを最適化する<br>
+3.2 機械語を生成  </li>
+</ol>
+
+`gc`パッケージは、`syntax`パッケージによって得られた`File`構造体を受け取り、`Node`構造体のツリーへ変換したのち、この木構造をたどって型チェックし、SSA(中間表現)へ変換します。
+
+そして、この`Node`構造体は、`Xoffset`という、色々な値を保存しておくためのフィールドを持っています。さらに、この`Xoffset`フィールドこそが`iota`の値を保持します。実際に、`gc`パッケージのソースコードの`Node`構造体を定義する部分を読むと、コメントに
+
+> Named OLITERALs use it to store their ambient iota value.
+> OCLOSURE uses it to store ambient iota value, if any.
+
+とあります。
 
 ```go
 type Node struct {
@@ -241,7 +226,7 @@ type Node struct {
     Xoffset int64
 ```
 
-また、`Node`をレシーバとする関数として、`SetIota` があります。これは、`Node`が持つ`Xoffset`という色々な値を突っ込んで良いプロパティに、`iota`の値を代入するというものです。つまり、ASTの各ノードの`iota`の値は`Node.Xoffset`が保持していることが分かります。
+また、`Node`構造体は`SetIota`関数を持ちます。この関数が`Node`構造体の`Xoffset`フィールドにiotaの値を代入しています。
 
 ```go
 func (n *Node) SetIota(x int64) {
@@ -249,9 +234,11 @@ func (n *Node) SetIota(x int64) {
 }
 ```
 
-そして、この`SetIota`は、`syntax`パッケージのASTを`Node`の木に変換する`noder`をレシーバとする関数`constDecl` から呼ばれています。
-
-<p style="margin-bottom: 1rem;"><code class="language-text">gc</code>パッケージの<code class="language-text">constDecl</code>関数(一部省略):</p>
+では、この`SetIota`関数は、どこから呼ばれるのでしょうか。
+答えは、`ConstDecl`構造体を`Node`構造体へ変換する、`constDecl`関数です。
+`constDecl`関数は、`ConstDecl`構造体へ変換されたConstSpecを引数に受け取り、これを`Node`のリストへ変換します。
+そして、ConstSpecが属するConstDeclが異なる場合、カウンタを0にリセットします。
+加えて、`Node`のリストへの変換が終わったあと、カウンタをインクリメントします。
 
 ```go
 type constState struct {
@@ -262,75 +249,33 @@ type constState struct {
 }
 
 func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
-    // Constのグループが変わったらConstの状態を作り直す
+    // 最後に処理したConstSpecと今処理しているConstSpecの
+    // Groupが異なる場合はiotaのカウンタをリセットする
     if decl.Group == nil || decl.Group != cs.group {
         *cs = constState{
             group: decl.Group,
         }
     }
 
-    // ConstSpecのIdentifierListが変換されたNodeリスト
+    // そのCountSpecにて宣言された定数名の一覧を取得する
     names := p.declNames(decl.NameList)
-    typ := p.typeExprOrNil(decl.Type)
-
-    // ConstSpecのExpressionListが変換されたNodeリスト
-    var values []*Node
-    if decl.Values != nil {
-        values = p.exprList(decl.Values)
-        cs.typ, cs.values = typ, values
-    } else {
-        if typ != nil {
-            yyerror("const declaration cannot have type without expression")
-        }
-        typ, values = cs.typ, cs.values
-    }
+    // ...
 
     nn := make([]*Node, 0, len(names))
     for i, n := range names {
-        v := values[i]
-
-        // ConstSpecの各Identifierのノードの
-        // initializing assignmentとして、対応するExpressionのノードを渡す
-        n.Name.Defn = v
-        // ConstSpecの各Identifierのノードにiotaの値をセットする
+        // ...
+        // iotaのカウンタ値をiota値として渡す
         n.SetIota(cs.iota)
 
         nn = append(nn, p.nod(decl, ODCLCONST, n, nil))
     }
-    cs.iota++ // iotaのカウンタをインクリメントする
+
+    // ...
+
+    // iotaのカウンタをインクリメントする
+    cs.iota++
 
     return nn
-}
-```
-
-これを見ると、どうやらこの関数はConstSpecをASTに変換する関数らしいことがわかります。そして、引数の`constState`はiotaのカウントを状態として持っているようです。
-
-実は、`constDecl`という名前がついた関数は`syntax`パッケージにもあります。
-この関数は、上の関数で `Node` のリストへ変換されていた `syntax.ConstDecl` を、字句リストから生成します。
-なぜConstSpecこのように、`syntax`パッケージと`gc`パッケージを見比べることで、構文解析からAST生成までの道のりが少し追いやすくなりました。
-
-<p style="margin-bottom: 1rem;"><code class="language-text">syntax</code>パッケージの<code class="language-text">constDecl</code>関数(一部省略):</p>
-
-```go
-// ConstSpec = IdentifierList [ [ Type ] "=" ExpressionList ] .
-func (p *parser) constDecl(group *Group) Decl {
-    if trace {
-        defer p.trace("constDecl")()
-    }
-
-    d := new(ConstDecl)
-    d.pos = p.pos()
-
-    d.NameList = p.nameList(p.name())
-    if p.tok != _EOF && p.tok != _Semi && p.tok != _Rparen {
-        d.Type = p.typeOrNil()
-        if p.gotAssign() {
-            d.Values = p.exprList()
-        }
-    }
-    d.Group = group
-
-    return d
 }
 ```
 

@@ -4,11 +4,9 @@
 }
 
 .post h2:before {
-  content: '';
+  content: '#';
   display: block;
-  width: 6px;
   height: 1em;
-  background: black;
   margin-right: 12px;
 }
 
@@ -18,11 +16,9 @@
 }
 
 .post h3:before {
-  content: '';
+  content: '##';
   display: block;
-  width: 3px;
   height: 1em;
-  background: black;
   margin-right: 13px;
 }
 
@@ -68,6 +64,16 @@
   border-left: 0.25em solid #4fe374;
 }
 
+.post :not(pre) > code[class*="language-"] {
+    padding: .2rem .3rem;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
 .post .token.comment,
 .post .token.prolog,
 .post .token.doctype,
@@ -83,9 +89,14 @@
   background: #f9f9f9;
 }
 
-.post img {
+.post figure {
   border: 1px solid #ddd;
   margin-bottom: 1rem;
+}
+
+.post figcaption {
+  text-align: center;
+  font-weight: bold;
 }
 
 .post blockquote {

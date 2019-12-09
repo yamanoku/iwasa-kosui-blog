@@ -10,6 +10,15 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [
+          `Fira Code`,
+        ],
+        display: 'swap'
+      }
+    },
+    {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
         siteUrl: `https://www.uniuniunicode.com`,
