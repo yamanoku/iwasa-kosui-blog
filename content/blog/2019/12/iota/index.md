@@ -140,7 +140,7 @@ const (
 1. Scan: ソースを字句リストへ分割  
 [src/cmd/compile/internal/syntax/scanner.go](https://github.com/golang/go/blob/cdd2c265cc132a15e20298fbb083a70d7f3b495d/src/cmd/compile/internal/syntax/scanner.go)  
 1. Parse: 字句リストを構文ツリーへ変換  
-[src/cmd/compile/internal/syntax/parser.go](https://github.com/golang/go/blob/)  
+[src/cmd/compile/internal/syntax/parser.go](https://github.com/golang/go/blob/cdd2c265cc132a15e20298fbb083a70d7f3b495d/src/cmd/compile/internal/syntax/parser.go)  
 gcは、1つの.goファイルごとに1つの`noder`構造体を作成し、`syntax`パッケージの構文解析関数`Parse`の結果を食わせる。この時、`syntax.Parse`関数の内部で呼び出された
 `fileOrNil`関数がファイル単位の構文解析を行い、必要に応じて`constDecl`、`importDecl`、`typeDecl`、`varDecl`、`funcDeclOrNil`を呼び出す。
 1. 構文ツリーからASTを構築  
