@@ -18,7 +18,7 @@ const HeaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: white;
+  background: none;
   margin-bottom: ${rhythm(goldRatio)};
 
   @media (max-width: 768px) {

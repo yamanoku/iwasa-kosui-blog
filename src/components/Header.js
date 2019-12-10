@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
+import { FaRss, FaTwitter, FaGithub } from 'react-icons/fa'
 
-import icon from './icon.png'
-import logo from './uniuniunicode.svg'
+import logo from './logo.png'
 
 const H1 = styled.h1`
   margin: 0;
@@ -21,6 +21,16 @@ const Logo = styled.img`
   width: 300px;
 `
 
+const IconContainer = styled.div`
+  box-shadow: none;
+  position: absolute;
+  bottom: -14px;
+  right: 0px;
+  @media (max-width: 768px) {
+    bottom: -50px;
+  }
+`
+
 class Header extends React.Component {
   render() {
     return (
@@ -28,58 +38,76 @@ class Header extends React.Component {
         style={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
         }}
       >
+        <Link to="/">
+          <Logo src={logo} />
+        </Link>
         <div
           style={{
-            width: 72,
-            height: 72,
-            marginRight: 16,
-            borderRadius: '50%',
-            background: `url(${icon})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
+            height: 20,
+            marginBottom: 5,
+            display: 'flex',
+            position: 'relative',
+            justifyContent: 'center',
+            width: '100%',
           }}
-        />
-        <div>
-          <Link to="/">
-            <Logo src={logo} />
-          </Link>
-          <div
+        >
+          <Link
+            to="/"
             style={{
-              height: 20,
-              marginBottom: 5,
-              display: 'flex',
+              boxShadow: 'none',
+              margin: '0 1rem',
+              color: '#333',
             }}
           >
-            <Link
-              to="/"
-              style={{
-                boxShadow: 'none',
-              }}
-            >
-              <b>記事</b>
-            </Link>
-            &nbsp; / &nbsp;
-            <Link
-              to="/aboutme"
-              style={{
-                boxShadow: 'none',
-              }}
-            >
-              <b>自己紹介</b>
-            </Link>
-            &nbsp; / &nbsp;
+            <b>ブログ</b>
+          </Link>
+          <Link
+            to="/aboutme"
+            style={{
+              boxShadow: 'none',
+              margin: '0 1rem',
+              color: '#333',
+            }}
+          >
+            <b>自己紹介</b>
+          </Link>
+          <IconContainer>
             <a
               href="/rss.xml"
               style={{
-                boxShadow: 'none',
+                color: '#333',
+                margin: '0 8px',
               }}
             >
-              <b>RSS</b>
+              <FaRss />
             </a>
-          </div>
+            <a
+              href="https://twitter.com/uniuniunicode"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#333',
+                margin: '0 8px',
+              }}
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="https://github.com/uniuniunicode"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#333',
+                margin: '0 8px',
+              }}
+            >
+              <FaGithub />
+            </a>
+          </IconContainer>
         </div>
       </div>
     )
