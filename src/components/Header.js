@@ -26,7 +26,7 @@ const IconContainer = styled.div`
   position: absolute;
   bottom: -14px;
   right: 0px;
-  @media (max-width: 768px) {
+  @media (max-width: 375px) {
     bottom: -50px;
   }
 `
