@@ -38,7 +38,6 @@ class NotFoundPage extends React.Component {
         <SEO title="私について" />
         <h2>私について</h2>
         岩佐幸翠と申します。 25歳の男性で、東京都に在住しています。
-        Vue.jsWebフロントエンド
         <div>
           <a href="https://twitter.com/uniuniunicode">
             <FaTwitter style={{ marginRight: 8 }} />
