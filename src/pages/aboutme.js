@@ -13,6 +13,9 @@ const OGPCard = styled.a`
   @media (max-width: 768px) {
     display: block;
   }
+  :hover {
+    text-decoration: none;
+  }
 `
 
 const OGPCardImage = styled.div`
@@ -33,38 +36,116 @@ class NotFoundPage extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="私について" />
-        <h2>概略</h2>
-        <a href="https://twitter.com/uniuniunicode"><FaTwitter /></a>
-        &nbsp;
-        <a href="https://github.com/uniuniunicode"><FaGithub /></a>
-        &nbsp;
-        岩佐幸翠 / Kosui Iwasa
-        <h2>やったこと</h2>
+        <h2>私について</h2>
+        岩佐幸翠と申します。 25歳の男性で、東京都に在住しています。
+        Vue.jsWebフロントエンド
+        <div>
+          <a href="https://twitter.com/uniuniunicode">
+            <FaTwitter style={{ marginRight: 8 }} />
+            uniuniunicode
+          </a>
+        </div>
+        <div>
+          <a href="https://github.com/uniuniunicode">
+            <FaGithub style={{ marginRight: 8 }} />
+            uniuniunicode
+          </a>
+        </div>
+        <h2>職歴</h2>
+        <ul>
+          <li>
+            2019/04 - 現在
+            <br />
+            株式会社ディー・エヌ・エー (DeNA Co., Ltd.)
+            <br />
+            <a href="https://m-o-v.jp/">タクシー配車アプリ「MOV」</a>
+            がタクシー事業者様向けに提供する業務管理システムの開発チームにて、設計・開発および運用改善を行っています。
+            <br />
+            利用技術: Go, Vue.js, TypeScript, GAE, Cloud SQL, Stackdriver,
+            CircleCIなど
+          </li>
+          <li>
+            2018/10 - 2019/03
+            <br />
+            matsuri technologies株式会社
+            <br />
+            アルバイトとして、民泊管理業者向けの業務管理システムなどの設計・開発を行いました。
+            <br />
+            利用技術: Go, React, Kotlin(サーバサイド), EC2など
+          </li>
+          <li>
+            2017/10 - 2018/10
+            <br />
+            株式会社ドリコム
+            <br />
+            アルバイトとして、DAppsアプリケーションの設計・開発を行いました。
+            また、強化学習を用いた製品の実証実験や、画像認識技術を用いた製品の実証実験を行いました。
+            <br />
+            利用技術: Ruby, React, Drizzle, EC2, S3など
+          </li>
+          <li>
+            2014/11 - 2017/05
+            <br />
+            マッチングッド株式会社
+            <br />
+            アルバイトとして、人材派遣・人材紹介・採用管理システムの設計・開発を行いました。
+            <br />
+            利用技術: PHP, MySQL, Smartyなど
+          </li>
+        </ul>
+        <h2>学歴</h2>
+        <ul>
+          <li>
+            2017/04 - 2019/03
+            <br />
+            東京農工大学大学院 工学府 情報工学専攻 (Tokyo University of
+            Agriculture and Technology Graduate School Faculty of Engineering
+            Information Engineering)
+          </li>
+          <li>
+            2013/04 - 2017/03
+            <br />
+            東京農工大学 工学部 情報工学科 (Tokyo University of Agriculture and
+            Technology Faculty of Engineering)
+          </li>
+        </ul>
+        <h2>ジョークプロダクト</h2>
         <h3>
           <a href="https://chrome.google.com/webstore/detail/twitter-icon-rotator/khkdnpcopeccjcnpmlfmnjmfnfhfnpgh">
             Twitter Icon Rotator Chrome Extension
           </a>
         </h3>
         <p>
-          Twitter上に表示されたアイコンを回転させるだけの、無意味なGoogle Chrome 拡張機能です。
+          Twitter上に表示されたアイコンを回転させるだけの、無意味なGoogle Chrome
+          拡張機能です。
         </p>
-        <iframe src="https://www.youtube.com/embed/6AUQeDeXWQg" style={{ width: "100%", minHeight: "400px" }} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
-        <h4>各メディアにて掲載されました</h4>
-        <OGPCard>
-          <OGPCardImage style={{ backgroundImage: "url(https://image.itmedia.co.jp/nl/articles/1710/26/l_kutsu_171026rotate01.jpg)" }} />
-          <div style={{ padding: "8px 16px", background: "#f2f3f5" }}>
-            <div style={{ color: "#666" }}>ねとらぼ</div>
-            <div style={{ color: "#333", fontWeight: "bold" }}>
-              Twitterのアイコンを回転させたい人に朗報　Twitterのアイコンを回転させるChrome拡張が登場 - ねとらぼ
+        <OGPCard href="https://nlab.itmedia.co.jp/nl/articles/1710/26/news084.html">
+          <OGPCardImage
+            style={{
+              backgroundImage:
+                'url(https://image.itmedia.co.jp/nl/articles/1710/26/l_kutsu_171026rotate01.jpg)',
+            }}
+          />
+          <div style={{ padding: '8px 16px', background: '#f2f3f5' }}>
+            <div style={{ color: '#666', fontWeight: 'bold' }}>ねとらぼ</div>
+            <div style={{ color: '#333', fontWeight: 'bold' }}>
+              Twitterのアイコンを回転させたい人に朗報　Twitterのアイコンを回転させるChrome拡張が登場
+              - ねとらぼ
             </div>
           </div>
         </OGPCard>
-        <OGPCard>
-          <OGPCardImage style={{ backgroundImage: "url(https://forest.watch.impress.co.jp/img/wf/list/1088/039/image1.jpg)" }} />
-          <div style={{ padding: "8px 16px", background: "#f2f3f5" }}>
-            <div style={{ color: "#666" }}>窓の社</div>
-            <div style={{ color: "#333", fontWeight: "bold" }}>
-              “Twitter”のアイコンがぐるぐる回るだけのGoogle Chrome拡張機能が静かなブーム？ - 窓の社
+        <OGPCard href="https://forest.watch.impress.co.jp/docs/serial/yajiuma/1088039.html">
+          <OGPCardImage
+            style={{
+              backgroundImage:
+                'url(https://forest.watch.impress.co.jp/img/wf/list/1088/039/image1.jpg)',
+            }}
+          />
+          <div style={{ padding: '8px 16px', background: '#f2f3f5' }}>
+            <div style={{ color: '#666' }}>窓の社</div>
+            <div style={{ color: '#333', fontWeight: 'bold' }}>
+              “Twitter”のアイコンがぐるぐる回るだけのGoogle
+              Chrome拡張機能が静かなブーム？ - 窓の社
             </div>
           </div>
         </OGPCard>
@@ -74,10 +155,11 @@ class NotFoundPage extends React.Component {
             就活生神経衰弱
           </a>
         </h3>
-        <p>
-          就活で病んだ時に作りました。
-        </p>
-        <img src="https://pbs.twimg.com/media/D3KXT_RUEAAD-dZ?format=jpg&name=small" style={{ maxWidth: 300 }} />
+        <p>就活で病んだ時に作りました。</p>
+        <img
+          src="https://pbs.twimg.com/media/D3KXT_RUEAAD-dZ?format=jpg&name=small"
+          style={{ maxWidth: 200, width: 200 }}
+        />
         <br />
         <h2>論文</h2>
         <ul>
@@ -100,45 +182,18 @@ class NotFoundPage extends React.Component {
           <li>
             <b>
               <a href="https://edofrank.github.io/papers/WWW2019.pdf">
-                Can You Give Me a Reason?: Argument-inducing Online Forum by Argument Mining
+                Can You Give Me a Reason?: Argument-inducing Online Forum by
+                Argument Mining
               </a>
             </b>
             <br />
             Makiko Ida, Gaku Morio, Kosui Iwasa, Tomoyuki Tatsumi, Takaki Yasui
             and Katsuhide Fujita
             <br />
-            To appear in Companion Proceedings of the The Web Conference 2019, WWW ’19, demonstration track, San Francisco.
+            To appear in Companion Proceedings of the The Web Conference 2019,
+            WWW ’19, demonstration track, San Francisco.
             <br />
             Web上の議論フォーラムにおける前提・意見の依存関係を推定した上で、これを活用し、前提が不十分に示されていない投稿などに対して自動で問いかけを行う研究
-          </li>
-        </ul>
-        <h2>職歴</h2>
-        <ul>
-          <li>
-            2019/04 -
-            <br />
-            株式会社ディー・エヌ・エー
-            <br />
-            DeNA Co., Ltd.
-          </li>
-        </ul>
-        <h2>学歴</h2>
-        <ul>
-          <li>
-            2013/04 - 2017/03
-            <br />
-            東京農工大学 工学部 情報工学科
-            <br />
-            Tokyo University of Agriculture and Technology Faculty of
-            Engineering
-          </li>
-          <li>
-            2017/04 - 2019/03
-            <br />
-            東京農工大学大学院 工学府 情報工学専攻
-            <br />
-            Tokyo University of Agriculture and Technology Graduate School
-            Faculty of Engineering Information Engineering
           </li>
         </ul>
       </Layout>
