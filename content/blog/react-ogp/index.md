@@ -48,7 +48,7 @@ Prerender.io は、JS でレンダリングされる Web ページを、Javascri
 ```nginx
 server {
     listen       80;
-    server_name  www.uniuniunicode.com;
+    server_name  www.ebiebievidence.com;
 
     location / {
         root   /path/to/your/root;
@@ -78,7 +78,7 @@ server {
 ```
 
 OGP を設定したい Web ページは、ブログ記事などに限られているため、それらについて Web ページごとに `ogp.html` を生成しました。
-以下は、[Atom で React を書くとタブ一覧が index.tsx だらけで見づらくないですか？ - uniuniunicode.com](https://www.uniuniunicode.com/posts/atom-nice-index/)の `ogp.html`です。
+以下は、[Atom で React を書くとタブ一覧が index.tsx だらけで見づらくないですか？ - ebiebievidence.com](https://www.ebiebievidence.com/posts/atom-nice-index/)の `ogp.html`です。
 なお、`<body />`の中身はどうせ OGP クローラ以外は見ないので、適当で構いません。何なら空でいいです。
 
 ```html
@@ -88,14 +88,14 @@ OGP を設定したい Web ページは、ブログ記事などに限られて�
     <meta charset="utf-8" />
     <title>
       AtomでReactを書くとタブ一覧がindex.tsxだらけで見づらくないですか？ -
-      uniuniunicode.com
+      ebiebievidence.com
     </title>
     <meta property="og:type" content="article" />
     <meta
       property="og:url"
-      content="https://www.uniuniunicode.com/posts/atom-nice-index/"
+      content="https://www.ebiebievidence.com/posts/atom-nice-index/"
     />
-    <meta property="og:site_name" content="uniuniunicode.com" />
+    <meta property="og:site_name" content="ebiebievidence.com" />
     <meta name="twitter:card" content="summary" />
     <meta
       property="og:title"
@@ -133,4 +133,4 @@ OGP を設定したい Web ページは、ブログ記事などに限られて�
 ## 終わりに
 
 正直、あまりベストプラクティスという感じではありません。  
-[よりよい方法を募集](https://twitter.com/uniuniunicode)しています！
+[よりよい方法を募集](https://twitter.com/ebiebievidence)しています！

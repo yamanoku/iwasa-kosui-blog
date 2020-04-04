@@ -46,7 +46,7 @@ class BlogPostTemplate extends React.Component {
           <meta property="og:image" content={avatarUrl} />
           <meta property="og:site_name" content={siteTitle} />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@uniuniunicode" />
+          <meta name="twitter:site" content="@ebiebievidence" />
         </Helmet>
         <h1 style={{ marginBottom: 0 }}>{post.frontmatter.title}</h1>
         <div
@@ -71,7 +71,7 @@ class BlogPostTemplate extends React.Component {
             </FacebookShareButton>
             <TwitterShareButton
               title={post.frontmatter.title}
-              via="uniuniunicode"
+              via="ebiebievidence"
               url={postUrl}
             >
               <TwitterIcon size={32} round />
@@ -106,14 +106,14 @@ class BlogPostTemplate extends React.Component {
           <p>
             岩佐 幸翠
             <a
-              href="https://twitter.com/uniuniunicode"
+              href="https://twitter.com/ebiebievidence"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaTwitter />
             </a>
             <a
-              href="https://github.com/uniuniunicode"
+              href="https://github.com/iwasa-kosui"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -138,7 +138,7 @@ class BlogPostTemplate extends React.Component {
           </FacebookShareButton>
           <TwitterShareButton
             title={post.frontmatter.title}
-            via="uniuniunicode"
+            via="ebiebievidence"
             url={postUrl}
           >
             <TwitterIcon size={32} round />

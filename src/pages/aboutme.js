@@ -39,15 +39,15 @@ class NotFoundPage extends React.Component {
         <h2>私について</h2>
         岩佐幸翠と申します。 25歳の男性で、東京都に在住しています。
         <div>
-          <a href="https://twitter.com/uniuniunicode">
+          <a href="https://twitter.com/ebiebievidence">
             <FaTwitter style={{ marginRight: 8 }} />
-            uniuniunicode
+            ebiebievidence
           </a>
         </div>
         <div>
-          <a href="https://github.com/uniuniunicode">
+          <a href="https://github.com/ebiebievidence">
             <FaGithub style={{ marginRight: 8 }} />
-            uniuniunicode
+            ebiebievidence
           </a>
         </div>
         <h2>職歴</h2>
@@ -150,7 +150,7 @@ class NotFoundPage extends React.Component {
         </OGPCard>
         <hr />
         <h3>
-          <a href="https://uniuniunicode-shukatsu.netlify.com">
+          <a href="https://ebiebievidence-shukatsu.netlify.com">
             就活生神経衰弱
           </a>
         </h3>

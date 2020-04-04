@@ -61,14 +61,14 @@ const Header = () => (
           <FaRss />
         </IconLink>
         <IconLink
-          href="https://twitter.com/uniuniunicode"
+          href="https://twitter.com/ebiebievidence"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaTwitter />
         </IconLink>
         <IconLink
-          href="https://github.com/uniuniunicode"
+          href="https://github.com/ebiebievidence"
           target="_blank"
           rel="noopener noreferrer"
         >

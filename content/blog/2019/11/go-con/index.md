@@ -1,7 +1,7 @@
 ---
 title: '私が Go Conference 2019 Autumn から得た学び'
 date: '2019-11-06T00:54:00+09:00'
-image: 'https://raw.githubusercontent.com/uniuniunicode/blog/master/content/blog/2019/11/go-con/index.png'
+image: 'https://raw.githubusercontent.com/ebiebievidence/blog/master/content/blog/2019/11/go-con/index.png'
 desc: '個人的に特に学びが深かったセッションを紹介します'
 keywords: 'Go,Golang,Go Conference,GoCon'
 ---

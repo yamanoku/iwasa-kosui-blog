@@ -2,7 +2,7 @@
 title: 'macOSのSlack DesktopでDevToolsを開かずにWYSIWYGを無効化する'
 date: '2019-11-23T00:35:00+09:00'
 desc: ''
-image: 'https://www.uniuniunicode.com/icon.png'
+image: 'https://www.ebiebievidence.com/icon.png'
 keywords: 'Slack'
 ---
 

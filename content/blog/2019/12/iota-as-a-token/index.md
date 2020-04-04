@@ -2,7 +2,7 @@
 title: '字句としてのiota'
 date: '2019-12-09T00:00:00+09:00'
 desc: ''
-image: 'https://www.uniuniunicode.com/icon.png'
+image: 'https://www.ebiebievidence.com/icon.png'
 keywords: 'Golang, golang, go, iota'
 ---
 

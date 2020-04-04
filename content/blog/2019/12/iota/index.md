@@ -2,7 +2,7 @@
 title: 'dive into iota: iotaはいつ誰が管理しているのか？'
 date: '2019-12-09T00:00:00+09:00'
 desc: ''
-image: 'https://www.uniuniunicode.com/icon.png'
+image: 'https://www.ebiebievidence.com/icon.png'
 keywords: 'Golang, golang, go, iota'
 ---
 
@@ -282,7 +282,7 @@ func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
 ### まとめ
 
 以上より、`iota` の値は 構文解析の結果からASTが生成される時に、`noder.constDecl`関数によって決定されるものかと思われます。  
-本記事に間違いがございましたら、[Twitter](https://twitter.com/uniuniunicode)のリプライにてお知らせ下さると幸いです。
+本記事に間違いがございましたら、[Twitter](https://twitter.com/ebiebievidence)のリプライにてお知らせ下さると幸いです。
 拙い記事ですが、ここまでお付き合い頂きありがとうございました。
 
 ## 参考記事
