@@ -45,9 +45,9 @@ class NotFoundPage extends React.Component {
           </a>
         </div>
         <div>
-          <a href="https://github.com/ebiebievidence">
+          <a href="https://github.com/iwasa-kosui">
             <FaGithub style={{ marginRight: 8 }} />
-            ebiebievidence
+            iwasa-kosui
           </a>
         </div>
         <h2>職歴</h2>
@@ -56,9 +56,6 @@ class NotFoundPage extends React.Component {
             2019/04 - 現在
             <br />
             株式会社ディー・エヌ・エー (DeNA Co., Ltd.)
-            <br />
-            <a href="https://m-o-v.jp/">タクシー配車アプリ「MOV」</a>
-            がタクシー事業者様向けに提供する業務管理システムの開発チームにて、設計・開発および運用改善を行っています。
             <br />
             利用技術: Go, Vue.js, TypeScript, GAE, Cloud SQL, Stackdriver,
             CircleCIなど
