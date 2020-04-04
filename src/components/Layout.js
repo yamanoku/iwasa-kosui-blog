@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import styled from 'styled-components'
 
 import { rhythm, scale } from '../utils/typography'
@@ -51,6 +52,9 @@ class Layout extends React.Component {
     const { children } = this.props
     return (
       <Container>
+        <Helmet>
+          <link rel="author" href="http://www.hatena.ne.jp/ebiebievidence/" />
+        </Helmet>
         <HeaderWrapper>
           <HeaderInnerWrapper>
             <Header />
