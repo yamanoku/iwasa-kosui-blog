@@ -53,7 +53,7 @@ class Layout extends React.Component {
     return (
       <Container>
         <Helmet>
-          <link rel="author" href="http://www.hatena.ne.jp/ebiebievidence/" />
+          <link rel="author" href="https://www.hatena.ne.jp/ebiebievidence/" />
         </Helmet>
         <HeaderWrapper>
           <HeaderInnerWrapper>
