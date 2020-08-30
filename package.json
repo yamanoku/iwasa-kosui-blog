@@ -47,7 +47,7 @@
     "typeface-montserrat": "0.0.43",
     "typography": "^0.16.19",
     "typography-theme-wordpress-2016": "^0.15.10",
-    "snyk": "^1.342.2"
+    "snyk": "^1.386.0"
   },
   "devDependencies": {
     "graphql-playground-html": "^1.6.25",
