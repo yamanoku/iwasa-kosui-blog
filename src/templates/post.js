@@ -24,7 +24,7 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     const siteUrl = this.props.data.site.siteMetadata.siteUrl
     const postUrl = `${siteUrl}${post.fields.path}`
-    const avatarUrl = post.frontmatter.image
+    const ogImage = post.frontmatter.image
       ? post.frontmatter.image
       : `${siteUrl}${this.props.data.avatar.childImageSharp.fixed.src}`
     const { previous, next } = this.props.pageContext
@@ -43,7 +43,7 @@ class BlogPostTemplate extends React.Component {
             content={post.frontmatter.description}
           />
           <meta property="og:url" content={postUrl} />
-          <meta property="og:image" content={avatarUrl} />
+          <meta property="og:image" content={ogImage} />
           <meta property="og:site_name" content={siteTitle} />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@ebiebievidence" />
