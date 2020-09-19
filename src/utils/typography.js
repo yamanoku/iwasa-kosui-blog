@@ -10,8 +10,10 @@ const fontFamily = [
   'Roboto',
   'Helvetica Neue',
   'Droid Sans',
+  'Hiragino Sans',
   'ヒラギノ角ゴ Pro W3',
   'Hiragino Kaku Gothic Pro',
+  'ヒラギノ角ゴシック',
   'メイリオ',
   'Meiryo',
   'Osaka',
@@ -59,6 +61,10 @@ const typography = new Typography({
     },
     ul: {
       listStyle: 'disc',
+    },
+    'li, li > p, li > ul': {
+      marginBottom: 0,
+      marginTop: 0,
     },
     [MOBILE_MEDIA_QUERY]: {
       'ul,ol': {
