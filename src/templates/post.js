@@ -16,7 +16,6 @@ import {
 } from 'react-share'
 import Helmet from 'react-helmet'
 import HatenaShareButton from '../components/HatenaShareButton'
-import Bio from '../components/Bio'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -120,7 +119,8 @@ class BlogPostTemplate extends React.Component {
               <FaGithub />
             </a>
             <br />
-            2019年4月に株式会社ディー・エヌ・エーへ新卒として入社し、GoとVue.jsを書いています。
+            株式会社ディー・エヌ・エー 2019年新卒入社
+            <br />
             <b>
               <Link to="/aboutme">もっと詳しく</Link>
             </b>
