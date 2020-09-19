@@ -12,6 +12,11 @@ image: 'https://raw.githubusercontent.com/ebiebievidence/blog/master/content/blo
 とても楽しい問題でしたが、無残にも敗れ去りました。  
 来年に向け、事前準備および当日にやったことを振り返ります。
 
+## 記録
+
+「ここにチーム名を入れる」というチーム名で [@genya0407](https://twitter.com/genya0407) と出場。   
+Go 実装を使用し、結果は 1300 点でした。
+
 ## メンバー
 
 - [@ebiebievidence](https://twitter.com/ebiebievidence) (私)
