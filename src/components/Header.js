@@ -3,8 +3,6 @@ import { Link } from 'gatsby'
 import styled from 'styled-components'
 import { FaRss, FaTwitter, FaGithub } from 'react-icons/fa'
 
-import logo from './logo.png'
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -43,15 +41,17 @@ const IconLink = styled.a`
   color: #333;
 `
 
-const Logo = styled.img`
+const Title = styled.span`
   margin-bottom: 0;
-  width: 300px;
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
 `
 
 const Header = () => (
   <Container>
     <Link to="/">
-      <Logo src={logo} />
+      <Title>ebiebievidence.com</Title>
     </Link>
     <MenuContainer>
       <MenuLink to="/">ブログ</MenuLink>
