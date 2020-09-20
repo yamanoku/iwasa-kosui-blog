@@ -1,108 +1,148 @@
-.post h2 {
-  margin-left: -18px;
-  display: flex;
+.post h2,
+.post h3,
+.post h4
+{
+    display: flex;
+
+    margin-left: -38px;
 }
 
-.post h2:before {
-  content: '#';
-  display: block;
-  height: 1em;
-  margin-right: 12px;
+
+.post h2:before,
+.post h3:before,
+.post h4:before
+{
+    display: block;
+
+    width: 30px;
+    height: 1em;
+    margin-right: 8px;
+
+    text-align: right;
 }
 
-.post h3 {
-  margin-left: -18px;
-  display: flex;
+.post h2:before
+{
+    content: '#';
 }
 
-.post h3:before {
-  content: '##';
-  display: block;
-  height: 1em;
-  margin-right: 13px;
+.post h3:before
+{
+    content: '##';
 }
 
-.gatsby-highlight-code-line {
-  display: block;
+.post h4:before
+{
+    content: '###';
 }
 
-.line-highlight {
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding: inherit 0;
-  margin-top: 1em;
-  pointer-events: none;
-  line-height: inherit;
-  white-space: pre;
+
+.gatsby-highlight-code-line
+{
+    display: block;
 }
 
-.gatsby-highlight {
-  border-radius: 0.3em;
-  margin-bottom: 1rem;
-  margin-top: -0.958rem;
-  padding: 8px;
-  overflow: auto;
-  border: 1px solid #dddddd;
-  background: #ffffff;
+.line-highlight
+{
+    line-height: inherit;
+
+    position: absolute;
+    right: 0;
+    left: 0;
+
+    margin-top: 1em;
+    padding: inherit 0;
+
+    white-space: pre;
+    pointer-events: none;
 }
 
-.gatsby-highlight pre[class*='language-'] {
-  margin: 0;
-  padding: 0;
-  overflow: initial;
-  float: left; /* 1 */
-  min-width: 100%; /* 2 */
+.gatsby-highlight
+{
+    overflow: auto;
+
+    margin-top: -.958rem;
+    margin-bottom: 1rem;
+    padding: 8px;
+
+    border: 1px solid #ddd;
+    border-radius: .3em;
+    background: #fff;
 }
 
-.gatsby-highlight-code-line {
-  display: block;
-  margin-right: -1em;
-  margin-left: -1em;
-  padding-right: 1em;
-  padding-left: 0.75em;
-  border-left: 0.25em solid #4fe374;
+.gatsby-highlight pre[class*='language-']
+{
+    float: left; /* 1 */
+    overflow: initial;
+
+    min-width: 100%; /* 2 */
+    margin: 0;
+    padding: 0;
 }
 
-.post :not(pre) > code[class*="language-"] {
+.gatsby-highlight-code-line
+{
+    display: block;
+
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: .75em;
+
+    border-left: .25em solid #4fe374;
+}
+
+.post :not(pre) > code[class*='language-']
+{
+    margin: 0 2px;
     padding: .2rem .3rem;
     padding-top: 1px;
     padding-bottom: 1px;
-    background: #f0f0f0;
+
     border: none;
     border-radius: 4px;
-    margin: 0 2px;
+    background: #f0f0f0;
 }
 
 .post .token.comment,
 .post .token.prolog,
 .post .token.doctype,
-.post .token.cdata {
+.post .token.cdata
+{
     font-style: normal;
 }
 
-.post .gatsby-highlight {
-  background: #f9f9f9;
+.post .gatsby-highlight
+{
+    background: #f9f9f9;
 }
 
-.post .gatsby-highlight pre {
-  background: #f9f9f9;
+.post .gatsby-highlight pre
+{
+    background: #f9f9f9;
 }
 
-.post figure {
-  border: 1px solid #ddd;
-  margin-bottom: 1rem;
+.post figure
+{
+    margin-bottom: 1rem;
+
+    border: 1px solid #ddd;
 }
 
-.post figcaption {
-  text-align: center;
-  font-weight: bold;
+.post figcaption
+{
+    font-weight: bold;
+
+    text-align: center;
 }
 
-.post blockquote {
-  margin-left: -18px;
+.post blockquote
+{
+    margin-left: -18px;
 }
 
-.post ul, .post ol {
-  margin-left: 20px;
+.post ul,
+.post ol
+{
+    margin-left: 20px;
 }
