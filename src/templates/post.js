@@ -119,14 +119,13 @@ class BlogPostTemplate extends React.Component {
               <FaGithub />
             </a>
             <br />
-            株式会社ディー・エヌ・エー 2019年新卒入社
+            DeNA 2019年新卒入社
             <br />
             <b>
               <Link to="/aboutme">もっと詳しく</Link>
             </b>
           </p>
         </div>
-        <div>よかったらこの記事をシェアしてください:</div>
         <div
           style={{
             display: 'flex',
