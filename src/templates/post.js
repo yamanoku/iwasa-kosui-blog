@@ -44,7 +44,7 @@ class BlogPostTemplate extends React.Component {
           <meta property="og:url" content={postUrl} />
           <meta property="og:image" content={ogImage} />
           <meta property="og:site_name" content={siteTitle} />
-          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@ebiebievidence" />
         </Helmet>
         <h1 style={{ marginBottom: 0 }}>{post.frontmatter.title}</h1>
