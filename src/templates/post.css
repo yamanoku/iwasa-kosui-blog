@@ -1,16 +1,8 @@
-.post h2,
-.post h3,
-.post h4
-{
-    display: flex;
-}
-
-
 .post h2:before,
 .post h3:before,
 .post h4:before
 {
-    display: block;
+    display: inline;
 
     width: 30px;
     height: 1em;
