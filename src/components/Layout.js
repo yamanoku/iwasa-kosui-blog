@@ -61,7 +61,7 @@ class Layout extends React.Component {
           </HeaderInnerWrapper>
         </HeaderWrapper>
         <Content>{children}</Content>
-        <footer style={{ textAlign: 'center' }}>
+        <footer style={{ textAlign: 'center', padding: '8px 32px' }}>
           © {new Date().getFullYear()} Kosui Iwasa a.k.a. ebiebievidence
           <br />
           <a href="/sitemap.xml">サイトマップ</a>
