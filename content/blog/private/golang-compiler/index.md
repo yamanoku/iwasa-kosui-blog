@@ -18,7 +18,7 @@ Go のコンパイラのコードを読むためにあると嬉しい知識を�
 
 一般的に、コンパイラは以下の流れに従ってコンパイルを行います。
 
-![一般的なコンパイルの流れ](compiler.png)
+![一般的なコンパイルの流れ](compiler.svg)
 
 ### 字句解析
 
@@ -66,37 +66,68 @@ gccgo については [golang.org/doc/install/gccgo](https://golang.org/doc/inst
 **LLVM** は特定の言語に依存しない中間言語 **LLVM IR** を用いることで、様々な言語に対応可能なコンパイラフレームワークです。
 詳しくは [go.googlesource.com/gollvm](https://go.googlesource.com/gollvm/) をご覧ください。
 
-![gollvm](./gollvm.png)
+![gollvm](./gollvm.svg)
+
+## gc のパッケージ構成
+
+gc は `cmd/compile` パッケージに実装されています。
+それでは `cmd/compile` パッケージの構成を見てみましょう。
+gc の実装のほぼ全ては `cmd/compile/internal` パッケージに置かれており、exported な関数や構造体や変数はありません。
+
+コアとなる処理は `cmd/compile/internal/gc` パッケージに格納されており、 `gc.Main` を中心としてコンパイルが行われ、必要に応じて他のパッケージが呼び出されます。
+
+```
+cmd/compile
+├── internal
+│   ├── gc
+│   │   gc のコアとなるパッケージ
+│   │   構文木 -> AST -> SSA(中間表現) へ変換する
+│   │   
+│   ├── syntax
+│   │   字句解析・構文解析を行うパッケージ
+│   │   
+│   ├── ssa
+│   │   SSA の最適化を行うパッケージ
+│   │   
+│   ├── logopt
+│   │   json オプションを指定時の処理を行うパッケージ
+│   │   
+│   ├── test
+│   │   テスト
+│   │   
+│   ├── types
+│   │   Go の型を表現するパッケージ
+│   │   
+│   │   以下はすべて SSA からそれぞれの
+│   │   アーキテクチャに向けた機械語を生成するパッケージ
+│   ├── amd64
+│   ├── arm
+│   ├── arm64
+│   ├── mips
+│   ├── mips64
+│   ├── ppc64
+│   ├── riscv64
+│   ├── s390x
+│   ├── wasm
+│   └── x86
+└── main.go
+```
 
 ## gc によるコンパイルのフロー
 
 それでは、gc によるコンパイルのフローを追っていきましょう。
 
-<ol style="font-size: 14px;">
-<li style="margin: 0;"><code class="language-text">cmd/compile/internal/syntax</code><br>
-1.1 ソースコードを字句リストへ分割<br>
-1.2 字句リストを構文ツリーへ変換</li>
-<li style="margin: 0;"><code class="language-text">cmd/compile/internal/gc</code><br>
-2.1 構文ツリーからASTへ変換<br>
-2.2 型チェック<br>
-2.3 SSA(中間表現)へ変換  </li>
-<li style="margin: 0;"><code class="language-text">cmd/compile/internal/ssa</code><br>
-3.1 SSAを最適化する<br>
-4.1 SSAをコンパイル先のアーキテクチャ向けに書き換える<br>
-<li style="margin: 0;"><code class="language-text">cmd/compile/internal/(x86|...)</code><br>
-4.2 SSA から機械語を生成</li>
-</ol>
+![gc によるコンパイルのフロー](./go-package-flow.svg)
 
-### `main`
+### `gc.Main` による初期化処理
 
-gc は [src/cmd/compile/main.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/main.go) を `main` パッケージとしています。
-つまり、コンパイルはこの `main.main` 関数から開始されます。
-
-ただし、コンパイルが行う実際の処理は `main.main` にはほとんど書かれておらず、実際には 700 行近い関数である [cmd/compile/internal/gc.Main](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go) が中心となって行われます。`cmd/compile/internal/gc.Main` の冒頭の約 200 行はコマンドライン引数やオプションに関する処理で、実際にコンパイルの対象となるファイルを字句解析・構文解析する処理は 570 行目前後から行われます。
+gcのメイン処理は [main.Main](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/main.go) にはほとんど書かれておらず、実際には 700 行近い関数である [gc.Main](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go) が中心となって行われます。`gc.Main` の冒頭の約 200 行はコマンドライン引数やオプションに関する処理で、実際にコンパイルの対象となるファイルを字句解析・構文解析する処理は 570 行目前後から行われます。
 
 それでは、実際にそれぞれのファイルに対する処理が開始される[ 561 行目](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)から見てみましょう。
 
-```go
+[[code-head]]
+| [cmd/compile/gc/main.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)
+```go{numberLines: 561}
 initUniverse()
 
 dclcontext = PEXTERN
@@ -124,7 +155,9 @@ universe ブロックはすべてのソースファイルが展開されるブ�
 その後、いよいよ `parseFiles` でそれぞれのファイルが並列に字句解析・構文解析され、ファイルごとに構文木へ変換されます。
 1つのファイルから得られる情報は `noder` 構造体で表現され、ゴルーチンの中で `syntax.Parse` によって字句解析・構文解析が行われた後に、 `noder.file` へ構文木が格納されます。後述する通り、この `noder` 構造体はその後、この時に格納された `noder.file` から AST を生成します。
 
-```go
+[[code-head]]
+| [cmd/compile/gc/noder.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L23-L76)
+```go{numberLines: 23}
 // parseFiles concurrently parses files into *syntax.File structures.
 // Each declaration in every *syntax.File is converted to a syntax tree
 // and its root represented by *Node is appended to xtop.

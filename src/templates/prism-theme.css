@@ -13,15 +13,16 @@
 pre[class*="language-"],
 code[class*="language-"] {
   color: #24292e;
-  font-size: 13px;
+  font-size: 14px;
+  font-variant-ligatures: none;
   text-shadow: none;
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
   direction: ltr;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
-  line-height: 1.5;
+  line-height: 1.7;
   -moz-tab-size: 4;
   -o-tab-size: 4;
   tab-size: 4;
@@ -140,4 +141,38 @@ pre[class*="language-"] > code[class*="language-"] {
   pointer-events: none;
   line-height: inherit;
   white-space: pre;
+}
+
+/**
+* Custom
+*/
+
+.gatsby-highlight pre[class*="language-"].line-numbers {
+  padding-left: 2.8em;
+}
+
+.post .line-numbers .line-numbers-rows {
+  border-right: none;
+}
+
+.custom-block {
+  border: #ddd 1px solid;
+  border-bottom: none;
+  padding: 2px 8px;
+  border-radius: 4px 4px 0 0;
+}
+
+.custom-block .custom-block-body *:last-child {
+  margin-bottom: 0;
+}
+
+.custom-block .custom-block-body a {
+  color: inherit;
+  font-weight: bold;
+  text-decoration-line: none;
+}
+
+.custom-block + .gatsby-highlight {
+  margin-top: 0;
+  border-radius: 0 0 4px 4px;
 }

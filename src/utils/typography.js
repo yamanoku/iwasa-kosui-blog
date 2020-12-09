@@ -82,14 +82,21 @@ const typography = new Typography({
       },
     },
     'h1,h2,h3,h4,h5,h6': {
-      marginTop: rhythm(1),
-      marginBottom: rhythm(3 / 4),
+      marginBottom: rhythm(1/2),
+      marginTop: rhythm(2),
     },
     h1: {
       ...scale(6 / 5),
     },
     h6: {
       fontStyle: 'italic',
+    },
+    p: {
+      marginBottom: rhythm(2/5),
+    },
+    'div.gatsby-highlight': {
+      marginTop: rhythm(1),
+      marginBottom: rhythm(3/4),
     },
     small: {
       fontSize: '.9rem',
