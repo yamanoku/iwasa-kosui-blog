@@ -170,8 +170,6 @@ func parseFiles(filenames []string) uint {
 
 ### `cmd/compile/internal/ssa`
 
-## ランタイム
-
 
 ## ライセンス
 
