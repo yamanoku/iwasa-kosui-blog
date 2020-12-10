@@ -429,7 +429,7 @@ func Parse(base *PosBase, src io.Reader, errh ErrorHandler, pragh PragmaHandler,
 
 #### `syntax.fileOrNil`
 
-`syntax.fileOrNil()` は、前述した再帰降下構文解析を行う関数です。 `fileOrNil()` は、まず pacakge 句と import 文を構文解析した後、トップレベルに定義された定数、変数、型、関数について構文解析していきます。
+`syntax.fileOrNil()` は、前述した再帰降下構文解析を行う関数です。 `fileOrNil()` は、まず pacakge 句と import 文を構文解析した後、トップレベルスコープに定義された定数、変数、型、関数について構文解析していきます。
 
 ちなみに、以下にあるように syntax パッケージではしばしば関数の頭や関数中のコメントに `// TypeSpec = identifier [ "=" ] Type .` のような文字列が書かれていると思いますが、これは **BNF** (バッカスナウア記法) と呼ばれる記法を拡張した EBNF と呼ばれる記法で、プログラミング言語の文法を定義するためにしばしば用いられます。関数の頭に EBNF のコメントが書かれている場合は、左辺について構文解析している関数だと考えて頂ければ読み進められると思います。
 加えて、`{ }` が省略可能で繰り返し可能であること、 `[ ]` が省略可能であることをそれぞれ表していることも覚えておくと読みやすいです。
@@ -698,6 +698,15 @@ func parseFiles(filenames []string) uint {
 
 それでは最後に、先程触れた `p.node()` でどのように AST への変換を行っているか少しだけ覗いてみましょう。 ちなみに `noder` というのはおそらく AST のノードを生成するための構造体だから node + er で `noder` という命名になっている、と私は推測しています。
 
+まずは初期化処理をしています。 
+
+`imported_unsafe` はどこか一つのファイルで `unsafe` パッケージをインポートすると `true` になるグローバル変数です。
+めちゃくちゃグローバル変数が多いですが、何かパフォーマンス上の問題があるのかもしれません。残念ながら、私は詳しい経緯や理由を追うことができませんでした。
+
+`mkpackage()` はパッケージ名を取り出しています。
+
+その後、プラグマが利用されているかどうかを記録しています。
+
 [[code-head]]
 | cmd/compile/gc/noder.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L237-L284)
 ```go
@@ -711,11 +720,166 @@ func (p *noder) node() {
 	if pragma, ok := p.file.Pragma.(*Pragma); ok {
 		p.checkUnused(pragma)
 	}
-``
+```
+
+[[info|ここが面白い]]
+| gc は、元々 C 言語で書かれていて、構文解析に yacc/bison を利用していました。
+| その後 gc は Go で書き直されましたが、 yacc/bison が利用されていた痕跡は今も残っています。
+| 
+| 例えば、先程少しだけ触れた `mkpackage()` では `yyerror()` という関数を呼び出していますが、この `yyparse` という関数名は yacc/bison でのエラー処理のために定義する必要がある関数名と一致します。
+| もしコンパイラに興味があれば、 yacc/bison に触れてみるのもアリかもしれません。
+| ```go
+| func mkpackage(pkgname string) {
+| 	if localpkg.Name == "" {
+| 		if pkgname == "_" {
+| 			yyerror("invalid package name _")
+| 		}
+| 		localpkg.Name = pkgname
+| 	} else {
+| 		if pkgname != localpkg.Name {
+| 			yyerror("package %s; expected %s", pkgname, localpkg.Name)
+| 		}
+| 	}
+| }
+| ```
+
+そして、次に `File` 構造体の `DeclList` プロパティからトップレベルスコープに定義された定数や関数などを持ってきて、これを `p.decls` で AST へ変換します。
+`xtop` はトップレベルスコープにある宣言をすべて格納するグローバル変数です。
+ここに格納された宣言は、後で1つずつ順番に型チェックされていきます[[開く]](https://github.com/golang/go/blob/go1.15.6/src%2Fcmd%2Fcompile%2Finternal%2Fgc%2Fmain.go#L582)。
+
+[[code-head]]
+| cmd/compile/gc/noder.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L237-L284)
+```go
+func (p *noder) node() {
+	types.Block = 1
+	imported_unsafe = false
+
+	p.setlineno(p.file.PkgName)
+	mkpackage(p.file.PkgName.Value)
+
+	if pragma, ok := p.file.Pragma.(*Pragma); ok {
+		p.checkUnused(pragma)
+	}
+
+	{ /* highlight-range{1} */ }
+	xtop = append(xtop, p.decls(p.file.DeclList)...)
+```
+
+`p.decls` の中身を見てみましょう。変数・定数・型・関数の宣言はそれぞれのハンドラで AST に変換された後に `xtop` へ格納されていきますが、import については特に型チェックが必要なわけではないので `xtop` には格納されていないことが分かります。
+
+```go
+
+func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
+	var cs constState
+
+	for _, decl := range decls {
+		p.setlineno(decl)
+		switch decl := decl.(type) {
+		case *syntax.ImportDecl:
+			p.importDecl(decl)
+
+		case *syntax.VarDecl:
+			l = append(l, p.varDecl(decl)...)
+
+		case *syntax.ConstDecl:
+			l = append(l, p.constDecl(decl, &cs)...)
+
+		case *syntax.TypeDecl:
+			l = append(l, p.typeDecl(decl))
+
+		case *syntax.FuncDecl:
+			l = append(l, p.funcDecl(decl))
+
+		default:
+			panic("unhandled Decl")
+		}
+	}
+
+	return
+}
+```
+
+[[info|ここが面白い]]
+| 上記のうち、 定数の AST への変換処理 `constDecl()` について見てみましょう。
+| 以下のうち、ハイライト部分について着目して下さい。
+| なんと、 `iota` のカウンタの管理は、構文木から AST への変換の過程で行われていることが分かります。驚きですね。
+| 
+| 1. 直前まで見ていた定数宣言の状態 `constState` と現在見ている定数宣言を比較し、同じ `const ( ... )` 内で宣言された定数でなければ `constState` をリセットする
+| 2. `Node` 構造体を生成し、宣言された定数の名前と値を格納する
+| 3. 宣言された定数に対応する `iota` の値を `n.SetIota(cs.iota)` で格納する
+| 4. `cs.iota++` で `iota` のカウンタをインクリメントする
+| 
+| ちなみに、 `iota` の値を使うのか、宣言時に与えらた値を使うのかを決定する処理は型チェック時に行われるようです。
+| 
+| ```go
+| func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
+| 	{ /* highlight-range{1-5} */ }
+| 	if decl.Group == nil || decl.Group != cs.group {
+| 		*cs = constState{
+| 			group: decl.Group,
+| 		}
+| 	}
+| 
+| 	if pragma, ok := decl.Pragma.(*Pragma); ok {
+| 		p.checkUnused(pragma)
+| 	}
+| 
+| 	names := p.declNames(decl.NameList)
+| 	typ := p.typeExprOrNil(decl.Type)
+| 
+| 	var values []*Node
+| 	if decl.Values != nil {
+| 		values = p.exprList(decl.Values)
+| 		cs.typ, cs.values = typ, values
+| 	} else {
+| 		if typ != nil {
+| 			yyerror("const declaration cannot have type without expression")
+| 		}
+| 		typ, values = cs.typ, cs.values
+| 	}
+| 
+| 	nn := make([]*Node, 0, len(names))
+| 	for i, n := range names {
+| 		if i >= len(values) {
+| 			yyerror("missing value in const declaration")
+| 			break
+| 		}
+| 		v := values[i]
+| 		if decl.Values == nil {
+| 			v = treecopy(v, n.Pos)
+| 		}
+| 
+| 		n.Op = OLITERAL
+| 		declare(n, dclcontext)
+| 
+| 		n.Name.Param.Ntype = typ
+| 		n.Name.Defn = v
+| 		{ /* highlight-range{1} */ }
+| 		n.SetIota(cs.iota)
+| 
+| 		nn = append(nn, p.nod(decl, ODCLCONST, n, nil))
+| 	}
+| 
+| 	if len(values) > len(names) {
+| 		yyerror("extra expression in const declaration")
+| 	}
+| 
+| 	{ /* highlight-range{1} */ }
+| 	cs.iota++
+| 
+| 	return nn
+| }
+| ```
 
 ## まとめ
 
-WIP
+本記事では、コンパイラに関する知識をおさらいした上で、公式 Go コンパイラの一つである gc のコードを AST への変換部分まで見ていきました。
+この中で、どれか一つでも「お、面白いじゃん」と思うような部分があれば嬉しいです。
+
+また、この記事をきっかけに gc やコンパイラに興味を持ってくれた方がいらっしゃれば Twitter などで教えて下さい。筆者がとても喜びます。
+
+[DeNA 公式 Twitter アカウント @DeNAxTech](https://twitter.com/DeNAxTech) では、この Advent Calendar や DeNA の技術記事、イベントでの登壇資料などを発信しています。
+もし良かったらフォローしてください。
 
 
 ## 付録 A: gc 以外の Go コンパイラ
