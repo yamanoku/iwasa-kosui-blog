@@ -3,6 +3,7 @@ title: Go コンパイラのコードを読んでみよう
 date: '2020-12-11T15:00:00.00Z'
 desc: 'コンパイラの基礎知識をおさらいした上で、公式 Go コンパイラ gc のコードを個人的な面白いポイントと共に紹介します'
 keywords: 'golang go gc コンパイラ'
+image: 'https://raw.githubusercontent.com/iwasa-kosui/blog/master/content/blog/2020/12/golang-compiler/ogp.png'
 ---
 
 ## はじめに

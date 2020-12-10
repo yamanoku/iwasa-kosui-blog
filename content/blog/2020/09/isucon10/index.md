@@ -3,7 +3,7 @@ title: 'ISUCON10 予選敗退の記録と反省'
 date: '2020-09-20T00:00:00.121Z'
 desc: '1300 点でした'
 keywords: 'ISUCON,ISUCON 10,ISUCON10'
-image: 'https://raw.githubusercontent.com/ebiebievidence/blog/master/content/blog/2020/09/isucon10/ogp.png'
+image: 'https://raw.githubusercontent.com/iwasa-kosui/blog/master/content/blog/2020/09/isucon10/ogp.png'
 ---
 
 ## はじめに
