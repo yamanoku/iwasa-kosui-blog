@@ -9,27 +9,39 @@ keywords: ''
 
 本記事は、 [DeNA Advent Calendar 2020](https://qiita.com/advent-calendar/2020/dena) の 11 日目の記事です。
 
-本記事では、Go コンパイラ `gc` のコードを読むためにあると嬉しい知識を整理した上で、実際に `gc` のコードの流れを途中までざっくりと追っていきます。
+突然ですが、「コンパイラのコードを読んでみよう」なんて言われても、「どうせ巨大で難解で複雑なロジックを理解しないと読めないんでしょ？」と思いませんか。
+
+コンパイラの構造を理解しようとしても聞いたことのないような専門用語がずらりと並び、コードを読もうとしたらそれらをすべて完全に理解してないと一行も理解できないんじゃないか...。Go のコンパイラ **gc** のソースコードを読むまでは、私もそう思っていました。
+
+しかし、あまりにも暇な休日のある日、思い立って gc のコードを読んでみました。すると、「コンパイル」という難解な響きの処理も、一つひとつを小さなタスクに分解することで、少しずつ読み進めることができると分かったのです！
+
+何よりも感動したことは、 gc そのものが全て Go で書かれていて、コードはシンプルで読みやすく、コメントもかなり丁寧であることです。しかも、gc のコード上では Go の様々な機能が思う存分活用されていて、大変興味深い部分に溢れています。
+
+この記事では、コンパイラについて学んだことがない Gopher 向けに、Go の公式コンパイラの一つである gc のコードを読む楽しさを伝えることを目指します。
+
+### 対象とする読者
 
 想定している読者は以下の通りです。コンパイラについてよく知らなくても、Go の基礎的な文法を理解している方であれば読み進められるように書いています。
 
 - コンパイラに興味がある方
 - コンパイラのコードを読んだことがない方
 
-なお、コードリーディングについては AST への変換までを対象としています。
+対象とするバージョンは go1.15.6 です。
+
+#### お断り
+
+コンパイラに関する詳細な知識を求めている方へ:
+
+本記事のコードリーディングでは、 AST への変換までを対象としています。
 また、本記事では再帰降下構文解析の具体的な実現手段や、SSA・機械語への変換の手順などは紹介していません。
 あくまで gc の概観を理解し、より詳細な理解に進むためのステップとしてお読み頂ければ幸いです。
 
-また、gccgo や gollvm などは本記事では紹介していません。
-
-対象とするバージョンは go1.15.6 です。
-
 ## コンパイラとは
 
-そもそも、コンパイラとは何かをおさらいします。
-コンパイラとは、高水準なプログラミング言語で書かれたプログラムをより低水準なプログラミング言語で書かれたプログラムへ変換するプログラムを指します。
+まず、コンパイラとは何かをおさらいしましょう。
+コンパイラとは、高水準なプログラミング言語で書かれたプログラムを、機械語やアセンブリ言語やバイトコードなどへ変換するプログラムを指します。
 
-一般的に、コンパイラは以下の流れに従ってコンパイルを行います。
+次に、一般的なコンパイラによる処理の流れを見ていきましょう。
 
 ![一般的なコンパイルの流れ](compiler.svg)
 
@@ -47,39 +59,42 @@ keywords: ''
    :=
   /  \
  x    +
-     / \
-    2   *
-       / \
-      3   6
+	 / \
+	2   *
+	   / \
+	  3   6
 ```
 
-また、これらの構文木からコード生成に不要な部分を削除したものを、 **抽象構文木** (abstract syntax tree; AST) と呼びます。
-多くの場合、構文解析ではトークン列から構文木に変換した上で、さらに抽象構文木へ変換します。
+また、これらの構文木からコード生成に不要な部分を削除したものを、 **AST** (abstract syntax tree; 抽象構文木) と呼びます。
+多くの場合、構文解析ではトークン列から構文木に変換した上で、さらに AST へ変換します。
 
-## Go のコンパイラについて
+### 中間表現生成
 
-主に知られている Go のコンパイルツールチェインは gc、gccgo、gollvm の 3 つです。
+プログラムをより効率的に動作させるために、多くのコンパイラはコードの最適化を行います。
+そのために、コンパイラが最適化しやすいような形式 **中間表現** に変換します。
+例えば、 gc では AST を SSA 形式と呼ばれる中間表現の一種へ変換します。
 
-### gc
+**SSA 形式** は [静的単一代入形式](https://ja.wikipedia.org/wiki/%E9%9D%99%E7%9A%84%E5%8D%98%E4%B8%80%E4%BB%A3%E5%85%A5) とも呼ばれ、それぞれの変数が一度だけ代入されるように定義される形式です。
+例えば、以下のような変換が行われます。 以下の例では、 SSA 形式に変換することによって `a1` への代入が不要な処理であることがより明確になりました。このように、最適化を行う上で SSA 形式への変換は非常に便利です。
+
+```go
+// before
+a := 1
+a = 2
+b = a + 1
+
+// after
+a1 := 1
+a2 := 2
+b1 := a2 + 1
+```
+
+## gc とは
+
 
 **gc** は `cmd/compile` とも呼ばれ、普段多くの人々が利用している、公式の Go コンパイラの1つです。
-本記事で扱います。
 
 gc のコードは[github.com/golang/go/tree/master/src/cmd/compile](https://github.com/golang/go/tree/master/src/cmd/compile)に置かれています。README.md も丁寧に書かれていて、コードにもきちんとコメントが書かれているため、コンパイラに対する知識が少ない状態でも読み進めることができます。
-
-### gccgo
-
-**gccgo** は GCC のフロントエンドで、もう一つの公式の Go コンパイルツールチェインです。
-**GCC** は GNU Compiler Collection の略であり、様々なプログラミング言語に対応したコンパイルツールチェインです。
-gccgo については [golang.org/doc/install/gccgo](https://golang.org/doc/install/gccgo) にて解説されています。
-
-### gollvm
-
-**gollvm** は LLVM のフロントエンドで、C++ で書かれた gccgo と共通のフロントエンド **gofrontend** を利用しています。
-**LLVM** は特定の言語に依存しない中間言語 **LLVM IR** を用いることで、様々な言語に対応可能なコンパイラフレームワークです。
-詳しくは [go.googlesource.com/gollvm](https://go.googlesource.com/gollvm/) をご覧ください。
-
-![gollvm](./gollvm.svg)
 
 ## gc のパッケージ構成
 
@@ -133,26 +148,11 @@ cmd/compile
 ![gc によるコンパイルのフロー](./go-package-flow.svg)
 
 初めに、コンパイル対象となるそれぞれのソースファイルは、字句解析・構文解析を経て構文木となり、さらに AST へ変換されます。
-次に、型チェックが完了した AST は SSA 形式の中間コードへ変換されます。その後、中間コードは最適化されたのち、機械語へと変換されます。
-
-**SSA 形式** は [静的単一代入形式](https://ja.wikipedia.org/wiki/%E9%9D%99%E7%9A%84%E5%8D%98%E4%B8%80%E4%BB%A3%E5%85%A5) とも呼ばれ、それぞれの変数が一度だけ代入されるように定義される形式です。
-例えば、以下のような変換が行われます。 以下の例では、 SSA 形式に変換することによって `a1` への代入が不要な処理であることがより明確になりました。このように、最適化を行う上で SSA 形式への変換は非常に便利です。
-
-```go
-// before
-a := 1
-a = 2
-b = a + 1
-
-// after
-a1 := 1
-a2 := 2
-b1 := a2 + 1
-```
+次に、型チェックが完了した AST は SSA 形式の中間表現へ変換されます。その後、中間表現は最適化されたのち、機械語へと変換されます。
 
 ## コードリーディング
 
-最後に、少しだけ実際のコードを読んでみましょう。本記事では字句解析・構文解析・AST への変換までを対象とします。
+最後に、実際のコードを読んでみましょう。本記事では字句解析・構文解析・AST への変換までを対象とします。
 
 ### コンパイルの開始とファイルの読み込み
 
@@ -160,47 +160,109 @@ b1 := a2 + 1
 
 gcのメイン処理は [main.Main()](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/main.go) にはほとんど書かれておらず、実際には 700 行近い関数である [gc.Main()](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go) が中心となって行われます。`gc.Main` の冒頭の約 200 行はコマンドライン引数やオプションに関する処理で、実際にコンパイルの対象となるファイルを字句解析・構文解析する処理は 570 行目前後から行われます。
 
-それでは、実際にそれぞれのファイルに対する処理が開始される[ 561 行目](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)から見てみましょう。
+それでは、実際にそれぞれのファイルに対する処理が開始される `gc.Main` の[ 561 行目](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)から見てみましょう。
+
+まず、 `initUniverse()` が universe ブロックを用意します。
+universe ブロックはすべてのソースファイルが展開されるブロックで、これから読み込まれるあらゆるコードがこのブロックの下に展開されていきます。
+`initUniverse()`  は、 `int`, `bool`, `error` などの基本型や `true`, `false`, `iota` などの定数、ゼロ値 `nil` などを初期化し、これを universe ブロックに宣言します。
 
 [[code-head]]
-| [cmd/compile/gc/main.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)
-```go{numberLines: 561}
-initUniverse()
+| cmd/compile/gc/main.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)
+```go{numberLines: 558}
+func Main(archInit func(*Arch)) {
+	// 中略
+	{ /* highlight-range{1} */ }
+	initUniverse()
 
-dclcontext = PEXTERN
-nerrors = 0
+	dclcontext = PEXTERN
+	nerrors = 0
 
-autogeneratedPos = makePos(src.NewFileBase("<autogenerated>", "<autogenerated>"), 1, 0)
+	autogeneratedPos = makePos(src.NewFileBase("<autogenerated>", "<autogenerated>"), 1, 0)
 
-timings.Start("fe", "loadsys")
-loadsys()
+	timings.Start("fe", "loadsys")
+	loadsys()
 
-timings.Start("fe", "parse")
-lines := parseFiles(flag.Args())
-timings.Stop()
-timings.AddEvent(int64(lines), "lines")
+	timings.Start("fe", "parse")
+	lines := parseFiles(flag.Args())
+	timings.Stop()
+	timings.AddEvent(int64(lines), "lines")
 
-finishUniverse()
+	finishUniverse()
 ```
 
-まず、 `initUniverse()` で universe ブロックを用意します。
-universe ブロックはすべてのソースファイルが展開されるブロックで、これから読み込まれるあらゆるコードがこのブロックの下に展開されていきます。
+[[info|ここが面白い]]
+| `cmd/compile/gc/universe.go` を読むと、実は universe ブロックに `builtinpkg` という偽のパッケージが宣言されていて、そこに基本型や定数が宣言されていくことが分かります。
+|
+| ```go
+| // builtinpkg is a fake package that declares the universe block.
+| var builtinpkg *types.Pkg
+| ```
+|
+| ```go
+| // initUniverse initializes the universe block.
+| func initUniverse() {
+|     lexinit()
+|     typeinit()
+|     lexinit1()
+| }
+| ```
+|
+| 例えば、 `iota` も以下のように初期化されて `builtinpkg` の中に置かれています。
+| 私たちが普段何気なく使っている `nil` や `iota` も、実は架空のパッケージに定義されていると思うと、ちょっと不思議ですね。
+|
+| ```go
+| // lexinit initializes known symbols and the basic types.
+| func lexinit() {
+|   // 中略
+|     s = builtinpkg.Lookup("iota")
+|     s.Def = asTypesNode(nod(OIOTA, nil, nil))
+|     asNode(s.Def).Sym = s
+|     asNode(s.Def).Name = new(Name)
+| }
+| ```
+| ちなみに、gc では `builtinpkg` のようなグローバル変数が数多く宣言されています。普段避けがちなグローバル変数も、使い時を間違えなければ便利ですが、これらの大量に宣言されたグローバル変数をうまく整理すれば、 gc へのコントリビューションを達成できるかもしれませんね。
 
-次に、各種初期化処理が行われます。 `loadsys()` は低レベルなランタイム関数をロードします。
-例えば、おなじみの定義済み関数 `panic(1)` の実装である [`gopanic(1)`](https://github.com/golang/go/blob/go1.15.6/src/runtime/panic.go#L889) もここでロードされます。ランタイム関数の実装は [runtime](https://github.com/golang/go/blob/go1.15.6/src/runtime) に置かれています。
+次に、 `loadsys()` が低レベルなランタイム関数をロードします。
+例えば、おなじみの定義済み関数 `panic()` の実装である [`gopanic()`](https://github.com/golang/go/blob/go1.15.6/src/runtime/panic.go#L889) もここでロードされます。ランタイム関数の実装は [runtime](https://github.com/golang/go/blob/go1.15.6/src/runtime) に置かれています。
 
 そして、いよいよ `parseFiles()` 関数によってそれぞれのファイルが並列に字句解析・構文解析され、ファイルごとに構文木へ変換されます。
+次は、 `parseFiles()` を見ていきましょう。
+
+[[code-head]]
+| cmd/compile/gc/main.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/main.go#L561-L576)
+```go{numberLines: 558}
+func Main(archInit func(*Arch)) {
+	// 中略
+	initUniverse()
+
+	dclcontext = PEXTERN
+	nerrors = 0
+
+	autogeneratedPos = makePos(src.NewFileBase("<autogenerated>", "<autogenerated>"), 1, 0)
+
+	timings.Start("fe", "loadsys")
+	{ /* highlight-range{1} */ }
+	loadsys()
+
+	timings.Start("fe", "parse")
+	{ /* highlight-range{1} */ }
+	lines := parseFiles(flag.Args())
+	timings.Stop()
+	timings.AddEvent(int64(lines), "lines")
+
+	finishUniverse()
+```
 
 #### `gc.parseFiles`
 
 それでは、 `gc.parseFiles()` の中身を見ていきましょう。
 1つのソースファイルから得られる情報は `noder` 構造体で表現されます。
 
-まず、ゴルーチンの中で `syntax.Parse()` によって字句解析・構文解析が行われ、得られた構文木が `noder.file` へ格納されます。
+まず、 goroutine の中で `syntax.Parse()` によって字句解析・構文解析が行われ、得られた構文木が `noder.file` へ格納されます。
 次に、`noder.node()` を呼び出し、この `noder.file` から AST を生成します。
 
 [[code-head]]
-| [cmd/compile/gc/noder.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L23-L76)
+| cmd/compile/gc/noder.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L23-L76)
 ```go{numberLines: 23}
 // parseFiles concurrently parses files into *syntax.File structures.
 // Each declaration in every *syntax.File is converted to a syntax tree
@@ -264,14 +326,72 @@ func parseFiles(filenames []string) uint {
 }
 ```
 
+
+[[info|ここが面白い]]
+| `gc.parseFiles` では、エラーの伝搬を返り値ではなく channel で行っています。これによって、コンパイルの途中でエラーが見つかったら素早く処理を中断しエラーを伝搬することができると考えられます。
+| 
+| また、 goroutine でそれぞれのファイルごとに字句解析・構文解析までを行っていることから、 CPU を余らせることなく処理を行っています。 Go の高速なコンパイルは、このような地道な工夫によって支えられているのだなあ、と感じました。
+|
+| ```go
+|       go func(filename string) {
+|           // 補足: error は channel で受け取る
+|           sem <- struct{}{}
+|           defer func() { <-sem }()
+|           defer close(p.err)
+|           base := syntax.NewFileBase(filename)
+|
+|           f, err := os.Open(filename)
+|           if err != nil {
+|               p.error(syntax.Error{Msg: err.Error()})
+|               return
+|           }
+|           defer f.Close()
+|
+|           // 補足: 構文木を生成し p.file に格納する
+|           // syntax.Parse で発生した error も
+|           // p.error を経由して channel で受け取る
+|           p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
+|       }(filename)
+| ```
+
 ### 構文解析
 
 #### `syntax.Parse`
 
-`gc.parseFiles(1)` から呼び出される `syntax.Parse(5)` は、コメントにある通り 1 つのソースファイルから構文木を生成します。 gc は再帰降下構文解析 (recursive descent parsing) という方式で構文解析を行います。構文解析器は `parser` 構造体で表現され、字句解析器である `scanner` 構造体が埋め込まれています。字句解析を進めながら構文解析を行います。
+`gc.parseFiles()` から呼び出される `syntax.Parse()` は、コメントにある通り 1 つのソースファイルから構文木を生成します。 gc は再帰降下構文解析 (recursive descent parsing) という方式で構文解析を行います。構文解析器は `parser` 構造体で表現され、字句解析器である `scanner` 構造体が埋め込まれています。字句解析を進めながら構文解析を行います。
 
 [[code-head]]
-| [cmd/compile/syntax/syntax.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/syntax.go#L67-L82)
+| cmd/compile/syntax/parser.go [[開く]](hhttps://github.com/golang/go/blob/go1.15.3/src%2Fcmd%2Fcompile%2Finternal%2Fsyntax%2Fparser.go#L17-L32)
+```go{numberLines: 17}
+type parser struct {
+	file  *PosBase
+	errh  ErrorHandler
+	mode  Mode
+	pragh PragmaHandler
+	{ /* highlight-range{1} */ }
+	scanner // 補足: ここに scanner が埋め込まれている
+
+	base   *PosBase // current position base
+	// 中略
+}
+```
+
+scanner は現在見ているコード上の位置や、現在見ているトークンの情報などを持ちます。
+
+[[code-head]]
+| cmd/compile/syntax/scanner.go [[開く]](https://github.com/golang/go/blob/768201729df89a28aae2cc5e41a33ffcb759c113/src/cmd/compile/internal/syntax/scanner.go#L30-L44)
+```go{numberLines: 30}
+type scanner struct {
+	// 中略
+
+	// current token, valid after calling next()
+	line, col uint // 補足: 現在見ているコード上の位置
+	blank     bool // line is blank up to col
+	tok       token // 補足: 現在見ているトークンの情報
+```
+
+[[code-head]]
+| cmd/compile/syntax/syntax.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/syntax.go#L67-L82)
 ```go{numberLines: 67}
 // Parse parses a single Go source file from src and returns the corresponding
 // syntax tree. If there are errors, Parse will return the first error found,
@@ -311,26 +431,121 @@ func Parse(base *PosBase, src io.Reader, errh ErrorHandler, pragh PragmaHandler,
 
 `syntax.fileOrNil()` は、前述した再帰降下構文解析を行う関数です。 `fileOrNil()` は、まず pacakge 句と import 文を構文解析した後、トップレベルに定義された定数、変数、型、関数について構文解析していきます。
 
-ちなみに、以下にあるように syntax パッケージではしばしば関数の頭や関数中のコメントに `Hoge = Fuga { Piyo }` のような文字列が書かれていると思いますが、これは **BNF** (バッカスナウア記法) と呼ばれる記法で、プログラミング言語の文法を定義するためにしばしば用いられます。関数の頭に BNF のコメントが書かれている場合は、左辺について構文解析している関数だと考えて頂ければ読み進められると思います。
-
-まずは package 句と import 文の構文解析処理から追っていきましょう。
+ちなみに、以下にあるように syntax パッケージではしばしば関数の頭や関数中のコメントに `// TypeSpec = identifier [ "=" ] Type .` のような文字列が書かれていると思いますが、これは **BNF** (バッカスナウア記法) と呼ばれる記法を拡張した EBNF と呼ばれる記法で、プログラミング言語の文法を定義するためにしばしば用いられます。関数の頭に EBNF のコメントが書かれている場合は、左辺について構文解析している関数だと考えて頂ければ読み進められると思います。
+加えて、`{ }` が省略可能で繰り返し可能であること、 `[ ]` が省略可能であることをそれぞれ表していることも覚えておくと読みやすいです。
 
 [[code-head]]
-| [cmd/compile/syntax/parser.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L374-L450)
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L374-L450)
 ```go{numberLines: 374}
 // SourceFile = PackageClause ";" { ImportDecl ";" } { TopLevelDecl ";" } .
+func (p *parser) fileOrNil() *File {
+```
+
+まずは初期化処理から見ていきましょう。このファイルについての構文解析の結果は `File` 構造体に詰められます。
+
+[[code-head]]
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L374-L450)
+```go{numberLines: 375}
 func (p *parser) fileOrNil() *File {
 	if trace {
 		defer p.trace("file")()
 	}
 
-  // 補足: 構文解析の結果は File 構造体に詰められる
+	// 補足: 構文解析の結果は File 構造体に詰められる
 	f := new(File)
 	f.pos = p.pos()
+```
 
-	// 補足: まず Package 句を構文解析する
-	// p.got(1) は現在見ているトークンが引数に与えた種類であるかを返す関数
-	// p.want(1) は現在見ているトークンが引数に与えた種類でなければエラーとする関数
+`File` 構造体の定義を見てみましょう。`PkgName` フィールドはパッケージ名を持ちます。 `DeclList` フィールドはトップレベルスコープに宣言された定数、変数、型、関数と import をすべて持つスライスです。
+トップレベルスコープとは、各ファイルの中で最も外側にあるスコープを指します。定数、変数、型、関数 というそれぞれ全く異なる性質を持つ要素の宣言が、同じ `DeclList` というスライスの中に格納されているのは、ちょっと意外ですね。
+
+```go
+// package PkgName; DeclList[0], DeclList[1], ...
+type File struct {
+	Pragma   Pragma
+	PkgName  *Name
+	DeclList []Decl
+	Lines    uint
+	node
+}
+```
+
+
+[[info|ここが面白い]]
+| 上で少し触れましたが、import、定数、変数、型、関数の宣言は同じ `Decl` というインターフェイスを持つ構造体として扱われています。 Decl は Declaration(宣言) の略語です。
+| ```go
+| type Decl interface {
+|     Node
+|     aDecl()
+| }
+| ```
+| 定数の宣言、型の宣言はそれぞれ、`ConstDecl`, `TypeDecl` という構造体で表現されています。
+| ところで、いずれの構造体にも `decl` という構造体が埋め込まれていますね。一体これは何でしょう？
+| ```go
+| // NameList
+| // NameList      = Values
+| // NameList Type = Values
+| type ConstDecl struct {
+|     Group    *Group // nil means not part of a group
+|     Pragma   Pragma
+|     NameList []*Name
+|     Type     Expr // nil means no type
+|     Values   Expr // nil means no values
+|     decl
+| }
+| 
+| // Name Type
+| type TypeDecl struct {
+|     Group  *Group // nil means not part of a group
+|     Pragma Pragma
+|     Name   *Name
+|     Alias  bool
+|     Type   Expr
+|     decl
+| }
+| ```
+| 
+| 以下が `decl` の宣言です。 `decl` は `node` という構造体を埋め込み、 `node` は `Post` という構造体を埋め込んでいますが、 `Pos` はただコード内の位置を持つだけの構造体です。
+| 
+| では、なぜ `ConstDecl` や `TypeDecl` は `Pos` を直接埋め込まずに `decl` を埋め込んでいるのでしょうか？　答えは `aDecl()` にあります。 `aDecl()` というこの何もしない関数は、実はどこからも呼び出されていませんが、 `Decl` インターフェイスは `aDecl()` を持つことを要求します。つまり、ここではダックタイピングを利用して、それぞれの構造体が「宣言」であるか否かを、 `aDecl()` という関数を持っているかどうかで判定しています。すぐにはパッと理解できないテクニックですが、面白いダックタイピングの使い方ですね。
+| 
+| ```go
+| type decl struct{ node }
+| 
+| func (*decl) aDecl() {}
+| 
+| type node struct {
+|     pos Pos
+| }
+| 
+| type Pos struct {
+| 	base      *PosBase
+| 	line, col uint32
+| }
+| ```
+
+さて、話を戻します。 Package 句を構文解析する部分について見てみましょう。
+`p.got()` と `p.want()` はそれぞれ以下のように現在のトークンを参照して情報を返します。
+
+- `p.got()`  
+  トークンを読み進めた上で、現在見ているトークンが引数に与えた種類であるかを返す関数
+- `p.want()`  
+  トークンを読み進めた上で、現在見ているトークンが引数に与えた種類でなければエラーとする関数
+
+`p.got()` と `p.want()` を使って構文をチェックし、問題がなければ `f.PkgName` にパッケージ名を格納します。
+
+ちなみに、 `p.takePragma()` は `// go:generate ...`  などのプラグマが書かれている場合はこれを取得する関数です。この場合は、ファイルの冒頭に書かれたプラグマを取得し、 `File` 構造体に持たせていますね。
+
+[[code-head]]
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L374-L450)
+```go{numberLines: 375}
+func (p *parser) fileOrNil() *File {
+	if trace {
+		defer p.trace("file")()
+	}
+	
+	f := new(File)
+	f.pos = p.pos()
 
 	// PackageClause
 	if !p.got(_Package) {
@@ -342,30 +557,51 @@ func (p *parser) fileOrNil() *File {
 	f.PkgName = p.name()
 
 	p.want(_Semi)
-
-	// don't bother continuing if package clause has errors
-	if p.first != nil {
-		return nil
-	}
-
-	// 補足: 次にimport 文を構文解析する
-
-	// { ImportDecl ";" }
-	for p.got(_Import) {
-		f.DeclList = p.appendGroup(f.DeclList, p.importDecl)
-		p.want(_Semi)
-	}
 ```
 
-さて、package 句と import 文の構文解析が完了したら、次はトップレベルスコープにある定数、変数、型、関数を構文解析していきます。
-トップレベルスコープとは、各ファイルの中で最も外側にあるスコープを指します。
+次に、 import 文を構文解析する部分について見ていきます。
+現在のトークンが `import` であれば、 `p.appendGroup(f.DeclList, p.importDecl)` で `f.DeclList` を append します。 
 
-現在 scanner が見ているトークンが `const` であれば `p.constDecl` 、 `var` であれば `p.varDecl` など、それぞれ対応する関数に構文解析させ、結果を `f.DeclList` に追加します。つまり、この `f.DeclList` の中にトップレベルスコープで宣言された定数、変数、型、関数の情報がスライスの要素として格納されていきます。ファイル内のトップレベルスコープのすべての宣言について構文解析が完了した場合、そのファイルの構文解析は完了となります。
+```go
+    // don't bother continuing if package clause has errors
+    if p.first != nil {
+        return nil
+    }
+
+    // 補足: 次にimport 文を構文解析する
+
+    // { ImportDecl ";" }
+    for p.got(_Import) {
+        f.DeclList = p.appendGroup(f.DeclList, p.importDecl)
+        p.want(_Semi)
+    }
+```
+
+`p.appendGroup(f.DeclList, p.importDecl)` と `p.importDecl()` について見てみましょう。 まず `p.importDecl()` は、 `ImportSpec` を構文解析して `ImportDecl` を返します。
+この `p.importDecl()` 関数をそのまま `p.appendGroup(f.DeclList, p.importDecl)` に渡しています。 `appendGroup` はコメントによれば `f | "(" { f ";" } ")"` を構文解析するようです。
+つまり、 `p.appendGroup(f.DeclList, p.importDecl)` では `"hoge"` または `("hoge"; "fuga"; "piyo")` のような文字列を構文解析し、得られた import 宣言をすべて `f.DeclList` に append しているようです。
+
+[[code-head]]
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src%2Fcmd%2Fcompile%2Finternal%2Fsyntax%2Fparser.go#L519)
+```go
+// ImportSpec = [ "." | PackageName ] ImportPath .
+// ImportPath = string_lit .
+func (p *parser) importDecl(group *Group) Decl {
+```
+
+[[code-head]]
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src%2Fcmd%2Fcompile%2Finternal%2Fsyntax%2Fparser.go#L493)
+```go
+// appendGroup(f) = f | "(" { f ";" } ")" . // ";" is optional before ")"
+func (p *parser) appendGroup(list []Decl, f func(*Group) Decl) []Decl {
+```
+
+さて、package 句と import 文の構文解析が完了したら、次はトップレベルスコープにある定数、変数、型、関数を構文解析していきます。現在 scanner が見ているトークンが `const` であれば `p.constDecl` 、 `var` であれば `p.varDecl` など、それぞれ対応する関数に構文解析させ、結果を `f.DeclList` に追加します。つまり、この `f.DeclList` の中にトップレベルスコープで宣言された定数、変数、型、関数の情報がスライスの要素として格納されていきます。ファイル内のトップレベルスコープのすべての宣言について構文解析が完了した場合、そのファイルの構文解析は完了となります。
 
 また、関数などの中でさらに変数や型や関数の宣言があれば、再帰的にこれを構文解析します。その辺りの処理が気になる場合は、 `funcDeclOrNil` 関数の実装を見ると良さそうです。
 
 [[code-head]]
-| [cmd/compile/syntax/parser.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L403-L450)
+| cmd/compile/syntax/parser.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/syntax/parser.go#L403-L450)
 ```go{numberLines: 403}
 	// { TopLevelDecl ";" }
 	for p.tok != _EOF {
@@ -417,14 +653,18 @@ func (p *parser) fileOrNil() *File {
 }
 ```
 
-### AST への変換と型チェック
+### AST への変換
 
-ここまでは、構文解析が `cmd/compile/internal/syntax` で行われ、 `gc.parseFiles(1)` にファイルごとの構文木が返されることを確認しました。
+#### `gc.parseFiles`
 
-それでは、 `gc.parseFiles(1)` に戻り、今度は構文木から AST への変換処理について見ていきましょう。
+ここまでは、構文解析が `cmd/compile/internal/syntax` で行われ、 `gc.parseFiles()` にファイルごとの構文木が返されることを確認しました。
+
+それでは、 `gc.parseFiles()` に戻り、今度は構文木から AST への変換処理について見ていきましょう。
+`gc` パッケージは、`syntax` パッケージによって得られた `File` 構造体を受け取り、 `Node` 構造体で表現される AST へ変換します。
+そして、その AST をたどって型チェックし、問題がなければ中間表現を生成します。
 
 [[code-head]]
-| [cmd/compile/gc/noder.go](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L23-L76)
+| cmd/compile/gc/noder.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L23-L76)
 ```go
 func parseFiles(filenames []string) uint {
   // 中略
@@ -436,6 +676,7 @@ func parseFiles(filenames []string) uint {
 			p.yyerrorpos(e.Pos, "%s", e.Msg)
 		}
 
+		{ /* highlight-range{1} */ }
 		p.node() // 補足: AST への変換はここで行われる
 		lines += p.file.Lines
 		p.file = nil // release memory
@@ -453,11 +694,45 @@ func parseFiles(filenames []string) uint {
 }
 ```
 
-WIP
+#### `noder.node`
+
+それでは最後に、先程触れた `p.node()` でどのように AST への変換を行っているか少しだけ覗いてみましょう。 ちなみに `noder` というのはおそらく AST のノードを生成するための構造体だから node + er で `noder` という命名になっている、と私は推測しています。
+
+[[code-head]]
+| cmd/compile/gc/noder.go [[開く]](https://github.com/golang/go/blob/go1.15.6/src/cmd/compile/internal/gc/noder.go#L237-L284)
+```go
+func (p *noder) node() {
+	types.Block = 1
+	imported_unsafe = false
+
+	p.setlineno(p.file.PkgName)
+	mkpackage(p.file.PkgName.Value)
+
+	if pragma, ok := p.file.Pragma.(*Pragma); ok {
+		p.checkUnused(pragma)
+	}
+``
 
 ## まとめ
 
 WIP
+
+
+## 付録 A: gc 以外の Go コンパイラ
+### gccgo
+
+**gccgo** は GCC のフロントエンドで、もう一つの公式の Go コンパイルツールチェインです。
+**GCC** は GNU Compiler Collection の略であり、様々なプログラミング言語に対応したコンパイルツールチェインです。
+gccgo については [golang.org/doc/install/gccgo](https://golang.org/doc/install/gccgo) にて解説されています。
+
+### gollvm
+
+**gollvm** は LLVM のフロントエンドで、C++ で書かれた gccgo と共通のフロントエンド **gofrontend** を利用しています。
+**LLVM** は特定の言語に依存しない中間言語 **LLVM IR** を用いることで、様々な言語に対応可能なコンパイラフレームワークです。
+詳しくは [go.googlesource.com/gollvm](https://go.googlesource.com/gollvm/) をご覧ください。
+
+![gollvm](./gollvm.svg)
+
 
 ## ライセンス
 
