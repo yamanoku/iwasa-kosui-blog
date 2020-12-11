@@ -102,29 +102,32 @@ class BlogPostTemplate extends React.Component {
         <div className="post" dangerouslySetInnerHTML={{ __html: post.html }} />
         <div className="post">
           <h2>私について</h2>
-          <p>
-            岩佐 幸翠
-            <a
-              href="https://twitter.com/ebiebievidence"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href="https://github.com/iwasa-kosui"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaGithub />
-            </a>
-            <br />
-            DeNA 2019年新卒入社
-            <br />
-            <b>
-              <Link to="/aboutme">もっと詳しく</Link>
-            </b>
-          </p>
+          <div style={{display: "flex"}}>
+            <div style={{width: 64, height: 64, backgroundImage: "url(https://www.ebiebievidence.com/icon.png)", backgroundSize: "cover", marginRight: 16}} />
+            <p>
+              エビエビエビデンス / 岩佐 幸翠
+              <a
+                href="https://twitter.com/ebiebievidence"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href="https://github.com/iwasa-kosui"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub />
+              </a>
+              <br />
+              DeNA 2019年新卒入社
+              <br />
+              <b>
+                <Link to="/aboutme">もっと詳しく</Link>
+              </b>
+            </p>
+          </div>
         </div>
         <div
           style={{
