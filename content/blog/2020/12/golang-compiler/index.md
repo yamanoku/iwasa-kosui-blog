@@ -283,7 +283,7 @@ func parseFiles(filenames []string) uint {
 		noders = append(noders, p)
 
 		go func(filename string) {
-			// 補足: error は channel で受け取る
+			// 補足: セマフォで同時に開くファイル数を `runtime.GOMAXPROCS(0)+10` 個まで制限している
 			sem <- struct{}{}
 			defer func() { <-sem }()
 			defer close(p.err)
@@ -297,8 +297,8 @@ func parseFiles(filenames []string) uint {
 			defer f.Close()
 
 			// 補足: 構文木を生成し p.file に格納する
-			// syntax.Parse で発生した error も
-			// p.error を経由して channel で受け取る
+			// syntax.Parse で発生した error は
+			// p.error 関数で記録される
 			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
 		}(filename)
 	}
@@ -329,30 +329,42 @@ func parseFiles(filenames []string) uint {
 
 
 [[info|ここが面白い]]
-| `gc.parseFiles` では、エラーの伝搬を返り値ではなく channel で行っています。これによって、コンパイルの途中でエラーが見つかったら素早く処理を中断しエラーを伝搬することができると考えられます。
+| `gc.parseFiles` では、 channel を利用したセマフォで同時に開くファイル数を `runtime.GOMAXPROCS(0)+10` 個まで制限しています。
+| これは、 too many open files を防ぐために使われています [(golag/go/#21621)](https://github.com/golang/go/issues/21621)。
 | 
+| 訂正: channel を利用したエラーの伝搬と書いていましたが、誤りでした。
+|
 | また、 goroutine でそれぞれのファイルごとに字句解析・構文解析までを行っていることから、 CPU を余らせることなく処理を行っています。 Go の高速なコンパイルは、このような地道な工夫によって支えられているのだなあ、と感じました。
 |
 | ```go
-|       go func(filename string) {
-|           // 補足: error は channel で受け取る
-|           sem <- struct{}{}
-|           defer func() { <-sem }()
-|           defer close(p.err)
-|           base := syntax.NewFileBase(filename)
-|
-|           f, err := os.Open(filename)
-|           if err != nil {
-|               p.error(syntax.Error{Msg: err.Error()})
-|               return
-|           }
-|           defer f.Close()
-|
-|           // 補足: 構文木を生成し p.file に格納する
-|           // syntax.Parse で発生した error も
-|           // p.error を経由して channel で受け取る
-|           p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
-|       }(filename)
+| 	noders := make([]*noder, 0, len(filenames))
+| 	// Limit the number of simultaneously open files.
+| 	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
+| 
+| 	for _, filename := range filenames {
+| 		p := &noder{
+| 			basemap: make(map[*syntax.PosBase]*src.PosBase),
+| 			err:     make(chan syntax.Error),
+| 		}
+| 		noders = append(noders, p)
+| 
+| 		go func(filename string) {
+| 			// 補足: セマフォで同時に開くファイル数を `runtime.GOMAXPROCS(0)+10` 個まで制限している
+| 			sem <- struct{}{}
+| 			defer func() { <-sem }()
+| 			defer close(p.err)
+| 			base := syntax.NewFileBase(filename)
+| 
+| 			f, err := os.Open(filename)
+| 			if err != nil {
+| 				p.error(syntax.Error{Msg: err.Error()})
+| 				return
+| 			}
+| 			defer f.Close()
+| 
+| 			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
+| 		}(filename)
+| 	}
 | ```
 
 ### 構文解析
