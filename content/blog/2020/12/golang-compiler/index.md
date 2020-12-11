@@ -877,6 +877,8 @@ func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
 本記事では、コンパイラに関する知識をおさらいした上で、公式 Go コンパイラの一つである gc のコードを AST への変換部分まで見ていきました。
 この中で、どれか一つでも「お、面白いじゃん」と思うような部分があれば嬉しいです。
 
+ちなみに、Go の型システムに興味がある方は [Featherweight Go を読んでみた](https://matsubara0507.github.io/posts/2020-07-02-read-featherweight-go.html) という記事がおすすめです。
+
 また、この記事をきっかけに gc やコンパイラに興味を持ってくれた方がいらっしゃれば Twitter などで教えて下さい。筆者がとても喜びます。
 
 [DeNA 公式 Twitter アカウント @DeNAxTech](https://twitter.com/DeNAxTech) では、この Advent Calendar や DeNA の技術記事、イベントでの登壇資料などを発信しています。
