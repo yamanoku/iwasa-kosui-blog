@@ -332,7 +332,7 @@ func parseFiles(filenames []string) uint {
 | `gc.parseFiles` では、 channel を利用したセマフォで同時に開くファイル数を `runtime.GOMAXPROCS(0)+10` 個まで制限しています。
 | これは、 too many open files を防ぐために使われています [(golag/go/#21621)](https://github.com/golang/go/issues/21621)。
 | 
-| 訂正: channel を利用したエラーの伝搬と書いていましたが、誤りでした。
+| 訂正: 「channel を利用してエラーの伝搬を行っている」と書いていましたが、誤りでした。
 |
 | また、 goroutine でそれぞれのファイルごとに字句解析・構文解析までを行っていることから、 CPU を余らせることなく処理を行っています。 Go の高速なコンパイルは、このような地道な工夫によって支えられているのだなあ、と感じました。
 |
