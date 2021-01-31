@@ -37,7 +37,11 @@ class NotFoundPage extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="私について" />
         <h2>私について</h2>
-        岩佐幸翠と申します。 25歳の男性で、東京都に在住しています。
+        <p>
+          岩佐 幸翠 (いわさ こうすい) と申します。 
+          1994 年に生まれ、高円寺で育ちました。
+          ご連絡は Twitter の DM または contact [at] iwasakosui.com まで。
+        </p>
         <div>
           <a href="https://twitter.com/ebiebievidence">
             <FaTwitter style={{ marginRight: 8 }} />
