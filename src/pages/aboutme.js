@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import { FaTwitter, FaGithub } from 'react-icons/fa'
+import { FaTwitter, FaGithub, FaEnvelope } from 'react-icons/fa'
 
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
@@ -38,10 +38,22 @@ class NotFoundPage extends React.Component {
         <SEO title="私について" />
         <h2>私について</h2>
         <p>
-          岩佐 幸翠 (いわさ こうすい) と申します。 
-          1994 年に生まれ、高円寺で育ちました。
-          ご連絡は Twitter の DM または contact [at] iwasakosui.com まで。
+          岩佐 幸翠 と申します。 <br />
+          1994 年に生まれ、高円寺で育ちました。<br />
         </p>
+        <p>
+          現在はサーバサイドエンジニアとしての業務が多いですが、
+          フロントエンドエンジニアとしての業務経験もあり、スタックに寄らず興味を持って動向を注視しています。
+        </p>
+        <p>
+          現在は転職を考えていませんが、ご興味があればお気軽にお声掛け下さい。<br />
+          ちなみに、障害者の就労支援などに強く興味があります。
+        </p>
+        <h4>ご連絡</h4>
+        <div>
+          <FaEnvelope style={{ marginRight: 8 }} />
+          contact [at] iwasakosui.com
+        </div>
         <div>
           <a href="https://twitter.com/ebiebievidence">
             <FaTwitter style={{ marginRight: 8 }} />
@@ -62,24 +74,41 @@ class NotFoundPage extends React.Component {
             株式会社ディー・エヌ・エー (DeNA Co., Ltd.)
             <br />
             利用技術: Go, Vue.js, TypeScript, GAE, Cloud SQL, Stackdriver,
-            CircleCIなど
+            CircleCI など
           </li>
+        </ul>
+        <h4>業務委託</h4>
+        <ul>
+          <li>
+            2020/12 - 現在
+            <br />
+            株式会社 ROUTE06
+          </li>
+          <li>
+            2021/01 - 現在
+            <br />
+            株式会社 プロリク
+          </li>
+        </ul>
+        <h4>アルバイト</h4>
+        <ul>
           <li>
             2018/10 - 2019/03
             <br />
             matsuri technologies株式会社
             <br />
-            アルバイトとして、民泊管理業者向けの業務管理システムなどの設計・開発を行いました。
+            民泊管理業者向けの業務管理システムなどの設計・開発
             <br />
-            利用技術: Go, React, Kotlin(サーバサイド), EC2など
+            利用技術: Go, React, Kotlin(サーバサイド), EC2 など
           </li>
           <li>
             2017/10 - 2018/10
             <br />
             株式会社ドリコム
             <br />
-            アルバイトとして、DAppsアプリケーションの設計・開発を行いました。
-            また、強化学習を用いた製品の実証実験や、画像認識技術を用いた製品の実証実験を行いました。
+            DApps アプリケーションの設計・開発
+            <br />
+            強化学習を用いた製品の実証実験や、画像認識技術を用いた製品の実証実験
             <br />
             利用技術: Ruby, React, Drizzle, EC2, S3など
           </li>
@@ -88,9 +117,9 @@ class NotFoundPage extends React.Component {
             <br />
             マッチングッド株式会社
             <br />
-            アルバイトとして、人材派遣・人材紹介・採用管理システムの設計・開発を行いました。
+            人材派遣・人材紹介・採用管理システムの設計・開発
             <br />
-            利用技術: PHP, MySQL, Smartyなど
+            利用技術: PHP, MySQL, Smarty など
           </li>
         </ul>
         <h2>学歴</h2>
