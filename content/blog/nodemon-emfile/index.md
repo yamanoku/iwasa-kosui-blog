@@ -5,7 +5,7 @@ desc: 'タイトルにあるエラーを解決する方法について'
 keywords: 'nodemon,EMFILE,FSEventStreamStart,ERROR'
 ---
 
-# 問題
+## 問題
 nodemonによる既存のプロジェクトを`git clone`して`npm run start`しようとしたら、以下のエラーが表示された
 
 ```s
@@ -18,7 +18,7 @@ server started on port 3001
 [nodemon] Internal watch failed: EMFILE: too many open files, watch
 ```
 
-# 結果
+## 結果
 nodeのバージョンをv12からv11に下げたら直った。
 
 ```s
@@ -31,7 +31,7 @@ nodeのバージョンをv12からv11に下げたら直った。
 v11.15.0
 ```
 
-# 原因
+## 原因
 `npm install`した時に、fseventsが入らなかったらしい。fseventsが正常にインストールされていないことと、EMFILEが発生することにどのような関係があるのかはよく分からないので、今度調べてみたい。
 
 ```s
@@ -44,13 +44,13 @@ npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.7 install: `node in
 npm WARN optional SKIPPING OPTIONAL DEPENDENCY: Exit status 1
 ```
 
-# 他の解決法
+## 他の解決法
 
 1. プロセス全部殺す
 
 https://github.com/remy/nodemon/issues/731#issuecomment-284385507
 ```
-$ killall -9 node resolve this problem
+$ killall -9 node
 ```
 
 ロックだ...
