@@ -3,6 +3,7 @@ title: 'それでも .env を env したい'
 date: '2021-03-06T00:00:00.000Z'
 desc: '人はなぜ source .env をするのか'
 keywords: 'dotenv,.env,envfile,shell,シェル'
+image: 'https://raw.githubusercontent.com/iwasa-kosui/blog/master/content/blog/2021/03/06/ogp.png'
 ---
 
 ## はじめに
