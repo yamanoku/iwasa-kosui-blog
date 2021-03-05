@@ -35,6 +35,7 @@ $ source .env
 ## 解決策
 
 私は https://github.com/joho/godotenv を利用することにしました。
+joho/godotenv は Ruby dotenv プロジェクトの移植実装であり、現在も継続してメンテナンスされている様子が伺えます。
 試してみましょう。
 
 ```zsh
@@ -56,11 +57,13 @@ end_statement=hello; world
 ## おまけ
 
 実は oh-my-zsh の dotenv plugin でも `source` で `.env` file を読み込んでいるため、上記のファイルを正しく読み込むことができません。
+コントリビューションチャンスかなと思ったのですが、この次にご紹介する gist を見て諦めました。
 
 https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/dotenv/dotenv.plugin.zsh#L47
 
-また、 `.env` ファイルをダイレクトに bash へ読み込ませることについては、以下の gist に先人たちの苦労が記されています。
+`.env` ファイルをダイレクトに bash へ読み込ませることについて、以下の gist に先人たちの苦労が記されています。
 以下の議論をお読みいただければ、いかにこれが厳しい道程であるかが伝わるかと思われます。
+多分 zsh でも同じように辛いと思います。
 
 https://gist.github.com/judy2k/7656bfe3b322d669ef75364a46327836
 
