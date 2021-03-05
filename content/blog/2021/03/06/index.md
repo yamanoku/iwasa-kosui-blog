@@ -17,6 +17,14 @@ keywords: 'dotenv,.env,envfile,shell,シェル'
 実際、上記の記事で挙げられているものを `source .env` にて読み込もうとすると以下のような結果となります。
 
 ```
+$ cat .env
+including_space=hello world
+push_to_background=hello &
+pipe_to=hello | world
+redirect_to=hello > world
+end_statement=hello; world
+comment_tailing=hello # world
+
 $ source .env
 .env:1: command not found: world
 .env:2: parse error near `&'
