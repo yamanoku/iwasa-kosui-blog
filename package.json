@@ -33,7 +33,7 @@
     "gatsby-remark-smartypants": "^2.6.0",
     "gatsby-remark-toc": "^1.2.0",
     "gatsby-source-filesystem": "^2.7.0",
-    "gatsby-transformer-remark": "^2.12.0",
+    "gatsby-transformer-remark": "^4.0.0",
     "gatsby-transformer-sharp": "^2.8.0",
     "gray-percentage": "^2.0.0",
     "prismjs": "^1.23.0",
