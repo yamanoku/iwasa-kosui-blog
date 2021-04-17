@@ -25,7 +25,8 @@ const fontFamily = [
 const typography = new Typography({
   title: 'Sutro',
   baseFontSize: '16px',
-  baseLineHeight: 1.78 * 1.1,
+  baseLineHeight: '32px',
+  '-webkit-font-smoothing': 'antialiased',
   headerFontFamily: fontFamily,
   bodyFontFamily: fontFamily,
   bodyColor: '#333',
@@ -92,7 +93,7 @@ const typography = new Typography({
       fontStyle: 'italic',
     },
     p: {
-      marginBottom: rhythm(2/5),
+      marginBottom: rhythm(1),
     },
     'div.gatsby-highlight': {
       marginTop: rhythm(1),
