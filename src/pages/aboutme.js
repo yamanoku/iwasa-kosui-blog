@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
-import { FaTwitter, FaGithub, FaEnvelope } from 'react-icons/fa'
+import { FaTwitter, FaGithub, FaEnvelope, FaLink } from 'react-icons/fa'
 
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
@@ -40,30 +40,41 @@ class NotFoundPage extends React.Component {
         <p>
           岩佐 幸翠 と申します。 <br />
           1994 年に生まれ、高円寺で育ちました。<br />
+          最近は、自分が日頃利用している技術の内部構造への自身の理解の甘さを気にしており、コンピュータサイエンスの基礎を少しずつ学び直しています。<br />
         </p>
-        <p>
-          現在はサーバサイドエンジニアとしての業務が多いですが、
-          フロントエンドエンジニアとしての業務経験もあり、スタックに寄らず興味を持って動向を注視しています。
-        </p>
-        <p>
-          現在は転職を考えていませんが、ご興味があればお気軽にお声掛け下さい。<br />
-          ちなみに、障害者の就労支援などに強く興味があります。
-        </p>
-        <h4>ご連絡</h4>
-        <div>
-          <FaEnvelope style={{ marginRight: 8 }} />
-          contact [at] iwasakosui.com
-        </div>
-        <div>
+        <h4>興味・関心がある事柄</h4>
+        <ul>
+          <li>ウェブ</li>
+          <li>マネージドサービス</li>
+          <li>任意の何かを支える技術</li>
+          <li>運用改善</li>
+          <li>社会的余剰を増大させる事業</li>
+          <li>精神障害者の就労支援</li>
+          <li>コーヒー</li>
+          <li>衣服</li>
+          <li>電子音楽</li>
+        </ul>
+        <h4>興味・関心がない事柄</h4>
+        <ul>
+          <li>社会的余剰を増大させない事業</li>
+        </ul>
+        <h2>連絡先</h2>
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <a>
+            <FaEnvelope style={{ marginRight: 8 }} />
+            contact [at] iwasakosui.com
+          </a>
           <a href="https://twitter.com/ebiebievidence">
             <FaTwitter style={{ marginRight: 8 }} />
-            ebiebievidence
+            Twitter
           </a>
-        </div>
-        <div>
           <a href="https://github.com/iwasa-kosui">
             <FaGithub style={{ marginRight: 8 }} />
-            iwasa-kosui
+            GitHub
+          </a>
+          <a href="https://youtrust.jp/users/ebiebievidence">
+            <FaLink style={{ marginRight: 8 }} />
+            YOUTRUST
           </a>
         </div>
         <h2>職歴</h2>
@@ -78,48 +89,17 @@ class NotFoundPage extends React.Component {
           </li>
         </ul>
         <h4>業務委託</h4>
+        最近稼働が難しくなりつつあるため新規案件はお断りしています (ごめんなさい)
         <ul>
           <li>
             2020/12 - 現在
             <br />
-            株式会社 ROUTE06
+            DX の推進や新規事業立ち上げ等のコンサルティングを提供している企業での開発業務
           </li>
           <li>
             2021/01 - 現在
             <br />
-            株式会社 プロリク
-          </li>
-        </ul>
-        <h4>アルバイト</h4>
-        <ul>
-          <li>
-            2018/10 - 2019/03
-            <br />
-            matsuri technologies株式会社
-            <br />
-            民泊管理業者向けの業務管理システムなどの設計・開発
-            <br />
-            利用技術: Go, React, Kotlin(サーバサイド), EC2 など
-          </li>
-          <li>
-            2017/10 - 2018/10
-            <br />
-            株式会社ドリコム
-            <br />
-            DApps アプリケーションの設計・開発
-            <br />
-            強化学習を用いた製品の実証実験や、画像認識技術を用いた製品の実証実験
-            <br />
-            利用技術: Ruby, React, Drizzle, EC2, S3など
-          </li>
-          <li>
-            2014/11 - 2017/05
-            <br />
-            マッチングッド株式会社
-            <br />
-            人材派遣・人材紹介・採用管理システムの設計・開発
-            <br />
-            利用技術: PHP, MySQL, Smarty など
+            採用代行サービスを提供している企業での運用自動化に向けたご提案および開発業務
           </li>
         </ul>
         <h2>学歴</h2>
