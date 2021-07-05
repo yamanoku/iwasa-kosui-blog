@@ -54,10 +54,6 @@ class NotFoundPage extends React.Component {
           <li>衣服</li>
           <li>電子音楽</li>
         </ul>
-        <h4>興味・関心がない事柄</h4>
-        <ul>
-          <li>社会的余剰を増大させない事業</li>
-        </ul>
         <h2>連絡先</h2>
         <div style={{display: "flex", flexDirection: "column"}}>
           <a>
