@@ -40,18 +40,24 @@ class NotFoundPage extends React.Component {
         <p>
           岩佐 幸翠 と申します。 <br />
           1994 年に生まれ、高円寺で育ちました。<br />
-          最近は、自分が日頃利用している技術の内部構造への自身の理解の甘さを気にしており、コンピュータサイエンスの基礎を少しずつ学び直しています。<br />
         </p>
-        <h4>興味・関心がある事柄</h4>
+        <h4>よく利用する技術</h4>
+        <span>Web アプリケーションのサーバサイドおよびフロントエンドに関する技術が中心です。</span>
         <ul>
-          <li>ウェブ</li>
-          <li>マネージドサービス</li>
-          <li>任意の何かを支える技術</li>
-          <li>運用改善</li>
-          <li>社会的余剰を増大させる事業</li>
+          <li>TypeScript や Go などの静的型付け言語</li>
+          <li>GAE や Firestore などのマネージドサービス</li>
+          <li>Nuxt.js などのフロントエンドフレームワーク</li>
+        </ul>
+        <h4>興味・関心がある事業領域</h4>
+        <span>社会的余剰を増大させる事業であれば何でも興味があります。</span>
+        <ul>
           <li>精神障害者の就労支援</li>
+          <li>中小企業向けの業務効率化</li>
+        </ul>
+        <h4>その他好きなもの</h4>
+        <ul>
           <li>コーヒー</li>
-          <li>衣服</li>
+          <li>衣料品</li>
           <li>電子音楽</li>
         </ul>
         <h2>連絡先</h2>
@@ -73,7 +79,7 @@ class NotFoundPage extends React.Component {
             YOUTRUST
           </a>
         </div>
-        <h2>職歴</h2>
+        <h2>経歴</h2>
         <ul>
           <li>
             2019/04 - 現在
@@ -83,23 +89,6 @@ class NotFoundPage extends React.Component {
             利用技術: Go, Vue.js, TypeScript, GAE, Cloud SQL, Stackdriver,
             CircleCI など
           </li>
-        </ul>
-        <h4>業務委託</h4>
-        最近稼働が難しくなりつつあるため新規案件はお断りしています (ごめんなさい)
-        <ul>
-          <li>
-            2020/12 - 現在
-            <br />
-            DX の推進や新規事業立ち上げ等のコンサルティングを提供している企業での開発業務
-          </li>
-          <li>
-            2021/01 - 現在
-            <br />
-            採用代行サービスを提供している企業での運用自動化に向けたご提案および開発業務
-          </li>
-        </ul>
-        <h2>学歴</h2>
-        <ul>
           <li>
             2017/04 - 2019/03
             <br />
@@ -114,6 +103,19 @@ class NotFoundPage extends React.Component {
             Technology Faculty of Engineering)
           </li>
         </ul>
+        <h4>業務委託</h4>
+        <ul>
+          <li>
+            2020/12 - 現在
+            <br />
+            DX の推進や新規事業立ち上げ等のコンサルティングを提供している企業でのフロントエンド・バックエンドの開発業務
+          </li>
+          <li>
+            2021/01 - 現在
+            <br />
+            採用代行サービスを提供している企業での運用自動化に向けたご提案および開発業務
+          </li>
+        </ul>
         <h2>ジョークプロダクト</h2>
         <h3>
           <a href="https://chrome.google.com/webstore/detail/twitter-icon-rotator/khkdnpcopeccjcnpmlfmnjmfnfhfnpgh">
