@@ -104,18 +104,7 @@ class NotFoundPage extends React.Component {
           </li>
         </ul>
         <h4>業務委託</h4>
-        <ul>
-          <li>
-            2020/12 - 現在
-            <br />
-            DX の推進や新規事業立ち上げのコンサルティング等を提供している企業でのフロントエンド・バックエンドの開発業務
-          </li>
-          <li>
-            2021/01 - 現在
-            <br />
-            採用代行サービスを提供している企業での運用自動化に向けたご提案および開発業務
-          </li>
-        </ul>
+        お休み中です
         <h2>ジョークプロダクト</h2>
         <h3>
           <a href="https://chrome.google.com/webstore/detail/twitter-icon-rotator/khkdnpcopeccjcnpmlfmnjmfnfhfnpgh">
