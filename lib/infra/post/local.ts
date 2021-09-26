@@ -24,7 +24,7 @@ export const fetchPostFromLocal: PostFetcher = async (directory: string) => {
         description: ensureString(data['desc']),
         content,
         createdAt: Date.parse(ensureString(data['date'])),
-        tags: ensureString(data['tags']).split(','),
+        tags: ensureString(data['keywords']).split(','),
         image: ensureString(data['image']),
     }
 }
