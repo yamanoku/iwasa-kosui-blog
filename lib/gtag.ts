@@ -1,7 +1,7 @@
-export const GOOGLE_ANALYTICS_ID = process.env.GOOGLE_ANALYTICS_ID || ''
+export const NEXT_PUBLIC_GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ''
 
 export const handleRouteChange = (path: string) => {
-  window.gtag('config', GOOGLE_ANALYTICS_ID, {
+  window.gtag('config', NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, {
     page_path: path,
   })
 }
@@ -9,7 +9,7 @@ export const handleRouteChange = (path: string) => {
 type Event = {action: string, category: string, label: string, value:string }
 
 export const event = (event: Event) => {
-  if (GOOGLE_ANALYTICS_ID === '') {
+  if (NEXT_PUBLIC_GOOGLE_ANALYTICS_ID === '') {
     return
   }
   const { action, category, label, value } = event

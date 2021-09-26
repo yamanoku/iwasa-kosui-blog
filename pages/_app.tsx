@@ -3,13 +3,13 @@ import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/dist/client/router'
 import GoogleAnalytics from '../components/GoogleAnalytics'
-import { GOOGLE_ANALYTICS_ID, handleRouteChange } from '../lib/gtag'
+import { NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, handleRouteChange } from '../lib/gtag'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   useEffect(() => {
-    if (GOOGLE_ANALYTICS_ID === '') {
+    if (NEXT_PUBLIC_GOOGLE_ANALYTICS_ID === '') {
       return
     }
 
