@@ -2,7 +2,7 @@
 title: 'ISUCON10 予選敗退の記録と反省'
 date: '2020-09-20T00:00:00.121Z'
 desc: '1300 点でした'
-keywords: 'ISUCON,ISUCON 10,ISUCON10'
+keywords: 'ISUCON'
 image: 'https://raw.githubusercontent.com/iwasa-kosui/blog/master/content/blog/2020/09/isucon10/ogp.png'
 ---
 
@@ -82,7 +82,7 @@ nginx の `userid` 機能を利用してトラッキング Cookie を付与す�
 
 以下は、 ISUCON9 予選のログをこの CLI に読ませた結果です。 ほとんどのユーザはログイン後すぐに `POST /sell` または `POST /buy` のいずれかを叩き、その後 `GET /items/id.json` や `GET /new_items/id.json` を回遊していることなどが分かります。
 
-![ユーザごとの辿る経路を示すサンキー図(ISUCON9予選)](./sankey-isucon9.png)
+![ユーザごとの辿る経路を示すサンキー図(ISUCON9予選)](/assets/posts/2020/09/isucon10/sankey-isucon9.png)
 
 ## 当日
 
@@ -129,7 +129,7 @@ nginx の `userid` 機能を利用してトラッキング Cookie を付与す�
 
 そこで、慌てて User-Agent ヘッダーの値をユーザ特定の条件として再度追跡を試しました。回遊を見た結果、 `/buy` までにたどり着くのがとても長いことが分かったため、`/buy` までに辿る経路もパフォーマンスを上げなければならないことが分かりました。
 
-![サンキー図にした結果](./sankey-isucon10.png)
+![サンキー図にした結果](/assets/posts/2020/09/isucon10/sankey-isucon10.png)
 
 **反省**  
 「ベンチマーカーは必ず `GET /api/estate/low_priced` エンドポイントを叩く」ということは競技後に知りました。ここが分かれば、「じゃあまずはそこをよく観察する必要があるよね」という話に持っていけたのですが、なんと上の図をよく見るとそれが読み取れたんですね...。焦りは禁物とはよくいいますが、人間は焦ってしまう生き物ですから、焦っている状態でもすぐ見てわかるような出力ができるツールにしたいと想います。いい感じになったら公開する予定です。

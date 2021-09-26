@@ -1,8 +1,8 @@
 ---
 title: 'それでも .env を env したい'
 date: '2021-03-06T00:00:00.000Z'
-desc: '人はなぜ source .env をするのか'
-keywords: 'dotenv,.env,envfile,shell,シェル'
+desc: 'シェルの文法と .env ファイルの文法が違うことで生まれる問題とその暫定的解決'
+keywords: 'dotenv'
 image: 'https://raw.githubusercontent.com/iwasa-kosui/blog/master/content/blog/2021/03/env/ogp.png'
 ---
 

@@ -2,7 +2,7 @@
 title: tmuxのls, new, attach を1文字で完結させるズボラなエイリアス
 date: '2019-01-23T00:00:00.121Z'
 desc: 'tmux new -s $SESSION_NAME、tmux attach -t $SESSION_NAME...あの長くて面倒なコマンドたちを、すべて1文字のコマンドに集約する方法'
-keywords: 'tmux,エイリアス,alias'
+keywords: 'tmux'
 ---
 
 ## TL;DR

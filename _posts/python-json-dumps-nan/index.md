@@ -2,7 +2,7 @@
 title: Python 3.6.3 の json.dumps が、np.nan をそのまま nan として出力する問題の解消
 date: '2018-07-13T00:00:00.121Z'
 desc: 'jsonライブラリよりも、simplejsonライブラリの方が便利という話'
-keywords: 'Python,json,nan,numpy,エラー'
+keywords: 'Python'
 ---
 
 ## 本記事のねらい
