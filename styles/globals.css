@@ -13,4 +13,40 @@ a {
 
 * {
   box-sizing: border-box;
+  word-break: break-word;
+}
+
+.post h2:before,
+.post h3:before,
+.post h4:before
+{
+    display: inline;
+
+    width: 30px;
+    height: 1em;
+    margin-right: 8px;
+
+    text-align: right;
+}
+
+.post figure
+{
+    margin-bottom: 1rem;
+
+    border: 1px solid #ddd;
+}
+
+.post figcaption
+{
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.post img {
+  max-width: 100%;
+}
+
+.post a {
+  text-decoration: underline;
 }
