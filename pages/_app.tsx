@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/dist/client/router'
 import GoogleAnalytics from '../components/GoogleAnalytics'
-import { NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, handleRouteChange } from '../lib/gtag'
+import { NEXT_PUBLIC_GOOGLE_ANALYTICS_ID, pageview } from '../lib/gtag'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -13,10 +13,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       return
     }
 
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('routeChangeComplete', pageview)
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off('routeChangeComplete', pageview)
     }
   }, [router.events])
 

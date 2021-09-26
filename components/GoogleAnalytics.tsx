@@ -9,9 +9,11 @@ const GoogleAnalytics = () => (
                 <Script id="ga" defer strategy="afterInteractive">
                     {`
                         window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
+                        function gtag() { dataLayer.push(arguments); }
                         gtag('js', new Date());    
-                        gtag('config', '${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}');
+                        gtag('config', '${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}', {
+                            page_path: window.location.pathname,
+                        });
                     `}
                 </Script>
             </>
