@@ -49,7 +49,6 @@ const readdirRecursively = async (root: string) => {
 
 export const fetchAllPostsFromLocal: PostListFetcher = async () => {
     const absDirs = await readdirRecursively(postsLocalDirectory)
-    console.log(absDirs)
     const dirs = absDirs.map(absDir => relative(postsLocalDirectory, absDir))
     const posts = await Promise.all(dirs.map((dir) => {
         try {
