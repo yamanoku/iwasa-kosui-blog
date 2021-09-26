@@ -72,7 +72,7 @@ const Home: NextPage<Props> = ({ latest, popular }) => {
                 <main>
                     <Section style={{margin: '96px 0'}}>
                         <Title>ebiebievidence.com</Title>
-                        <P>Web に関する話を中心に</P>
+                        <P>Web に関する話をつらつらと</P>
                         <IconLink href="https://twitter.com/ebiebievidence" target="_blank"><FaTwitter/></IconLink>
                         <IconLink href="https://github.com/iwasa-kosui" target="_blank"><FaGithub/></IconLink>
                         <IconLink href="/rss.xml" target="_blank"><FaRss/></IconLink>
