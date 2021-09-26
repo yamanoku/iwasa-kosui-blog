@@ -78,6 +78,7 @@ const Home: NextPage<Props> = ({ latest, popular }) => {
                     </Section>
                     <Section>
                         <h2>人気の記事</h2>
+                        <p style={{color: '#666'}}>はてなブックマークでのブクマ数より算出</p>
                         {
                             popular.map(postPopularity => (
                                 <PostPopularityItem key={postPopularity.post.directory} postPopularity={postPopularity} />
