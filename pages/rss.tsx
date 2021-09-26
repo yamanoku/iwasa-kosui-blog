@@ -1,5 +1,6 @@
 import fs from 'fs';
 import RSS from 'rss';
+import { fetchAllPostsFromContentful } from '../lib/infra/post/contentful';
 import { fetchAllPostsFromLocal } from '../lib/infra/post/local';
 import { fetchLatestPostList } from '../lib/value/post';
 
@@ -24,7 +25,7 @@ async function generateFeedXml() {
         language: 'ja',
     });
 
-    const posts = await fetchLatestPostList([fetchAllPostsFromLocal]);
+    const posts = await fetchLatestPostList([fetchAllPostsFromLocal, fetchAllPostsFromContentful]);
     posts?.forEach((post) => {
         feed.item({
             title: post.title,

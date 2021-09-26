@@ -9,6 +9,7 @@ import Background from '../components/Background'
 import Container from '../components/Container'
 import { PostPopularity } from '../lib/value/popularity'
 import { fetchPostPopularities } from '../lib/infra/popularity/popularity'
+import { fetchAllPostsFromContentful } from '../lib/infra/post/contentful'
 
 type Props = { latest: Post[], popular: PostPopularity[] }
 
@@ -100,7 +101,7 @@ const Home: NextPage<Props> = ({ latest, popular }) => {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-    const latestPosts = await fetchLatestPostList([fetchAllPostsFromLocal])
+    const latestPosts = await fetchLatestPostList([fetchAllPostsFromLocal, fetchAllPostsFromContentful])
     const popularities = await fetchPostPopularities(latestPosts)
     return {
         props: {

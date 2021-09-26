@@ -14,6 +14,7 @@ import {
 import styled from "@emotion/styled"
 import { FaGithub, FaRss, FaTwitter } from "react-icons/fa"
 import { fetchAllPostsFromLocal, fetchPostFromLocal } from "../../../lib/infra/post/local"
+import { fetchAllPostsFromContentful, fetchPostFromContentful } from "../../../lib/infra/post/contentful"
 import { fetchLatestPostList, Post } from "../../../lib/value/post"
 import Background from "../../../components/Background"
 import Container from "../../../components/Container"
@@ -116,14 +117,20 @@ export default PostPage
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
     const params = context.params ?? {}
     const dirs: string[] = typeof params['dirs'] === 'string' ? [] : params['dirs'] ?? []
-    const post = await fetchPostFromLocal(dirs.join('/'))
+
+    let post: Post
+    try {
+        post = await fetchPostFromLocal(dirs.join('/'))
+    } catch (error) {
+        post = await fetchPostFromContentful(dirs.join('/'))
+    }
     const source = post.content
     const mdxSource = await serialize(source)
     return { props: { source: mdxSource, post } }
 }
 
 export async function getStaticPaths() {
-    const posts = await fetchLatestPostList([fetchAllPostsFromLocal])
+    const posts = await fetchLatestPostList([fetchAllPostsFromLocal, fetchAllPostsFromContentful])
     const paths = posts.map((post) => ({
         params: { dirs: post.directory.split('/') },
     }))
