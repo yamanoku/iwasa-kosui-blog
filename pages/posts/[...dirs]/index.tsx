@@ -1,14 +1,8 @@
 import { GetStaticProps, NextPage } from "next"
+import Head from 'next/head'
 import NextLink from 'next/link'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { fetchAllPostsFromLocal, fetchPostFromLocal } from "../../../lib/infra/post/local"
-import { fetchLatestPostList, Post } from "../../../lib/value/post"
-import Background from "../../../components/Background"
-import Container from "../../../components/Container"
-import Code from "../../../components/Code"
-import Info from "../../../components/Info"
-import CodeHead from "../../../components/CodeHead"
 import {
     FacebookShareButton,
     FacebookIcon,
@@ -16,10 +10,16 @@ import {
     TwitterIcon,
     HatenaShareButton,
     HatenaIcon,
-    HatenaShareCount,
 } from 'react-share'
 import styled from "@emotion/styled"
 import { FaGithub, FaRss, FaTwitter } from "react-icons/fa"
+import { fetchAllPostsFromLocal, fetchPostFromLocal } from "../../../lib/infra/post/local"
+import { fetchLatestPostList, Post } from "../../../lib/value/post"
+import Background from "../../../components/Background"
+import Container from "../../../components/Container"
+import Code from "../../../components/Code"
+import Info from "../../../components/Info"
+import CodeHead from "../../../components/CodeHead"
 
 type Props = {
     source: MDXRemoteSerializeResult<Record<string, unknown>>
@@ -51,6 +51,18 @@ const PostPage: NextPage<Props> = ({ source, post }) => {
     const postUrl = `https://www.ebiebievidence.com/posts/${post.directory}/`
     return (
         <Background>
+        
+            <Head>
+                <title>{post.title} | ebiebievidence.com</title>
+                <meta name="description" content="ebiebievidence.com" />
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                <link rel="manifest" href="/site.webmanifest" />
+                <meta name="msapplication-TileColor" content="#da532c" />
+                <meta name="theme-color" content="#ffffff" />
+            </Head>
             <Container style={{
                 display: 'flex',
                 justifyContent: 'space-between',
