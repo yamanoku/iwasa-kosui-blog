@@ -23,6 +23,7 @@ export const fetchAllPostsFromContentful: PostListFetcher = async () => {
         description: string
         directory: string
         body: string
+        tags: string
     }>(query);
     return res.items.map(item => ({
         source: 'contentful',
@@ -31,7 +32,7 @@ export const fetchAllPostsFromContentful: PostListFetcher = async () => {
         directory: ensureString(item.fields['directory']),
         content: ensureString(item.fields['body']),
         createdAt: Date.parse(ensureString(item.sys.createdAt)),
-        tags: [],
+        tags: ensureString(item.fields['tags']).split(','),
     }))
 }
 
@@ -46,6 +47,7 @@ export const fetchPostFromContentful: PostFetcher = async (directory: string) =>
         description: string
         directory: string
         body: string
+        tags: string
     }>(query);
     if (res.items.length === 0) {
         throw new Error("Not Found");
@@ -57,6 +59,6 @@ export const fetchPostFromContentful: PostFetcher = async (directory: string) =>
         directory: ensureString(res.items[0].fields['directory']),
         content: ensureString(res.items[0].fields['body']),
         createdAt: Date.parse(ensureString(res.items[0].sys.createdAt)),
-        tags: [],
+        tags: ensureString(res.items[0].fields['tags']).split(','),
     }
 }
