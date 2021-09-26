@@ -33,11 +33,27 @@ const IconLink = styled.a`
     font-size: 1.2rem;
 `
 
+const TagContainer = styled.div`
+    margin: 16px 0 0;
+`
+
+const Tag = styled.span`
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0 8px 0 0;
+    background: #eee;
+`
+
 const PostItem = ({post}: {post: Post}) => (
     <Link href={`/posts/${post.directory}`}>
         <a style={{display: 'block', margin: '0 0 24px', padding: 16, borderRadius: 8, background: 'white'}}>
             <h3 style={{margin: '0 0 8px'}}>{post.title}</h3>
             <p style={{margin: '0'}}>{post.description}</p>
+            <TagContainer>
+            {
+                post.tags?.map(tag => (<Tag key={tag}>{tag}</Tag>))
+            }
+            </TagContainer>
         </a>
     </Link>
 )
