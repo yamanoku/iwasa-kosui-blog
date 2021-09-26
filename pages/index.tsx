@@ -35,7 +35,7 @@ const IconLink = styled.a`
 
 const PostItem = ({post}: {post: Post}) => (
     <Link href={`/posts/${post.directory}`}>
-        <a style={{display: 'block', margin: '0 0 16px', padding: 16, borderRadius: 8, background: 'white'}}>
+        <a style={{display: 'block', margin: '0 0 24px', padding: 16, borderRadius: 8, background: 'white'}}>
             <h3 style={{margin: '0 0 8px'}}>{post.title}</h3>
             <p style={{margin: '0'}}>{post.description}</p>
         </a>
@@ -45,7 +45,7 @@ const PostItem = ({post}: {post: Post}) => (
 
 const PostPopularityItem = ({postPopularity}: {postPopularity: PostPopularity}) => (
     <Link href={`/posts/${postPopularity.post.directory}`}>
-        <a style={{display: 'block', margin: '0 0 16px', padding: 16, borderRadius: 8, background: 'white'}}>
+        <a style={{display: 'block', margin: '0 0 24px', padding: 16, borderRadius: 8, background: 'white'}}>
             <h3 style={{margin: '0 0 8px'}}>{postPopularity.post.title}</h3>
             <p style={{margin: '0 0 8px'}}>{postPopularity.post.description}</p>
             <p style={{margin: '0'}}><b style={{fontSize: '1.1rem'}}>{postPopularity.hatenaBookmark}</b> users</p>
