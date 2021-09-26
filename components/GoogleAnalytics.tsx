@@ -6,7 +6,7 @@ const GoogleAnalytics = () => (
         {NEXT_PUBLIC_GOOGLE_ANALYTICS_ID !== '' && (
             <>
                 <Script defer src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`} strategy="afterInteractive" />
-                <Script id="ga" defer strategy="afterInteractive">
+                <Script defer strategy="afterInteractive">
                     {`
                         window.dataLayer = window.dataLayer || [];
                         function gtag() { dataLayer.push(arguments); }
